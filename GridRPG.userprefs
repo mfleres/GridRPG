@@ -1,0 +1,17 @@
+﻿<Properties StartupItem="GridRPGCode.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Map.cs">
+    <Files>
+      <File FileName="Assets\GameScript.cs" Line="8" Column="2" />
+      <File FileName="Assets\Terrain.cs" Line="6" Column="43" />
+      <File FileName="Assets\Space.cs" Line="9" Column="32" />
+      <File FileName="Assets\EventCondition.cs" Line="8" Column="35" />
+      <File FileName="Assets\Map.cs" Line="14" Column="50" />
+      <File FileName="Assets\Unit.cs" Line="13" Column="4" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
