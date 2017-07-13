@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GridRPGCode
+namespace GridRPG
 {
 	public abstract class EventCondition
 	{

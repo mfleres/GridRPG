@@ -45,13 +45,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Core.cs" />
      <Compile Include="Assets\EventCondition.cs" />
      <Compile Include="Assets\GameScript.cs" />
      <Compile Include="Assets\Map.cs" />
+     <Compile Include="Assets\MapControl.cs" />
      <Compile Include="Assets\Space.cs" />
      <Compile Include="Assets\Terrain.cs" />
      <Compile Include="Assets\Unit.cs" />
-     <None Include="Assets\Game Files\Maps\MapA.xml" />
+     <None Include="Assets\Resources\Maps\MapA.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
