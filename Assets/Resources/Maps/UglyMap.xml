@@ -1,0 +1,89 @@
+<map width="8" length="8">
+	<terrainList>
+		<terrain type="grass" spriteXOffset="0" spriteYOffset="0" file="Sprites/Terrain/Grass"/>
+	</terrainList>
+  <!-->spaceMap>
+		<row>
+			<space terrain="void"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="void"/>
+		</row>
+		<row>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+		</row>
+		<row>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass">
+				<unit type="campaign" idnum="1"/>
+			</space>
+			<space/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+		</row>
+		<row>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+		</row>
+		<row>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+		</row>
+		<row>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+		</row>
+		<row>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+		</row>
+		<row>
+			<space terrain="void"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="void"/>
+		</row>
+	</spaceMap-->
+</map>

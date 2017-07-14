@@ -60,10 +60,10 @@ namespace GridRPG
 			XmlNode mapNode = xmlDoc.DocumentElement.SelectSingleNode("/map");
 			if(mapNode != null)
 			{
-				//Sprite blackVert = Sprite.Create(Texture2D.blackTexture,new Rect(0f,0f,highlight_width,Terrain.terrain_dim),new Vector2(0.5,0.5));
-				//Sprite blackHoriz = Sprite.Create(Texture2D.blackTexture,new Rect(0f,0f,Terrain.terrain_dim,highlight_width),new Vector2(0.5,0.5));
-				
-				//init spaces[,]
+                //Sprite blackVert = Sprite.Create(Texture2D.blackTexture,new Rect(0f,0f,highlight_width,Terrain.terrain_dim),new Vector2(0.5,0.5));
+                //Sprite blackHoriz = Sprite.Create(Texture2D.blackTexture,new Rect(0f,0f,Terrain.terrain_dim,highlight_width),new Vector2(0.5,0.5));
+
+                mapParent.name = mapNode.Attributes["name"]?.Value ?? "Map";
 				mapWidth = 0;
 				mapLength = 0;
 				Int32.TryParse(mapNode.Attributes["width"].Value,out mapWidth);
@@ -76,27 +76,29 @@ namespace GridRPG
 					Debug.Log(mapNode.HasChildNodes);
 					Debug.Log(mapNode.InnerXml);
 				}
-				foreach (XmlNode textureXml in terrainListNode.SelectNodes("terrain"))
-				{
-					string type = textureXml.Attributes["type"].Value;
-					int xOffset = 0;
-					int yOffset = 0;
-					string filePath = textureXml.Attributes["file"].Value;
-					
-					Int32.TryParse(textureXml.Attributes["spriteXOffset"].Value, out xOffset);
-					Int32.TryParse(textureXml.Attributes["spriteYOffset"].Value, out yOffset);
-					
-					GridRPG.Terrain tempTerrain = new GridRPG.Terrain(type, filePath, xOffset, yOffset);
+				else{
+					foreach (XmlNode textureXml in terrainListNode.SelectNodes("terrain"))
+					{
+						string type = textureXml.Attributes["type"].Value;
+						int xOffset = 0;
+						int yOffset = 0;
+						string filePath = textureXml.Attributes["file"].Value;
+						
+						Int32.TryParse(textureXml.Attributes["spriteXOffset"].Value, out xOffset);
+						Int32.TryParse(textureXml.Attributes["spriteYOffset"].Value, out yOffset);
+						
+						GridRPG.Terrain tempTerrain = new GridRPG.Terrain(type, filePath, xOffset, yOffset);
+					}
 				}
 				
 				//fill spaces[,]
 				XmlNode spacesNode = mapNode.SelectSingleNode("spaceMap");
 				int y;
-				for(y = 0; y < spacesNode.SelectNodes("row").Count && y < mapWidth; y++)
+				for(y = 0; y < (spacesNode?.SelectNodes("row").Count ?? 0) && y < mapWidth; y++)
 				{
 					XmlNode rowNode = spacesNode.SelectNodes("row")[y];
 					int x;
-					for(x = 0; x < rowNode.SelectNodes("space").Count && x < mapLength; x++)
+					for(x = 0; x < (rowNode?.SelectNodes("space").Count ?? 0) && x < mapLength; x++)
 					{
 						XmlNode spaceNode = rowNode.SelectNodes("space")[x];
 						if(spaceNode.Attributes["terrain"] != null)
@@ -110,10 +112,12 @@ namespace GridRPG
 							
 						}
 						else{
-							//Make the object a void
-							//_spaceObjects[y,x] = GridRPG.Space.generateGameObject("MapA:("+x.ToString()+","+y.ToString()+")");
+                            //Make the object a void
+                            //_spaceObjects[y,x] = GridRPG.Space.generateGameObject("MapA:("+x.ToString()+","+y.ToString()+")");
+                            Debug.Log("Map File Error: Space (" + x + "," + y + ") Missing terrain attribute");
 							_spaceObjects[y,x] = new GridRPG.Space("MapA:("+x.ToString()+","+y.ToString()+")");
-							_spaceObjects[y,x].core.transform.SetParent(mapParent.transform);
+                            _spaceObjects[y, x].core.GetComponent<Transform>().localPosition = new Vector3(x * (Terrain.terrain_dim + Space.highlight_width) / 100f, y * (Terrain.terrain_dim + Space.highlight_width) / 100f, layer);
+                            _spaceObjects[y,x].core.transform.SetParent(mapParent.transform);
 						}
 						
 						//fill the rest in with void spaces if not defined
@@ -147,19 +151,24 @@ namespace GridRPG
 		/// <param name='camera'>
 		/// Camera to center on.
 		/// </param>
-		public Vector3 centerMapOnCamera(Camera camera)
+		public Vector3? centerMapOnCamera(Camera camera)
 		{
-			Vector3 cameraCenter = camera.ScreenToWorldPoint(new Vector3((float)Screen.width/2f, (float)Screen.height/2f, 0));
-			
-			Vector3 mapBLToMid = new Vector3((float)mapLength*(Terrain.terrain_dim+Space.highlight_width)/2f/100f,(float)mapWidth*(Terrain.terrain_dim+Space.highlight_width)/2f/100f,-layer);
-			
-			Debug.Log("cameraCenter: ("+cameraCenter.x+","+cameraCenter.y+")");
-			Debug.Log("mapBLToMid: ("+mapBLToMid.x+","+mapBLToMid.y+")");
-			Vector3 newMapPos = cameraCenter - mapBLToMid;
-			Debug.Log("mnewMapPos: ("+newMapPos.x+","+newMapPos.y+")");
-			
-			mapParent.transform.position = newMapPos;
-			return newMapPos;
+			if (camera != null){
+				Vector3 cameraCenter = camera.ScreenToWorldPoint(new Vector3((float)Screen.width/2f, (float)Screen.height/2f, 0));
+				
+				Vector3 mapBLToMid = new Vector3((float)mapLength*(Terrain.terrain_dim+Space.highlight_width)/2f/100f,(float)mapWidth*(Terrain.terrain_dim+Space.highlight_width)/2f/100f,-layer);
+				
+				Debug.Log("cameraCenter: ("+cameraCenter.x+","+cameraCenter.y+")");
+				Debug.Log("mapBLToMid: ("+mapBLToMid.x+","+mapBLToMid.y+")");
+				Vector3 newMapPos = cameraCenter - mapBLToMid;
+				Debug.Log("mnewMapPos: ("+newMapPos.x+","+newMapPos.y+")");
+				
+				mapParent.transform.position = newMapPos;
+				return newMapPos;
+			}
+			else{
+				return null;	
+			}
 		}
 	}
 }

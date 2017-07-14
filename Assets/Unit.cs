@@ -140,15 +140,24 @@ namespace GridRPG
 		
 		public override GridRPG.Space warpToSpace(GridRPG.Space space)
 		{
-			if(this.space!=null)
+			if(this.space != null)
 			{
 				this.space.removeUnit(this);
 			}
-			else
+            else
+            {
+                Debug.Log("Activating " + this.name);
+            }
+
+			if(space == null)
 			{
-				core.SetActive(true);
+                Debug.Log("Space doesnt exist. Deactivating " + this.name);
+				core.SetActive(false);
+                return null;
 			}
-			this.space = space;
+
+            core.SetActive(true);
+            this.space = space;
 			this.space.addUnit(this);
 			
 			core.transform.SetParent(space.core.transform);

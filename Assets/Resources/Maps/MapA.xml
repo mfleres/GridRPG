@@ -1,4 +1,4 @@
-<map width="8" length="8">
+<map name="MapA" width="8" length="8">
 	<terrainList>
 		<terrain type="grass" spriteXOffset="0" spriteYOffset="0" file="Sprites/Terrain/Grass"/>
 	</terrainList>	

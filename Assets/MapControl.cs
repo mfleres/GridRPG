@@ -26,7 +26,9 @@ namespace GridRPG
 	 
 	        if (!Input.GetMouseButton(0)) return;
 	 		
+			//Debug.Log("mouse: ("+Input.mousePosition.x+","+Input.mousePosition.y+")");
 	        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition) - dragOrigin;
+			//Debug.Log("pos: ("+pos.x+","+pos.y+")");
 	        Vector3 newPos = new Vector3((pos.x) +mapOrigin.x, pos.y +mapOrigin.y,GridRPG.Map.layer);
 			
 			//Debug.Log("newpos: (" + move.x + ","+move.y+")");

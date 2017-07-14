@@ -40,9 +40,10 @@ public class GameScript : MonoBehaviour {
 		map.centerMapOnCamera(Camera.main);
 		GridRPG.CampaignUnit testUnit= new GridRPG.CampaignUnit();
 		map.addUnitToSpace(testUnit,4,4);
-		//map.mapParent.transform.localScale=new Vector3(2,2,1);
-		
-		Sprite sprite = new Sprite();
+
+        //map.mapParent.transform.localScale=new Vector3(2,2,1);
+
+        Sprite sprite = new Sprite();
 		//Debug.Log(sprite.pixelsPerUnit);
 		//testSpace.SetActive(false);
 	}
