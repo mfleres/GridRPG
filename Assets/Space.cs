@@ -11,8 +11,10 @@ namespace GridRPG
 		public const int highlight_width = 2;
 		public const float terrain_dim = 32.0f;
         public const int highlight_Layer = 2;
-		
-		private GridRPG.Terrain terrain = null;
+        public const string HIGHLIGHT_LAYER = "SpaceHighlighting";
+        public const string TERRAIN_LAYER = "Terrain";
+
+        private GridRPG.Terrain terrain = null;
 		private List<Unit> unitList = null;
 		public GameObject core;
 		public GameObject highlight;
@@ -29,13 +31,15 @@ namespace GridRPG
 			highlight.GetComponent<SpriteRenderer>().sprite=black_box;
 			highlight.transform.SetParent(core.transform);
             highlight.transform.localPosition = new Vector3(0, 0, highlight_Layer);
+            highlight.GetComponent<SpriteRenderer>().sortingLayerName = HIGHLIGHT_LAYER;
 
             //mouseover setup
             highlight.AddComponent<MouseSelection>();
 			
 			setTerrain("void");
 			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
-			unitList = new List<Unit>();
+            core.GetComponent<SpriteRenderer>().sortingLayerName = TERRAIN_LAYER;
+            unitList = new List<Unit>();
 		}
 		public Space(string name)
 		{	
@@ -49,12 +53,14 @@ namespace GridRPG
             highlight.GetComponent<SpriteRenderer>().sprite = black_box;
             highlight.transform.SetParent(core.transform);
             highlight.transform.localPosition = new Vector3(0, 0, highlight_Layer);
+            highlight.GetComponent<SpriteRenderer>().sortingLayerName = HIGHLIGHT_LAYER;
 
             highlight.AddComponent<MouseSelection>();
 
             setTerrain("void");
 			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
-			unitList = new List<Unit>();
+            core.GetComponent<SpriteRenderer>().sortingLayerName = TERRAIN_LAYER;
+            unitList = new List<Unit>();
 		}
 		
 		public Space(string name,GridRPG.Terrain terrain)
@@ -69,12 +75,14 @@ namespace GridRPG
             highlight.GetComponent<SpriteRenderer>().sprite = black_box;
             highlight.transform.SetParent(core.transform);
             highlight.transform.localPosition = new Vector3(0, 0, highlight_Layer);
+            highlight.GetComponent<SpriteRenderer>().sortingLayerName = HIGHLIGHT_LAYER;
 
             highlight.AddComponent<MouseSelection>();
 
             setTerrain(terrain);
 			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
-			unitList = new List<Unit>();
+            core.GetComponent<SpriteRenderer>().sortingLayerName = TERRAIN_LAYER;
+            unitList = new List<Unit>();
 		}
 		
 		public void setTerrain(GridRPG.Terrain terrain)

@@ -8,7 +8,8 @@ namespace GridRPG
 	public abstract class Unit
 	{
 		protected const string test_unit_filepath = "Sprites/Unit/TestUnit";
-		public const int layer = 4;
+		public const int layer = 4; //need to remove this
+        public const string UNIT_LAYER = "Unit";
 		
 		public string name;
 		public List<KeyValuePair<String,int>> mobility;
@@ -26,9 +27,10 @@ namespace GridRPG
 			Texture2D spriteSheet = (Texture2D)Resources.Load(test_unit_filepath,typeof(Texture2D));
 			Sprite sprite = Sprite.Create(spriteSheet,new Rect(0f,0f,GridRPG.Terrain.terrain_dim,GridRPG.Terrain.terrain_dim),new Vector2(0.5f,0.5f));
 			this.core.GetComponent<SpriteRenderer>().sprite = sprite;
-			
-			//core.SetActive(false);
-		}
+            this.core.GetComponent<SpriteRenderer>().sortingLayerName = UNIT_LAYER;
+
+            this.space = null;
+        }
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GridRPGCode.Unit"/> class.
@@ -71,7 +73,7 @@ namespace GridRPG
 			
 			this.space = null;
 			
-			//core.SetActive(false);
+			core.SetActive(false);
 		}
 		
 		public CampaignUnit(string displayName)
@@ -90,7 +92,7 @@ namespace GridRPG
 			
 			this.space = null;
 			
-			//core.SetActive(false);
+			core.SetActive(false);
 		}
 		
 		public CampaignUnit(string displayName, int id)
@@ -109,7 +111,7 @@ namespace GridRPG
 			
 			this.space = null;
 			
-			//core.SetActive(false);
+			core.SetActive(false);
 		}
 		
 		public CampaignUnit(string displayName, int id, string spriteFilepath, Rect spriteOffset)
@@ -130,8 +132,33 @@ namespace GridRPG
 			
 			this.space = null;
 			
-			//core.SetActive(false);
+			core.SetActive(false);
 		}
+
+        //copies the source unit
+        public CampaignUnit(CampaignUnit source)
+        {
+            bool source_active = source.core.activeSelf;
+
+            if (!source_active)
+            {
+                source.core.SetActive(true);
+            }
+
+            this.name = source.name;
+            this.mobility = source.mobility;
+            this.space = null;
+            GameObject.Destroy(this.core);
+            this.core = GameObject.Instantiate(source.core);
+            this.core.name = source.core.name;
+            this.displayName = source.displayName;
+            this.id = source.id;
+
+            if (!source_active)
+            {
+                source.core.SetActive(false);
+            }
+        }
 		
 		public CampaignUnit(XmlDocument xmlDoc)
 		{

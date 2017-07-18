@@ -20,6 +20,7 @@ namespace GridRPG
 		}
 		
 		public const int layer = 3;
+        public const string TERRAIN_LAYER = "Terrain";
 		
 		
 		//private List<GridRPG.Terrain> _terrainList;
@@ -41,7 +42,7 @@ namespace GridRPG
 		}
 		
 		//returns null if incompatable xml
-		public Map(string filename)
+		public Map(string filename, UnitLibrary unitLibrary)
 		{
 			mapParent = new GameObject("Map");
 			mapParent.AddComponent<MapControl>();
@@ -108,9 +109,10 @@ namespace GridRPG
 
 							_spaceObjects[y,x].core.GetComponent<Transform>().localPosition = new Vector3(x*(Terrain.terrain_dim)/100f,y*(Terrain.terrain_dim)/100f,layer);
 							_spaceObjects[y,x].core.transform.SetParent(mapParent.transform);
-							
-							
-						}
+                            
+
+
+                        }
 						else{
                             //Make the object a void
                             //_spaceObjects[y,x] = GridRPG.Space.generateGameObject("MapA:("+x.ToString()+","+y.ToString()+")");
@@ -119,9 +121,18 @@ namespace GridRPG
                             _spaceObjects[y, x].core.GetComponent<Transform>().localPosition = new Vector3(x * (Terrain.terrain_dim) / 100f, y * (Terrain.terrain_dim) / 100f, layer);
                             _spaceObjects[y,x].core.transform.SetParent(mapParent.transform);
 						}
-						
-						//fill the rest in with void spaces if not defined
-						//TODO
+
+                        XmlNode unitNode = spaceNode.SelectSingleNode("unit");
+                        if(unitNode?.Attributes["type"] != null)
+                        {
+                            if (unitNode.Attributes["type"].Value == "campaign" && unitNode.Attributes["idnum"] != null)
+                            {
+                                int unitID = 0;
+                                Int32.TryParse(unitNode.Attributes["idnum"].Value, out unitID);
+
+                                addUnitToSpace(new CampaignUnit(unitLibrary.campaignUnits[unitID-1]),y,x);
+                            }
+                        }
 					}
 				}
 				

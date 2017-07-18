@@ -84,6 +84,7 @@
     <Compile Include="Assets\GameScript.cs" />
     <Compile Include="Assets\Map.cs" />
     <Compile Include="Assets\MapControl.cs" />
+    <Compile Include="Assets\UnitLibrary.cs" />
     <Compile Include="Assets\Space.cs" />
     <Compile Include="Assets\Terrain.cs" />
     <Compile Include="Assets\Unit.cs" />
