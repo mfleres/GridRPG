@@ -1,0 +1,58 @@
+<unit name="Goblin Grunt">
+  <sprite XOffset="0" YOffset="0" file="Sprites/Unit/TestUnit"/>
+  <stats>
+    <maxHP>10</maxHP>
+    <HP>10</HP>
+    <maxMP>0</maxMP>
+    <MP>0</MP>
+    <constitution>0</constitution>
+    <strength>1</strength>
+    <intellect>1</intellect>
+    <dexterity>2</dexterity>
+    <charisma>1</charisma>
+    <agility>6</agility>
+  </stats>
+  <resistance> <!--Modifies damage taken-->
+    <resilience constant="0" scalar="1"/>
+    <mental constant="0" scalar="1"/>
+    <physical constant="0" scalar="1"/>
+    <arcane constant="0" scalar="1"/>
+    <fire constant="0" scalar="1"/>
+    <ice constant="0" scalar="1"/>
+    <earth constant="0" scalar="1"/>
+    <electric constant="0" scalar="1"/>
+    <wind constant="0" scalar="1"/>
+    <water constant="0" scalar="1"/>
+    <psychic constant="0" scalar="1"/>
+    <dark constant="0" scalar="1"/>
+    <light constant="0" scalar="1"/>
+  </resistance>
+  <damage> <!--Modifies damage done-->
+    <resilience constant="0" scalar="1"/>
+    <mental constant="0" scalar="1"/>
+    <physical constant="0" scalar="1"/>
+    <arcane constant="0" scalar="1"/>
+    <fire constant="0" scalar="1"/>
+    <ice constant="0" scalar="1"/>
+    <earth constant="0" scalar="1"/>
+    <electric constant="0" scalar="1"/>
+    <wind constant="0" scalar="1"/>
+    <water constant="0" scalar="1"/>
+    <psychic constant="0" scalar="1"/>
+    <dark constant="0" scalar="1"/>
+    <light constant="0" scalar="1"/>
+  </damage>
+  <mobilities>
+    <mobility type="grass" modifier="1"/>
+    <mobility type="void" modifier="0"/>
+  </mobilities>
+  <abilities>
+  </abilities>
+  <skills>
+    <skill source="Skills/Core" id="1"/> <!--Attack (Unarmed)-->
+  </skills>
+  <inventory>
+    <money value ="1"/>
+    <item source="Items/Core" id="1"/> <!--Goblin Rag-->
+  </inventory>
+</unit>

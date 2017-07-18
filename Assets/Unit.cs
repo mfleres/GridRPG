@@ -161,7 +161,7 @@ namespace GridRPG
 			this.space.addUnit(this);
 			
 			core.transform.SetParent(space.core.transform);
-			this.core.transform.localPosition = new Vector3(0,0,-1);
+			this.core.transform.localPosition = new Vector3(0,0,-2);
 			Debug.Log(core.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit);
 			return this.space;
 		}

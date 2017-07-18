@@ -4,207 +4,78 @@ using System.Collections.Generic;
 
 namespace GridRPG
 {
-	//[RequireComponent(typeof(SpriteRenderer))]
-	public class Space //: MonoBehaviour
+	public class Space
 	{
-		private const string black_highlight_file = "Sprites/Highlighting/Black";
+		private const string black_highlight_file = "Sprites/Highlighting/BlackBox";
 		
 		public const int highlight_width = 2;
 		public const float terrain_dim = 32.0f;
+        public const int highlight_Layer = 2;
 		
 		private GridRPG.Terrain terrain = null;
 		private List<Unit> unitList = null;
 		public GameObject core;
-		public List<GameObject> highlights;
+		public GameObject highlight;
 		
 		public Space()
-		{
-			Sprite black_vertical = Sprite.Create((Texture2D)Resources.Load(black_highlight_file,typeof(Texture2D)),new Rect(0f,0f,highlight_width,Terrain.terrain_dim+highlight_width*2),new Vector2(0.5f,0.5f));
-			Sprite black_horizontal = Sprite.Create((Texture2D)Resources.Load(black_highlight_file,typeof(Texture2D)),new Rect(0f,0f,Terrain.terrain_dim+highlight_width*2,highlight_width),new Vector2(0.5f,0.5f));
-			
+		{			
 			core = new GameObject("space");
 			core.AddComponent<SpriteRenderer>();
-			highlights = new List<GameObject>();
+			highlight = new GameObject("highlight");
 
-			highlights.Add(new GameObject("left highlight"));
-			highlights[0].AddComponent<SpriteRenderer>();
-			highlights[0].GetComponent<SpriteRenderer>().sprite=black_vertical;
-			highlights[0].transform.SetParent(core.transform);
-			highlights[0].transform.localPosition = new Vector3(-(Terrain.terrain_dim/2f+1)/100f,0,0);
-			
-			
-			highlights.Add(new GameObject("right highlight"));
-			highlights[1].AddComponent<SpriteRenderer>();
-			highlights[1].GetComponent<SpriteRenderer>().sprite=black_vertical;
-			highlights[1].transform.SetParent(core.transform);
-			highlights[1].transform.localPosition = new Vector3((Terrain.terrain_dim/2f+1)/100f,0,0);
-			
-			highlights.Add(new GameObject("bottom highlight"));
-			highlights[2].AddComponent<SpriteRenderer>();
-			highlights[2].GetComponent<SpriteRenderer>().sprite=black_horizontal;
-			highlights[2].transform.SetParent(core.transform);
-			highlights[2].transform.localPosition = new Vector3(0,-(Terrain.terrain_dim/2f+1)/100f,0);
-			
-			highlights.Add(new GameObject("top highlight"));
-			highlights[3].AddComponent<SpriteRenderer>();
-			highlights[3].GetComponent<SpriteRenderer>().sprite=black_horizontal;
-			highlights[3].transform.SetParent(core.transform);
-			highlights[3].transform.localPosition = new Vector3(0,(Terrain.terrain_dim/2f+1)/100f,0);
+            //highlight setup
+            Sprite black_box = Sprite.Create((Texture2D)Resources.Load(black_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, terrain_dim, terrain_dim), new Vector2(0.5f, 0.5f));
+            highlight.AddComponent<SpriteRenderer>();
+			highlight.GetComponent<SpriteRenderer>().sprite=black_box;
+			highlight.transform.SetParent(core.transform);
+            highlight.transform.localPosition = new Vector3(0, 0, highlight_Layer);
+
+            //mouseover setup
+            highlight.AddComponent<MouseSelection>();
 			
 			setTerrain("void");
 			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
 			unitList = new List<Unit>();
 		}
 		public Space(string name)
-		{
-			Texture2D black = (Texture2D)Resources.Load(black_highlight_file,typeof(Texture2D));
-			Sprite black_vertical = Sprite.Create(black,new Rect(0f,0f,highlight_width,Terrain.terrain_dim+highlight_width*2),new Vector2(0.5f,0.5f));
-			Sprite black_horizontal = Sprite.Create(black,new Rect(0f,0f,Terrain.terrain_dim+highlight_width*2,highlight_width),new Vector2(0.5f,0.5f));
-			
+		{	
 			core = new GameObject(name);
 			core.AddComponent<SpriteRenderer>();
 			
-			highlights = new List<GameObject>();
+			highlight = new GameObject("highlight");
 
-			highlights.Add(new GameObject("left highlight"));
-			highlights[0].AddComponent<SpriteRenderer>();
-			highlights[0].GetComponent<SpriteRenderer>().sprite=black_vertical;
-			highlights[0].transform.SetParent(core.transform);
-			highlights[0].transform.localPosition = new Vector3(-(Terrain.terrain_dim/2f+1)/100f,0,0);
-			
-			highlights.Add(new GameObject("right highlight"));
-			highlights[1].AddComponent<SpriteRenderer>();
-			highlights[1].GetComponent<SpriteRenderer>().sprite=black_vertical;
-			highlights[1].transform.SetParent(core.transform);
-			highlights[1].transform.localPosition = new Vector3((Terrain.terrain_dim/2f+1)/100f,0,0);
-			
-			highlights.Add(new GameObject("bottom highlight"));
-			highlights[2].AddComponent<SpriteRenderer>();
-			highlights[2].GetComponent<SpriteRenderer>().sprite=black_horizontal;
-			highlights[2].transform.SetParent(core.transform);
-			highlights[2].transform.localPosition = new Vector3(0,-(Terrain.terrain_dim/2f+1)/100f,0);
-			
-			highlights.Add(new GameObject("top highlight"));
-			highlights[3].AddComponent<SpriteRenderer>();
-			highlights[3].GetComponent<SpriteRenderer>().sprite=black_horizontal;
-			highlights[3].transform.SetParent(core.transform);
-			highlights[3].transform.localPosition = new Vector3(0,(Terrain.terrain_dim/2f+1)/100f,0);
-			
-			setTerrain("void");
+            Sprite black_box = Sprite.Create((Texture2D)Resources.Load(black_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, terrain_dim, terrain_dim), new Vector2(0.5f, 0.5f));
+            highlight.AddComponent<SpriteRenderer>();
+            highlight.GetComponent<SpriteRenderer>().sprite = black_box;
+            highlight.transform.SetParent(core.transform);
+            highlight.transform.localPosition = new Vector3(0, 0, highlight_Layer);
+
+            highlight.AddComponent<MouseSelection>();
+
+            setTerrain("void");
 			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
 			unitList = new List<Unit>();
 		}
 		
 		public Space(string name,GridRPG.Terrain terrain)
-		{
-			Texture2D black = (Texture2D)Resources.Load(black_highlight_file,typeof(Texture2D));
-			Sprite black_vertical = Sprite.Create(black,new Rect(0f,0f,highlight_width,Terrain.terrain_dim+highlight_width*2),new Vector2(0.5f,0.5f));
-			Sprite black_horizontal = Sprite.Create(black,new Rect(0f,0f,Terrain.terrain_dim+highlight_width*2,highlight_width),new Vector2(0.5f,0.5f));
-			
+		{			
 			core = new GameObject(name);
 			core.AddComponent<SpriteRenderer>();
-			
-			highlights = new List<GameObject>();
 
-			highlights.Add(new GameObject("left highlight"));
-			highlights[0].AddComponent<SpriteRenderer>();
-			highlights[0].GetComponent<SpriteRenderer>().sprite=black_vertical;
-			highlights[0].transform.SetParent(core.transform);
-			highlights[0].transform.localPosition = new Vector3(-(Terrain.terrain_dim/2f+1)/100f,0,0);
-			
-			highlights.Add(new GameObject("right highlight"));
-			highlights[1].AddComponent<SpriteRenderer>();
-			highlights[1].GetComponent<SpriteRenderer>().sprite=black_vertical;
-			highlights[1].transform.SetParent(core.transform);
-			highlights[1].transform.localPosition = new Vector3((Terrain.terrain_dim/2f+1)/100f,0,0);
-			
-			highlights.Add(new GameObject("bottom highlight"));
-			highlights[2].AddComponent<SpriteRenderer>();
-			highlights[2].GetComponent<SpriteRenderer>().sprite=black_horizontal;
-			highlights[2].transform.SetParent(core.transform);
-			highlights[2].transform.localPosition = new Vector3(0,-(Terrain.terrain_dim/2f+1)/100f,0);
-			
-			highlights.Add(new GameObject("top highlight"));
-			highlights[3].AddComponent<SpriteRenderer>();
-			highlights[3].GetComponent<SpriteRenderer>().sprite=black_horizontal;
-			highlights[3].transform.SetParent(core.transform);
-			highlights[3].transform.localPosition = new Vector3(0,(Terrain.terrain_dim/2f+1)/100f,0);
-			
-			setTerrain(terrain);
+            highlight = new GameObject("highlight");
+
+            Sprite black_box = Sprite.Create((Texture2D)Resources.Load(black_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, terrain_dim, terrain_dim), new Vector2(0.5f, 0.5f));
+            highlight.AddComponent<SpriteRenderer>();
+            highlight.GetComponent<SpriteRenderer>().sprite = black_box;
+            highlight.transform.SetParent(core.transform);
+            highlight.transform.localPosition = new Vector3(0, 0, highlight_Layer);
+
+            highlight.AddComponent<MouseSelection>();
+
+            setTerrain(terrain);
 			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
 			unitList = new List<Unit>();
 		}
-		/**
-		void Start ()
-		{
-			SpriteRenderer renderer = (SpriteRenderer)gameObject.GetComponent<SpriteRenderer>();
-			
-			if (renderer != null){
-				
-				//Debug.Log("setting renderer sprite");
-				//Debug.Log(this.gameObject.name);
-				renderer.sprite = _terrain.Sprite as Sprite;
-			}
-			else{
-				Debug.Log("Space.Awake(): SpriteRenderer Component not found");
-			}
-		}
-		
-		void Awake()
-		{
-			if (_terrain == null)
-			{
-				_terrain = new GridRPG.Terrain("void");
-			}
-			if (_unitList == null)
-			{
-				_unitList = new List<Unit>();
-			}
-		}
-		
-		void Update()
-		{
-			/*SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
-			if (renderer != null){
-				
-				//Debug.Log("setting renderer sprite");
-				//Debug.Log(this.gameObject.name);
-				renderer.sprite = _terrain.Sprite as Sprite;
-			}
-			else{
-				Debug.Log("Space.Update(): SpriteRenderer Component not found");
-			}
-		}
-		
-		//Generates a GameObject with only GridRPG.Space added
-		public static GameObject generateGameObject()
-		{
-			GameObject ret = new GameObject();
-			ret.AddComponent<GridRPG.Space>();
-			ret.GetComponent<GridRPG.Space>().setTerrain("void");
-			return ret;
-		}
-		public static GameObject generateGameObject(string name)
-		{
-			GameObject ret = new GameObject(name);
-			ret.AddComponent<GridRPG.Space>();
-			ret.GetComponent<GridRPG.Space>().setTerrain("void");
-			return ret;
-		}
-		public static GameObject generateGameObject(Terrain terrain)
-		{
-			GameObject ret = new GameObject();
-			ret.AddComponent<GridRPG.Space>();
-			ret.GetComponent<GridRPG.Space>().setTerrain(terrain);
-			return ret;
-		}
-		public static GameObject generateGameObject(string name,Terrain terrain)
-		{
-			GameObject ret = new GameObject(name);
-			ret.AddComponent<GridRPG.Space>();
-			ret.GetComponent<GridRPG.Space>().setTerrain(terrain);
-			return ret;
-		}*/
 		
 		public void setTerrain(GridRPG.Terrain terrain)
 		{
@@ -279,5 +150,37 @@ namespace GridRPG
 			}
 		}
 	}
+
+    [RequireComponent(typeof(BoxCollider2D))]
+    [RequireComponent(typeof(SpriteRenderer))]
+    public class MouseSelection : MonoBehaviour
+    {
+        private const string black_highlight_file = "Sprites/Highlighting/BlackBox";
+        private const string yellow_highlight_file = "Sprites/Highlighting/YellowBox";
+
+        public BoxCollider2D collide;
+        public Sprite black_box;
+        public Sprite yellow_box;
+
+        private void Start()
+        {
+            black_box = Sprite.Create((Texture2D)Resources.Load(black_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, Terrain.terrain_dim, Terrain.terrain_dim), new Vector2(0.5f, 0.5f));
+            yellow_box = Sprite.Create((Texture2D)Resources.Load(yellow_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, Terrain.terrain_dim, Terrain.terrain_dim), new Vector2(0.5f, 0.5f));
+
+            collide = GetComponent<BoxCollider2D>();
+
+            GetComponent<SpriteRenderer>().sprite = black_box;
+        }
+
+        private void OnMouseEnter()
+        {
+            GetComponent<SpriteRenderer>().sprite = yellow_box;
+        }
+
+        private void OnMouseExit()
+        {
+            GetComponent<SpriteRenderer>().sprite = black_box;
+        }
+    }
 }
 

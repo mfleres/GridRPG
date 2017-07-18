@@ -106,7 +106,7 @@ namespace GridRPG
 							//_spaceObjects[y,x] = GridRPG.Space.generateGameObject("("+x.ToString()+","+y.ToString()+")",new Terrain(spaceNode.Attributes["terrain"].Value));
 							_spaceObjects[y,x] = new GridRPG.Space("("+x.ToString()+","+y.ToString()+")",new Terrain(spaceNode.Attributes["terrain"].Value));
 
-							_spaceObjects[y,x].core.GetComponent<Transform>().localPosition = new Vector3(x*(Terrain.terrain_dim+Space.highlight_width)/100f,y*(Terrain.terrain_dim+Space.highlight_width)/100f,layer);
+							_spaceObjects[y,x].core.GetComponent<Transform>().localPosition = new Vector3(x*(Terrain.terrain_dim)/100f,y*(Terrain.terrain_dim)/100f,layer);
 							_spaceObjects[y,x].core.transform.SetParent(mapParent.transform);
 							
 							
@@ -116,7 +116,7 @@ namespace GridRPG
                             //_spaceObjects[y,x] = GridRPG.Space.generateGameObject("MapA:("+x.ToString()+","+y.ToString()+")");
                             Debug.Log("Map File Error: Space (" + x + "," + y + ") Missing terrain attribute");
 							_spaceObjects[y,x] = new GridRPG.Space("MapA:("+x.ToString()+","+y.ToString()+")");
-                            _spaceObjects[y, x].core.GetComponent<Transform>().localPosition = new Vector3(x * (Terrain.terrain_dim + Space.highlight_width) / 100f, y * (Terrain.terrain_dim + Space.highlight_width) / 100f, layer);
+                            _spaceObjects[y, x].core.GetComponent<Transform>().localPosition = new Vector3(x * (Terrain.terrain_dim) / 100f, y * (Terrain.terrain_dim) / 100f, layer);
                             _spaceObjects[y,x].core.transform.SetParent(mapParent.transform);
 						}
 						
