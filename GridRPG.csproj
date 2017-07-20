@@ -84,6 +84,8 @@
     <Compile Include="Assets\GameScript.cs" />
     <Compile Include="Assets\Map.cs" />
     <Compile Include="Assets\MapControl.cs" />
+    <Compile Include="Assets\MainMenu.cs" />
+    <Compile Include="Assets\MapLibrary.cs" />
     <Compile Include="Assets\UnitLibrary.cs" />
     <Compile Include="Assets\Space.cs" />
     <Compile Include="Assets\Terrain.cs" />
@@ -93,7 +95,9 @@
     <None Include="Assets\Resources\Maps\MapA.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Assets\Resources\Maps\UglyMap.xml" />
+    <None Include="Assets\Resources\Maps\UglyMap.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Assets\Resources\Units\Goblin.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

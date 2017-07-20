@@ -51,6 +51,9 @@
   <skills>
     <skill source="Skills/Core" id="1"/> <!--Attack (Unarmed)-->
   </skills>
+  <equipment>
+    
+  </equipment>
   <inventory>
     <money value ="1"/>
     <item source="Items/Core" id="1"/> <!--Goblin Rag-->

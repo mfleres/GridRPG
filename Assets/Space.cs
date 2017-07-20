@@ -8,7 +8,7 @@ namespace GridRPG
 	{
 		private const string black_highlight_file = "Sprites/Highlighting/BlackBox";
 		
-		public const int highlight_width = 2;
+		public const int highlight_width = 0;
 		public const float terrain_dim = 32.0f;
         public const int highlight_Layer = 2;
         public const string HIGHLIGHT_LAYER = "SpaceHighlighting";

@@ -16,16 +16,17 @@ namespace GridRPG
             unitLibrary = new List<Unit>(0);
             campaignUnits = new List<CampaignUnit>(0);
             core = new GameObject("Unit Library");
-            Debug.Log("Capacity = " + campaignUnits.Count);
+            //Debug.Log("Capacity = " + campaignUnits.Count);
         }
 
         public int addUnit(CampaignUnit unit)
         {
-            Debug.Log("Capacity* = " + campaignUnits.Count);
+            //Debug.Log("Capacity* = " + campaignUnits.Count);
             campaignUnits.Add(unit);
             unit.id = campaignUnits.Count;
             unit.name = "campaignUnit" + unit.id;
             unit.core.name = unit.name;
+            unit.core.transform.parent = core.transform;
             return campaignUnits.Capacity - 1;
         }
 

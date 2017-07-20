@@ -7,7 +7,7 @@ namespace GridRPG
 {
 	
 	
-	class Map 
+	public class Map  : ScriptableObject
 	{
 		//Center is (0,0)
 		Vector3 worldToPixel(Vector3 worldCoords)
