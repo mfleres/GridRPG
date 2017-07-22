@@ -82,22 +82,29 @@
     <Compile Include="Assets\Core.cs" />
     <Compile Include="Assets\EventCondition.cs" />
     <Compile Include="Assets\GameScript.cs" />
+    <Compile Include="Assets\MainMenu.cs" />
     <Compile Include="Assets\Map.cs" />
     <Compile Include="Assets\MapControl.cs" />
-    <Compile Include="Assets\MainMenu.cs" />
     <Compile Include="Assets\MapLibrary.cs" />
-    <Compile Include="Assets\UnitLibrary.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasScreenSpaceScaler.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasWorldScaler.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\Internal\VectorSwizzleExtensions.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelPerfectCamera.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelSnap.cs" />
+    <Compile Include="Assets\PixelPerfectCamera\Scripts\Scroller.cs" />
     <Compile Include="Assets\Space.cs" />
+    <Compile Include="Assets\SpriteFix.cs" />
     <Compile Include="Assets\Terrain.cs" />
     <Compile Include="Assets\Unit.cs" />
+    <Compile Include="Assets\UnitLibrary.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\PixelPerfectCamera\README.txt" />
+    <None Include="Assets\PixelPerfectCamera\background_art_license.txt" />
     <None Include="Assets\Resources\Maps\MapA.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Assets\Resources\Maps\UglyMap.xml">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Assets\Resources\Maps\UglyMap.xml" />
     <None Include="Assets\Resources\Units\Goblin.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

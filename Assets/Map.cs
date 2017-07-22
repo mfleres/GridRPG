@@ -7,7 +7,7 @@ namespace GridRPG
 {
 	
 	
-	public class Map  : ScriptableObject
+	public class Map
 	{
 		//Center is (0,0)
 		Vector3 worldToPixel(Vector3 worldCoords)
@@ -30,6 +30,7 @@ namespace GridRPG
 		private int mapLength;
 		private List<EventCondition> _eventConditions;
 		public GameObject mapParent;
+        public int id;
 
 		public Map()
 		{
@@ -42,8 +43,9 @@ namespace GridRPG
 		}
 		
 		//returns null if incompatable xml
-		public Map(string filename, UnitLibrary unitLibrary)
+		public Map(string filename, UnitLibrary unitLibrary, int id)
 		{
+            this.id = id;
 			mapParent = new GameObject("Map");
 			mapParent.AddComponent<MapControl>();
 			//mapParent.transform.localScale=new Vector3(2,2,1);
@@ -130,7 +132,7 @@ namespace GridRPG
                                 int unitID = 0;
                                 Int32.TryParse(unitNode.Attributes["idnum"].Value, out unitID);
 
-                                addUnitToSpace(new CampaignUnit(unitLibrary.campaignUnits[unitID-1]),y,x);
+                                addUnitToSpace(new CampaignUnit(unitLibrary.campaignUnits[unitID]),y,x);
                             }
                         }
 					}
@@ -145,7 +147,8 @@ namespace GridRPG
 				mapLength = 0;
 				_eventConditions = new List<EventCondition>();
 			}
-			
+
+            centerMapOnCamera(Camera.main);
 		}
 		
 		public void addUnitToSpace(Unit unit, int x, int y)

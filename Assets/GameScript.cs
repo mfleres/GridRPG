@@ -16,20 +16,22 @@ public class GameScript : MonoBehaviour {
     private string gameMode;
     GridRPG.MainMenu mainMenu;
 
+    private int testID;
+
 
 
 
     // Use this for initialization
     void Start () {
         unitLibrary = new GridRPG.UnitLibrary();
-        mapLibrary = new GridRPG.MapLibrary();
+        mapLibrary = new GridRPG.MapLibrary(unitLibrary);
         gameMode = "Main Menu";
 
         
         //Debug.Log("Capacity = " + unitLibrary.campaignUnits.Count);
         mainMenu = new GridRPG.MainMenu(mapLibrary, unitLibrary);
         unitLibrary.addUnit(new GridRPG.CampaignUnit("George"));
-
+        testID = mapLibrary.addMap("Assets/Resources/Maps/MapA.xml", 0);
 
 
         float height = Camera.main.orthographicSize * 2.0f;
@@ -40,14 +42,8 @@ public class GameScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Q)){
-            GameObject.Destroy(mapLibrary.map.mapParent);
+            mapLibrary.unloadMap();
             mainMenu.canvas.SetActive(true);
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            map = new GridRPG.Map("Assets/Resources/Maps/MapA.xml",unitLibrary);
-            map.centerMapOnCamera(Camera.main);
-            
         }
     }
 	

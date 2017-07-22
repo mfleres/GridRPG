@@ -52,7 +52,7 @@ namespace GridRPG
             highlight.AddComponent<SpriteRenderer>();
             highlight.GetComponent<SpriteRenderer>().sprite = black_box;
             highlight.transform.SetParent(core.transform);
-            highlight.transform.localPosition = new Vector3(0, 0, highlight_Layer);
+            //highlight.transform.localPosition = new Vector3(0, 0, highlight_Layer);
             highlight.GetComponent<SpriteRenderer>().sortingLayerName = HIGHLIGHT_LAYER;
 
             highlight.AddComponent<MouseSelection>();
