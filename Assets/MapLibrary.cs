@@ -1,65 +1,132 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Xml;
+using System;
 
 namespace GridRPG
 {
     public class MapLibrary
     {
-        public List<string> mapList;    //list of map filepaths. Unlike units, maps are too large to load all at once
-        public UnitLibrary unitLibrary;
-        public Map map; //Loaded map
+        /// <summary>
+        /// Contains the name and filepath for the map
+        /// </summary>
+        public struct MapEntry
+        {
+            public string name, file;
+
+            /// <summary>
+            /// Constructs a mapEntry. If either parameter is null, both values are set to null.
+            /// </summary>
+            /// <param name="name">Name of the map</param>
+            /// <param name="file">Filepath of the map XML document.</param>
+            public MapEntry(string name, string file)
+            {
+                if (name != null && file != null)
+                {
+                    this.name = name;
+                    this.file = file;
+                }
+                else
+                {
+                    this.name = null;
+                    this.file = null;
+                }
+            }
+
+            /// <summary>
+            /// Constructs a mapEntry. If the file loading fails or the map element does not contain a name, both values are set to null.
+            /// </summary>
+            /// <param name="file">Filepath of the map XML document.</param>
+            public MapEntry(string file)
+            {
+                if (file != null)
+                {
+                    XmlDocument xmlDoc = new XmlDocument();
+                    xmlDoc.Load(file);
+                    XmlNode mapNode = xmlDoc?.DocumentElement.SelectSingleNode("/map");
+
+                    this.name = mapNode?.Attributes["name"]?.Value;
+                    if (this.name != null)
+                    {
+                        this.file = file;
+                    }
+                    else
+                    {
+                        this.file = null;
+                    }
+                }
+                else
+                {
+                    this.name = null;
+                    this.file = null;
+                }
+            }
+        }
+
+        public List<MapEntry> mapList;      //List of map filepaths. Unlike units, maps are too large to load all at once
+        public UnitLibrary unitLibrary;     //Game UnitLibrary. Used in map creation.
+        public Map map;                     //Loaded map. Only one can be loaded at a time.
 
         public MapLibrary(UnitLibrary unitLibrary)
         {
-            mapList = new List<string>();
+            mapList = new List<MapEntry>();
             this.unitLibrary = unitLibrary;
             this.map = null;
         }
 
+        /// <summary>
+        /// Adds a map to the library at index id. Overwrites any map that already exists with that id.
+        /// </summary>
+        /// <param name="filepath">Filepath of the map XML document.</param>
+        /// <param name="id">Index of the map in mapList. If id is less than 0, the map is added to the end of the library</param>
+        /// <returns>The index of the map in mapList</returns>
         public int addMap(string filepath, int id)
         {
 
             if(id < 0)
-            { //make map at next space
+            {   //make map at next space
                 for(int i = 0; i < mapList.Count; i++)
                 {
-                    if (mapList[i] == null)
+                    if (mapList[i].name == null)
                     {
-                        mapList[i] = filepath;
+                        mapList[i] = new MapEntry(filepath);
+                        Debug.Log("Added " + mapList[i].name + " to library at index " + i);
                         return i;
                     }
                 }
 
                 //add to end of mapList
-                mapList.Add(filepath);
+                mapList.Add(new MapEntry(filepath));
+                Debug.Log("Added " + mapList[mapList.Count-1].name + " to library at index " + (mapList.Count - 1));
                 return mapList.Count - 1;
             }
 
             if (mapList.Capacity < id + 1)
-            {
+            {   //Expand mapList to hold the map
                 int oldCount = mapList.Count;
                 
                 for (int i = oldCount; i < id + 1; i++)
                 {
-                    mapList.Add(null);
+                    mapList.Add(new MapEntry(null));
                 }
             }
-            else if (mapList[id] != null)
+            else if (mapList[id].name != null)
             {   //destroy old map reference
-                mapList[id] = null;
+                mapList[id] = new MapEntry(null);
             }
 
-            mapList[id] = filepath;
+            mapList[id] = new MapEntry(filepath);
 
+            Debug.Log("Added " + mapList[id] + " to library at index " + id);
             return id;
         }
 
-        public string getMap(int index)
+        public string getMapFile(int index)
         {
             if (mapList.Capacity > index)
             {
-                return mapList[index];
+                return mapList[index].file;
             }
             else
             {
@@ -67,17 +134,26 @@ namespace GridRPG
             }
         }
 
+        /// <summary>
+        /// Loads a specific map. Unloads the current active map.
+        /// </summary>
+        /// <param name="id">Index of the map to load.</param>
+        /// <returns>The loaded map.</returns>
         public Map loadMap(int id)
         {
+            Debug.Log("Loading Map with id = " + id);
             if(map != null)
             {
                 unloadMap();
             }
 
-            map = new Map(mapList[id], unitLibrary, id);
+            map = new Map(mapList[id].file, unitLibrary, id);
             return map;
         }
 
+        /// <summary>
+        /// Destroys the current active map
+        /// </summary>
         public void unloadMap()
         {
             if (map != null)
@@ -85,6 +161,23 @@ namespace GridRPG
                 GameObject.Destroy(map.mapParent);
                 map = null;
             }
+        }
+
+        /// <summary>
+        /// Returns a list of all the current map names and their indexes.
+        /// </summary>
+        /// <returns>List Tuples containing each map's name and index.</returns>
+        public List<Tuple<string,int>> listMaps()
+        {
+            List<Tuple<string, int>> ret = new List<Tuple<string, int>>();
+            for (int i = 0; i < mapList.Count; i++)
+            {
+                if(mapList[i].name != null)
+                {
+                    ret.Add(new Tuple<string, int>(mapList[i].name, i));
+                }
+            }
+            return ret;
         }
     }
 }

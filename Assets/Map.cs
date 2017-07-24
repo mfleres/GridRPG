@@ -132,7 +132,7 @@ namespace GridRPG
                                 int unitID = 0;
                                 Int32.TryParse(unitNode.Attributes["idnum"].Value, out unitID);
 
-                                addUnitToSpace(new CampaignUnit(unitLibrary.campaignUnits[unitID]),y,x);
+                                addUnitToSpace(new CampaignUnit(unitLibrary.campaignUnits[unitID]),x,y);
                             }
                         }
 					}
