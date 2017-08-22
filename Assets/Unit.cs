@@ -81,11 +81,7 @@ namespace GridRPG
 			core.SetActive(true);
 			this.name = "campaignUnit1";
 			
-			
 			this.core.name = this.name;
-
-		
-		
 			
 			this.displayName = displayName;
 			this.id = 1;

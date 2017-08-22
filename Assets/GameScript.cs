@@ -18,6 +18,9 @@ public class GameScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        //Lock resolution at 720p
+        Screen.SetResolution(1280, 720, true);
+
         unitLibrary = new GridRPG.UnitLibrary();
         mapLibrary = new GridRPG.MapLibrary(unitLibrary);
         gameMode = "Main Menu";

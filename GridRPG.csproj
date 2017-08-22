@@ -86,6 +86,7 @@
     <Compile Include="Assets\Map.cs" />
     <Compile Include="Assets\MapControl.cs" />
     <Compile Include="Assets\MapLibrary.cs" />
+    <Compile Include="Assets\MapUI.cs" />
     <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasScreenSpaceScaler.cs" />
     <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasWorldScaler.cs" />
     <Compile Include="Assets\PixelPerfectCamera\Scripts\Internal\VectorSwizzleExtensions.cs" />

@@ -21,6 +21,8 @@ namespace GridRPG
         public GridRPG.MapLibrary mapLibrary;
         public GridRPG.UnitLibrary unitLibrary;
 
+        public MapUI mapUI;
+
         /// <summary>
         /// Main canvas to display UI elements on.
         /// </summary>
@@ -29,8 +31,11 @@ namespace GridRPG
         public GameObject mapSelectButton;  //changes mode to MapList
         public GameObject mapList;          //parent of all the map options.
 
-        public MainMenu(MapLibrary mapLibrary,UnitLibrary unitLibrary)
+        public MainMenu(MapLibrary mapLibrary, UnitLibrary unitLibrary)
         {
+            mapUI = new MapUI(mapLibrary, unitLibrary);
+            mapUI.setActive(false);
+
             canvas = new GameObject("Main Menu UI");
             this.mapLibrary = mapLibrary;
             this.unitLibrary = unitLibrary;
@@ -59,16 +64,24 @@ namespace GridRPG
                 switch (value)
                 {
                     case Modes.Main:
-                        if(mode == Modes.ActiveMap)
+                        mapUI.setActive(false);
+                        if (mode == Modes.ActiveMap)
                         {
                             mapLibrary.unloadMap();
                         }
+
                         canvas.SetActive(true);
                         mapSelectButton.SetActive(true);
                         mapList.SetActive(false);
                         mode = value;
                         break;
                     case Modes.MapList:
+                        mapUI.setActive(false);
+                        if (mode == Modes.ActiveMap)
+                        {
+                            mapLibrary.unloadMap();
+                        }
+
                         canvas.SetActive(true);
                         mapSelectButton.SetActive(false);
                         if (mapList)
@@ -80,6 +93,7 @@ namespace GridRPG
                         break;
                     case Modes.ActiveMap:
                         canvas.SetActive(false);
+                        mapUI.setActive(true);
                         mode = value;
                         break;
                 }
