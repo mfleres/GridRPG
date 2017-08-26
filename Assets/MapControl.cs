@@ -18,9 +18,9 @@ namespace GridRPG
 	        {
 	            dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				mapOrigin = transform.position;
-				Debug.Log((double)Screen.width/Screen.currentResolution.width+","+(double)Screen.height/Screen.currentResolution.height);
-				Debug.Log("Map Origin: ("+mapOrigin.x+","+mapOrigin.y+")");
-				Debug.Log("Drag Origin: ("+dragOrigin.x+","+dragOrigin.y+")");
+				//Debug.Log((double)Screen.width/Screen.currentResolution.width+","+(double)Screen.height/Screen.currentResolution.height);
+				//Debug.Log("Map Origin: ("+mapOrigin.x+","+mapOrigin.y+")");
+				//Debug.Log("Drag Origin: ("+dragOrigin.x+","+dragOrigin.y+")");
 	            return;
 	        }
 	 

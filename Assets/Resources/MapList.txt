@@ -1,0 +1,3 @@
+Assets/Resources/Maps/MapA.xml
+Assets/Resources/Maps/MapB.xml
+Assets/Resources/Maps/MapC.xml

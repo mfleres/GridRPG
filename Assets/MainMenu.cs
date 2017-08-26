@@ -50,6 +50,8 @@ namespace GridRPG
             generateMapSelectButton();
         }
 
+        public MainMenu(Game game) : this(game.mapLibrary, game.unitLibrary) { }
+
         /// <summary>
         /// Gets/Sets the menu mode and activates/deactivates the relative elements
         /// </summary>
@@ -138,9 +140,10 @@ namespace GridRPG
             buttonText.transform.SetParent(mapSelectButton.transform);
             buttonText.AddComponent<Text>();
             //buttonText.AddComponent<RectTransform>();
-            buttonText.GetComponent<RectTransform>().SetParent(buttonTransform);
-            buttonText.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-            buttonText.GetComponent<RectTransform>().sizeDelta = buttonTransform.sizeDelta;
+            RectTransform buttonTextTransform = buttonText.GetComponent<RectTransform>();
+            buttonTextTransform.SetParent(buttonTransform);
+            buttonTextTransform.localPosition = new Vector3(0, 0, 0);
+            buttonTextTransform.sizeDelta = buttonTransform.sizeDelta;
             Text coreText = buttonText.GetComponent<Text>();
             //coreText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
             coreText.font = ((Font)Resources.Load(FONT_FILE, typeof(Font))) ?? Resources.GetBuiltinResource<Font>("Arial.ttf");
@@ -148,6 +151,7 @@ namespace GridRPG
             coreText.text = "Select Map";
             coreText.color = Color.white;
             coreText.alignment = TextAnchor.MiddleCenter;
+            //buttonTextTransform.position = new Vector3(0, 0, 0);
         }
 
         /// <summary>

@@ -13,6 +13,8 @@ namespace GridRPG
         private const string FRAME_FILE_BLUE = "Sprites/GUI/BlueBox";
         private const float UNITFRAME_SPACING = 6.0f;
         private const float UNITFRAME_WIDTH = 200f;
+        private const float UNITFRAME_HEIGHT = 200f;
+        private const float FRAME_SPRITE_SIZE = 32f;
 
         public GridRPG.MapLibrary mapLibrary;
         public GridRPG.UnitLibrary unitLibrary;
@@ -33,19 +35,10 @@ namespace GridRPG
             canvas.AddComponent<GraphicRaycaster>();
             coreCanvas.pixelPerfect = true;
 
-            unitFrame = new GameObject("Unit Frame");
-            unitFrame.transform.SetParent(coreCanvas.transform);
-            unitFrame.AddComponent<Image>();
-            Image unitFrameImage = unitFrame.GetComponent<Image>();
-            RectTransform unitFrameTransform = unitFrame.GetComponent<RectTransform>();
+            RectTransform canvasTransform = coreCanvas.GetComponent<RectTransform>();
+            Rect unitFrameDimensions = new Rect(-canvasTransform.sizeDelta.x/2.0f + UNITFRAME_SPACING+UNITFRAME_WIDTH/2.0f, canvasTransform.sizeDelta.y/2.0f - UNITFRAME_SPACING - UNITFRAME_HEIGHT/2.0f, UNITFRAME_WIDTH, UNITFRAME_HEIGHT);
+            unitFrame = generateUIFrame("Unit Frame", FRAME_FILE_BLUE, new Vector2(0, 0), new Vector4(3, 3, 3, 3), unitFrameDimensions, coreCanvas.transform);
 
-            //Load sprite
-            unitFrameImage.sprite = Sprite.Create((Texture2D)Resources.Load(FRAME_FILE_BLUE, typeof(Texture2D)), new Rect(0.0f, 0.0f, 32f, 32f), new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect, new Vector4(3, 3, 3, 3));
-            unitFrameImage.type = Image.Type.Tiled;
-            //Set frame size
-            unitFrameTransform.sizeDelta = new Vector2(UNITFRAME_WIDTH, Screen.height * 7.0f/8.0f - UNITFRAME_SPACING);
-            unitFrameTransform.localPosition = new Vector3(-Screen.width/2.0f + unitFrameTransform.sizeDelta.x/2.0f + UNITFRAME_SPACING, Screen.height / 2.0f - unitFrameTransform.sizeDelta.y / 2.0f - UNITFRAME_SPACING, 0);
-            unitFrameTransform.localScale = new Vector3(1, 1, 1);
         }
 
         /// <summary>
@@ -55,6 +48,46 @@ namespace GridRPG
         public void setActive(bool value)
         {
             canvas.SetActive(value);
+        }
+
+        /// <summary>
+        /// Generates a UI frame.
+        /// </summary>
+        /// <param name="name">Name of the frame.</param>
+        /// <param name="spriteFile">File to load the sprite from.</param>
+        /// <param name="spriteCoords">Coordinates of the sprite in the file.</param>
+        /// <param name="border">Width of the frame borders.</param>
+        /// <param name="rect">Position and size of the frame relative to the parent (Pixels from bottom left).</param>
+        /// <param name="parent">Parent object.</param>
+        /// <returns>The frame as a GameObject</returns>
+        public static GameObject generateUIFrame(string name, string spriteFile, Vector2 spriteCoords, Vector4 border, Rect rect, Transform parent)
+        {
+            //Initialize the GameObject
+            GameObject ret = new GameObject(name);
+            ret.transform.SetParent(parent);            
+
+            //Generate Image component
+            ret.AddComponent<Image>();
+            Image retImage = ret.GetComponent<Image>();
+            Rect retSpriteCoords = new Rect(spriteCoords.x, spriteCoords.y, FRAME_SPRITE_SIZE, FRAME_SPRITE_SIZE);
+            try
+            {
+                retImage.sprite = Sprite.Create((Texture2D)Resources.Load(spriteFile, typeof(Texture2D)), retSpriteCoords, new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect, border);
+            }
+            catch (System.Exception e)
+            {
+                GameObject.Destroy(ret);
+                throw e;
+            }
+            retImage.type = Image.Type.Tiled;
+
+            //Generate RectTransform component
+            RectTransform retTransform = ret.GetComponent<RectTransform>();
+            retTransform.sizeDelta = rect.size;
+            retTransform.localPosition = new Vector3(rect.x, rect.y, 0);
+            retTransform.localScale = new Vector3(1, 1, 1);
+
+            return ret;
         }
     }
 }

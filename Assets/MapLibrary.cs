@@ -122,6 +122,16 @@ namespace GridRPG
             return id;
         }
 
+        /// <summary>
+        /// Adds a map to the end of the library
+        /// </summary>
+        /// <param name="filepath">Filepath of the map XML document.</param>
+        /// <returns>The index of the map in mapList</returns>
+        public int addMap(string filepath)
+        {
+            return addMap(filepath, -1);
+        }
+
         public string getMapFile(int index)
         {
             if (mapList.Capacity > index)

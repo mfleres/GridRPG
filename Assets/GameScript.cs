@@ -7,33 +7,21 @@ using System.Collections.Generic;
 
 public class GameScript : MonoBehaviour {
 	
-	public GridRPG.UnitLibrary unitLibrary;
-    public GridRPG.MapLibrary mapLibrary;
+    public GridRPG.Game game;
 
-    //"Map"/"Main Menu"
-    private GridRPG.Map map;
-
-    private string gameMode;
-    GridRPG.MainMenu mainMenu;
+    private GridRPG.MainMenu mainMenu;
 
     // Use this for initialization
     void Start () {
         //Lock resolution at 720p
         Screen.SetResolution(1280, 720, true);
 
-        unitLibrary = new GridRPG.UnitLibrary();
-        mapLibrary = new GridRPG.MapLibrary(unitLibrary);
-        gameMode = "Main Menu";
+        game = new GridRPG.Game();
 
-        mainMenu = new GridRPG.MainMenu(mapLibrary, unitLibrary);
+        mainMenu = new GridRPG.MainMenu(game);
 
         //Add the campaign units
-        unitLibrary.addUnit(new GridRPG.CampaignUnit("George"));
-
-        //Add the maps
-        mapLibrary.addMap("Assets/Resources/Maps/MapA.xml", -1);
-        mapLibrary.addMap("Assets/Resources/Maps/MapB.xml", -1);
-        mapLibrary.addMap("Assets/Resources/Maps/MapC.xml", -1);
+        game.unitLibrary.addUnit(new GridRPG.CampaignUnit("George"));
 
         float height = Camera.main.orthographicSize * 2.0f;
         float width = height * Screen.width / Screen.height;
