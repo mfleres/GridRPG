@@ -22,7 +22,7 @@ namespace GridRPG
             unitLibrary = new GridRPG.UnitLibrary();
             mapLibrary = new GridRPG.MapLibrary(unitLibrary);
             loadMapList();
-            ui = new UI();
+            ui = new UI(this);
         }
 
         /// <summary>
@@ -40,6 +40,7 @@ namespace GridRPG
             catch(System.Exception e)
             {
                 Debug.Log("MAP FILE NOT FOUND");
+                file = null;
             }
 
             while ((mapFile = file.ReadLine()) != null)
