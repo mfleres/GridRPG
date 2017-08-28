@@ -18,8 +18,6 @@ public class GameScript : MonoBehaviour {
 
         game = new GridRPG.Game();
 
-        mainMenu = new GridRPG.MainMenu(game);
-
         //Add the campaign units
         game.unitLibrary.addUnit(new GridRPG.CampaignUnit("George"));
 
@@ -31,12 +29,12 @@ public class GameScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Q)){
-            mainMenu.Mode = GridRPG.MainMenu.Modes.Main;
+            game.ui.Mode = GridRPG.UI.Modes.Main;
         }
     }
 	
-	void LateUpdate(){
-		//map.mapParent.transform.localScale.Scale(new Vector3(2,2,1));
+	void LateUpdate() {
+
 	}
 
     public void LoadMapA()

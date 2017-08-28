@@ -189,5 +189,31 @@ namespace GridRPG
             }
             return ret;
         }
+
+        /// <summary>
+        /// Loads maps from list text file to the mapLibrary.
+        /// </summary>
+        /// <param name="filename">File to load from.</param>
+        public void loadMapList(string filename)
+        {
+            string mapFile;
+            System.IO.StreamReader file = null;
+
+            try
+            {
+                file = new System.IO.StreamReader(filename);
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log("MAP FILE NOT FOUND");
+                file = null;
+            }
+
+            while ((mapFile = file.ReadLine()) != null)
+            {
+                this.addMap(mapFile);
+                Debug.Log(mapFile);
+            }
+        }
     }
 }

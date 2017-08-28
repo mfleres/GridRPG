@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System;
+using System.Collections.Generic;
 
 namespace GridRPG
 {
@@ -13,12 +13,149 @@ namespace GridRPG
         private const float UNITFRAME_WIDTH = 200f;
         private const float UNITFRAME_HEIGHT = 200f;
         private const float FRAME_SPRITE_SIZE = 32f;
+        private const int BUTTON_SIZE_X = 200;
+        private const int BUTTON_SIZE_Y = 50;
+        private const int BUTTON_SPACING_Y = 3; //vertical space between each button
+        private const int BUTTON_FONT_SIZE = 25;
+        private const float UI_SCALE = 1;
 
-        Game game;
+        public enum Modes { Main, MapList, ActiveMap };
+
+        private Game game;
+
+        private Modes mode;
+        private GameObject canvas;
+
+        //Main Menu
+        private GameObject mapSelectButton;
+
+        //Map List
+        private GameObject mapList;
+
+        //Active Map
+        private GameObject unitFrame;
+        private GameObject messageFrame;
 
         public UI(Game game)
         {
             this.game = game;
+
+            this.canvas = new GameObject("UI Canvas");
+            this.canvas.AddComponent<Canvas>();
+            Canvas coreCanvas = canvas.GetComponent<Canvas>();
+            coreCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.AddComponent<GraphicRaycaster>();
+            coreCanvas.pixelPerfect = true;
+
+            mapSelectButton = UI.generateUITextButton("Map Select Button", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), new Rect(0, 0, BUTTON_SIZE_X, BUTTON_SIZE_Y), canvas.transform, (delegate { Mode = Modes.MapList; }), "Select Map", BUTTON_FONT_SIZE, Color.white);
+            mapSelectButton.SetActive(true);
+
+            //TODO: ADD REAL MAP UI SETUP
+            unitFrame = new GameObject("UI Unit Frame");
+            messageFrame = new GameObject("UI Message Frame");
+            setMapUIVisibility(false);
+
+            mapList = new GameObject("Map List");
+            mapList.transform.SetParent(canvas.transform);
+            mapList.transform.localPosition = new Vector3(0, 0, 0);
+            mapList.SetActive(false);
+        }
+
+        public Modes Mode
+        {
+            get
+            {
+                return this.mode;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case Modes.Main:
+                        setMapUIVisibility(false);
+                        if (mode == Modes.ActiveMap)
+                        {
+                            game.mapLibrary.unloadMap();
+                        }
+
+                        canvas.SetActive(true);
+                        mapSelectButton.SetActive(true);
+                        mapList.SetActive(false);
+                        mode = value;
+                        break;
+                    case Modes.MapList:
+                        setMapUIVisibility(false);
+                        if (mode == Modes.ActiveMap)
+                        {
+                            game.mapLibrary.unloadMap();
+                        }
+
+                        canvas.SetActive(true);
+                        mapSelectButton.SetActive(false);
+                        if (mapList)
+                        {
+                            mapList.SetActive(true);
+                        }
+                        generateMapList();
+                        mode = value;
+                        break;
+                    case Modes.ActiveMap:
+                        canvas.SetActive(false);
+                        setMapUIVisibility(true);
+                        mode = value;
+                        break;
+                }
+            }
+        }
+
+        private void setMapUIVisibility(bool active)
+        {
+            unitFrame.SetActive(active);
+            messageFrame.SetActive(active);
+        }
+
+        //Loads a the map with index id
+        private void LoadMap(int id)
+        {
+            game.mapLibrary.loadMap(id);
+            this.Mode = Modes.ActiveMap;
+        }
+
+        /// <summary>
+        /// Generates a list of buttons for every map.
+        /// </summary>
+        private void generateMapList()
+        {
+            Debug.Log("GENERATING MAP SELECT BUTTONS");
+            List<Tuple<string, int>> mapEntries = game.mapLibrary.listMaps();
+            if (!mapList)
+            {
+                mapList = new GameObject("Map List");
+                mapList.transform.SetParent(canvas.transform);
+                mapList.transform.localPosition = new Vector3(0, 0, 0);
+            }
+
+            //destroy all child transforms of mapList, in case mapLibrary has changed.
+            foreach (Transform child in mapList.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            //calculate position of the top of the list
+            int top = (mapEntries.Count - 1) * (BUTTON_SIZE_Y + BUTTON_SPACING_Y) / 2;
+
+            //Generate each button
+            for (int i = 0; i < mapEntries.Count; i++)
+            {
+                int id = mapEntries[i].Item2;
+                GameObject mapButton = generateUITextButton(mapEntries[i].Item1 + " Select Button", FRAME_FILE_BLUE, new Vector2(0, 0)
+                                                            , new Vector4(3, 3, 3, 3), new Rect(0, top - i * (BUTTON_SIZE_Y + BUTTON_SPACING_Y), BUTTON_SIZE_X, BUTTON_SIZE_Y)
+                                                            , mapList.transform, () => LoadMap(id), mapEntries[i].Item1, (int)(BUTTON_FONT_SIZE * UI_SCALE), Color.white);
+                mapButton.transform.SetParent(mapList.transform);
+
+                Debug.Log("ADDED " + mapEntries[i].Item1 + " BUTTON. ID = " + mapEntries[i].Item2);
+            }
+            Debug.Log("DONE GENERATING MAP SELECT BUTTONS");
         }
 
         /// <summary>
@@ -56,7 +193,7 @@ namespace GridRPG
             RectTransform retTransform = ret.GetComponent<RectTransform>();
             retTransform.sizeDelta = rect.size;
             retTransform.localPosition = new Vector3(rect.x, rect.y, 0);
-            retTransform.localScale = new Vector3(1, 1, 1);
+            retTransform.localScale = new Vector3(UI_SCALE, UI_SCALE, UI_SCALE);
 
             return ret;
         }
@@ -99,7 +236,7 @@ namespace GridRPG
             RectTransform retTransform = ret.GetComponent<RectTransform>();
             retTransform.SetParent(parent);
             retTransform.localPosition = new Vector3(0, 0, 0);
-            retTransform.sizeDelta = retTransform.sizeDelta;
+            retTransform.sizeDelta = ((RectTransform)parent).sizeDelta;
 
             Text coreText = ret.GetComponent<Text>();
             try
@@ -111,7 +248,7 @@ namespace GridRPG
                 GameObject.Destroy(ret);
                 throw e;
             }
-            coreText.fontSize = fontSize;
+            coreText.fontSize = (int)(fontSize*UI_SCALE);
             coreText.text = text;
             coreText.color = color;
             coreText.alignment = TextAnchor.MiddleCenter;
@@ -146,8 +283,8 @@ namespace GridRPG
         /// <param name="text">Text.</param>
         /// <param name="fontSize">Font size.</param>
         /// <param name="color">Text color.</param>
-        /// <returns>Tuple containing the button GameObject in Item1 and the text GameObject in Item2.</returns>
-        public static Tuple<GameObject,GameObject> generateUITextButton(string name, string spriteFile, Vector2 spriteCoords, Vector4 border, Rect rect, Transform parent, UnityEngine.Events.UnityAction clickEvent, string text, int fontSize, Color color)
+        /// <returns>Button GameObject. Does not include the text GameObject.</returns>
+        public static GameObject generateUITextButton(string name, string spriteFile, Vector2 spriteCoords, Vector4 border, Rect rect, Transform parent, UnityEngine.Events.UnityAction clickEvent, string text, int fontSize, Color color)
         {
             GameObject ret = generateUIButton(name, spriteFile, spriteCoords, border, rect, parent, clickEvent);
 
@@ -162,7 +299,7 @@ namespace GridRPG
                 throw e;
             }
 
-            return Tuple.Create<GameObject, GameObject>(ret, retText);
+            return ret;
         }
     }
 }

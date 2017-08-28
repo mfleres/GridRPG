@@ -13,6 +13,7 @@ namespace GridRPG
         const int BUTTON_SIZE_X = 200;
         const int BUTTON_SIZE_Y = 50;
         const int BUTTON_SPACING_Y = 3; //vertical space between each button
+        const int BUTTON_FONT_SIZE = 25;
         public enum Modes { Main, MapList, ActiveMap};
 
         private Modes mode; //Determines which menu to display.
@@ -47,7 +48,8 @@ namespace GridRPG
             canvas.AddComponent<GraphicRaycaster>();
             coreCanvas.pixelPerfect = true;
 
-            generateMapSelectButton();
+            mapSelectButton = UI.generateUITextButton("Map Select Button",BUTTON_FILE,new Vector2(0f,0f),new Vector4(3f,3f,3f,3f),new Rect(0, 0, BUTTON_SIZE_X, BUTTON_SIZE_Y), canvas.transform,(delegate { Mode = Modes.MapList; }),"Select Map",BUTTON_FONT_SIZE,Color.white);
+            //generateMapSelectButton();
         }
 
         public MainMenu(Game game) : this(game.mapLibrary, game.unitLibrary) { }
