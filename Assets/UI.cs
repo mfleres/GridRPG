@@ -9,15 +9,31 @@ namespace GridRPG
     {
         private const string FRAME_FILE_BLUE = "Sprites/GUI/BlueBox";
         private const string FONT_FILE = "Fonts/VCR_OSD_MONO_1.001";
-        private const float UNITFRAME_SPACING = 6.0f;
-        private const float UNITFRAME_WIDTH = 200f;
-        private const float UNITFRAME_HEIGHT = 200f;
         private const float FRAME_SPRITE_SIZE = 32f;
+        private const float UI_SCALE = 1; //Changing this value causes ui to overlap and not display properly.
+       
+        //Main menu button parameters
         private const int BUTTON_SIZE_X = 200;
         private const int BUTTON_SIZE_Y = 50;
         private const int BUTTON_SPACING_Y = 3; //vertical space between each button
         private const int BUTTON_FONT_SIZE = 25;
-        private const float UI_SCALE = 1;
+
+        //Unit frame parameters.
+        //  Displays at top left of the screen.
+        //  Will not extend below the top of the message frame.
+        private const float UNITFRAME_SPACING = 6.0f;
+        private const float UNITFRAME_WIDTH = 200f;
+        private const float UNITFRAME_MAX_WIDTH = 0.25f; //% of screen width
+        private const float UNITFRAME_HEIGHT = 600f;
+
+        //Message Frame parameters.
+        //  Displays at the bottom center of the screen.
+        private const float MESSAGE_FRAME_SPACING = 6.0f;
+        private const float MESSAGE_FRAME_WIDTH = 600f;
+        private const float MESSAGE_FRAME_HEIGHT = 150f;
+        private const float MESSAGE_FRAME_MAX_HEIGHT = 0.16f; //% of screen height
+        //(Message frame displays at the bottom center of the screen.)
+
 
         public enum Modes { Main, MapList, ActiveMap };
 
@@ -40,6 +56,7 @@ namespace GridRPG
         {
             this.game = game;
 
+            //Setup main canvas
             this.canvas = new GameObject("UI Canvas");
             this.canvas.AddComponent<Canvas>();
             Canvas coreCanvas = canvas.GetComponent<Canvas>();
@@ -47,18 +64,21 @@ namespace GridRPG
             canvas.AddComponent<GraphicRaycaster>();
             coreCanvas.pixelPerfect = true;
 
+            //Setup main menu
             mapSelectButton = UI.generateUITextButton("Map Select Button", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), new Rect(0, 0, BUTTON_SIZE_X, BUTTON_SIZE_Y), canvas.transform, (delegate { Mode = Modes.MapList; }), "Select Map", BUTTON_FONT_SIZE, Color.white);
-            mapSelectButton.SetActive(true);
+            
 
-            //TODO: ADD REAL MAP UI SETUP
-            unitFrame = new GameObject("UI Unit Frame");
-            messageFrame = new GameObject("UI Message Frame");
-            setMapUIVisibility(false);
-
+            //Setup mapList controller
             mapList = new GameObject("Map List");
             mapList.transform.SetParent(canvas.transform);
             mapList.transform.localPosition = new Vector3(0, 0, 0);
-            mapList.SetActive(false);
+            
+
+            //Setup map ui
+            setupMessageFrame();
+            setupUnitFrame();
+
+            this.Mode = Modes.Main;
         }
 
         public Modes Mode
@@ -72,36 +92,39 @@ namespace GridRPG
                 switch (value)
                 {
                     case Modes.Main:
-                        setMapUIVisibility(false);
+                        
                         if (mode == Modes.ActiveMap)
                         {
                             game.mapLibrary.unloadMap();
                         }
 
-                        canvas.SetActive(true);
-                        mapSelectButton.SetActive(true);
-                        mapList.SetActive(false);
+                        setMainMenuVisibility(true);
+                        setMapListVisibility(false);
+                        setMapUIVisibility(false);
+
                         mode = value;
                         break;
+
                     case Modes.MapList:
-                        setMapUIVisibility(false);
+                        
                         if (mode == Modes.ActiveMap)
                         {
                             game.mapLibrary.unloadMap();
                         }
 
-                        canvas.SetActive(true);
-                        mapSelectButton.SetActive(false);
-                        if (mapList)
-                        {
-                            mapList.SetActive(true);
-                        }
-                        generateMapList();
+                        setMainMenuVisibility(false);
+                        setMapListVisibility(true);
+                        setMapUIVisibility(false);
+
                         mode = value;
                         break;
+
                     case Modes.ActiveMap:
-                        canvas.SetActive(false);
+
+                        setMainMenuVisibility(false);
+                        setMapListVisibility(false);
                         setMapUIVisibility(true);
+
                         mode = value;
                         break;
                 }
@@ -114,7 +137,29 @@ namespace GridRPG
             messageFrame.SetActive(active);
         }
 
-        //Loads a the map with index id
+        private void setMainMenuVisibility(bool active)
+        {
+            mapSelectButton.SetActive(active);
+        }
+
+        private void setMapListVisibility(bool active)
+        {
+            if(mapList.activeSelf && !active)
+            {   //Hide mapList
+                mapList.SetActive(false);
+            }
+            else if(!(mapList.activeSelf) && active)
+            {   //Show maplist
+                mapList.SetActive(true);
+                generateMapList();
+            }
+            else
+            {
+                //No change
+            }
+        }
+
+        //Loads a the map with index id.
         private void LoadMap(int id)
         {
             game.mapLibrary.loadMap(id);
@@ -128,12 +173,6 @@ namespace GridRPG
         {
             Debug.Log("GENERATING MAP SELECT BUTTONS");
             List<Tuple<string, int>> mapEntries = game.mapLibrary.listMaps();
-            if (!mapList)
-            {
-                mapList = new GameObject("Map List");
-                mapList.transform.SetParent(canvas.transform);
-                mapList.transform.localPosition = new Vector3(0, 0, 0);
-            }
 
             //destroy all child transforms of mapList, in case mapLibrary has changed.
             foreach (Transform child in mapList.transform)
@@ -156,6 +195,90 @@ namespace GridRPG
                 Debug.Log("ADDED " + mapEntries[i].Item1 + " BUTTON. ID = " + mapEntries[i].Item2);
             }
             Debug.Log("DONE GENERATING MAP SELECT BUTTONS");
+        }
+
+        /// <summary>
+        /// Setup the message frame within the screen boundaries
+        /// </summary>
+        private void setupMessageFrame()
+        {
+            float frame_width, frame_height, frame_pos_x, frame_pos_y;
+
+            //Setup frame width.
+            if(MESSAGE_FRAME_WIDTH + MESSAGE_FRAME_SPACING * 2f > Screen.width)
+            {   
+                frame_width = Screen.width - MESSAGE_FRAME_SPACING * 2f;
+            }
+            else
+            {
+                frame_width = MESSAGE_FRAME_WIDTH;
+            }
+
+            //Setup frame height.
+            if(MESSAGE_FRAME_HEIGHT > Screen.height*MESSAGE_FRAME_MAX_HEIGHT)
+            {
+                frame_height = Screen.height * MESSAGE_FRAME_MAX_HEIGHT;
+            }
+            else
+            {
+                frame_height = MESSAGE_FRAME_HEIGHT;
+            }
+
+            //Setup frame positioning.
+            frame_pos_x = 0f;
+            frame_pos_y = -Screen.height / 2.0f + MESSAGE_FRAME_SPACING + frame_height / 2.0f;
+
+            //Generate frame.
+            Rect messageFrameDimensions = new Rect(frame_pos_x, frame_pos_y, frame_width, frame_height);
+            messageFrame = UI.generateUIFrame("Message Frame", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), messageFrameDimensions, canvas.transform);
+        }
+
+        /// <summary>
+        /// Setup the unit frame within the screen boundaries.
+        /// If the message frame is already generated, will adjust to fit.
+        /// </summary>
+        private void setupUnitFrame()
+        {
+            float frame_width, frame_height, frame_pos_x, frame_pos_y;
+            Vector2 messageFrameSize;
+
+            if (messageFrame)
+            {   //use message frame dimensions.
+                RectTransform messageFrameRect = messageFrame.GetComponent<RectTransform>();
+                messageFrameSize = messageFrameRect.sizeDelta;
+            }
+            else
+            {   //assume message frame is 0.
+                messageFrameSize = new Vector2(0, 0);
+            }
+
+            //Setup frame width.
+            if (UNITFRAME_WIDTH > Screen.width * UNITFRAME_MAX_WIDTH)
+            {
+                frame_width = Screen.width * UNITFRAME_MAX_WIDTH;
+            }
+            else
+            {
+                frame_width = UNITFRAME_WIDTH;
+            }
+
+            //Setup frame height.
+            if (UNITFRAME_HEIGHT > Screen.height - messageFrameSize.y - MESSAGE_FRAME_SPACING - UNITFRAME_SPACING*2)
+            {
+                frame_height = Screen.height - messageFrameSize.y - MESSAGE_FRAME_SPACING - UNITFRAME_SPACING * 2;
+            }
+            else
+            {
+                frame_height = UNITFRAME_HEIGHT;
+            }
+
+            //Setup frame positioning.
+            frame_pos_x = -Screen.width / 2.0f + UNITFRAME_SPACING + frame_width / 2.0f;
+            frame_pos_y = Screen.height / 2.0f - UNITFRAME_SPACING - frame_height / 2.0f;
+
+            //Generate frame.
+            Rect unitFrameDimensions = new Rect(frame_pos_x, frame_pos_y, frame_width, frame_height);
+            unitFrame = UI.generateUIFrame("Unit Frame", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), unitFrameDimensions, canvas.transform);
         }
 
         /// <summary>
@@ -185,6 +308,7 @@ namespace GridRPG
             catch (System.Exception e)
             {
                 GameObject.Destroy(ret);
+                Debug.Log(name + " Creation Error: Failed to load sprite.");
                 throw e;
             }
             retImage.type = Image.Type.Tiled;

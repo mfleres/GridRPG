@@ -25,5 +25,18 @@ namespace GridRPG
             mapLibrary.loadMapList(MAP_LIST_FILE);
             ui = new UI(this);
         }
+
+        /// <summary>
+        /// Reloads the UI.
+        /// </summary>
+        /// <remarks>
+        /// Useful for when the user changes UI options.
+        /// </remarks>
+        private void reloadUI()
+        {
+            UI.Modes oldMode = ui.Mode;
+
+            //TODO: Finish coding.
+        }
     }
 }
