@@ -10,11 +10,11 @@ namespace GridRPG
 	public class Map
 	{
 		//Center is (0,0)
-		Vector3 worldToPixel(Vector3 worldCoords)
+		private Vector3 worldToPixel(Vector3 worldCoords)
 		{
 			return new Vector3(worldCoords.x*100,worldCoords.y*100,worldCoords.z);
 		}
-		Vector3 pixelToWorld(Vector3 pixelCoords)
+		private Vector3 pixelToWorld(Vector3 pixelCoords)
 		{
 			return new Vector3(pixelCoords.x/100f,pixelCoords.y/100f,pixelCoords.z);
 		}
@@ -48,17 +48,12 @@ namespace GridRPG
             this.id = id;
 			mapParent = new GameObject("Map");
 			mapParent.AddComponent<MapControl>();
-			//mapParent.transform.localScale=new Vector3(2,2,1);
-			
-			XmlDocument xmlDoc = new XmlDocument();
-			xmlDoc.Load(filename);
+            //mapParent.transform.localScale=new Vector3(2,2,1);
 
-			_eventConditions = new List<EventCondition>();
-			
-			//Kind of a whore
-			//GameObject tempObj = new GameObject("Map:tempObj");
-			//tempObj.AddComponent<GridRPG.Space>();
-			//tempObj.GetComponent<GridRPG.Space>().setTerrain("void");
+            _eventConditions = new List<EventCondition>();
+
+            XmlDocument xmlDoc = new XmlDocument();
+			xmlDoc.Load(filename);	
 			
 			XmlNode mapNode = xmlDoc.DocumentElement.SelectSingleNode("/map");
 			if(mapNode != null)

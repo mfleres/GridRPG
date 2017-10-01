@@ -1,0 +1,59 @@
+﻿<unit name="TestCampaignUnit" displayName="George Genericguy">
+  <sprite XOffset="0.0" YOffset="0.0" file="Sprites/Unit/TestUnit"/>
+  <stats>
+    <maxHP>14</maxHP>
+    <HP>14</HP>
+    <maxMP>2</maxMP>
+    <MP>2</MP>
+    <constitution>3</constitution>
+    <strength>2</strength>
+    <intellect>3</intellect>
+    <dexterity>1</dexterity>
+    <charisma>1</charisma>
+    <agility>5</agility>
+  </stats>
+  <resistance>
+    <!--Modifies damage taken-->
+    <resilience constant="0" scalar="1.0"/>
+    <mental constant="0" scalar="1.0"/>
+    <physical constant="0" scalar="1.0"/>
+    <arcane constant="0" scalar="1.0"/>
+    <fire constant="0" scalar="1.0"/>
+    <ice constant="0" scalar="1.0"/>
+    <earth constant="0" scalar="1"/>
+    <electric constant="0" scalar="1"/>
+    <wind constant="0" scalar="1"/>
+    <water constant="0" scalar="1"/>
+    <psychic constant="0" scalar="1"/>
+    <dark constant="0" scalar="1"/>
+    <light constant="0" scalar="1"/>
+  </resistance>
+  <damage>
+    <!--Modifies damage done-->
+    <resilience constant="0" scalar="1.0"/>
+    <mental constant="0" scalar="1.0"/>
+    <physical constant="0" scalar="1.0"/>
+    <arcane constant="0" scalar="1.0"/>
+    <fire constant="0" scalar="1.0"/>
+    <ice constant="0" scalar="1.0"/>
+    <earth constant="0" scalar="1"/>
+    <electric constant="0" scalar="1"/>
+    <wind constant="0" scalar="1"/>
+    <water constant="0" scalar="1"/>
+    <psychic constant="0" scalar="1"/>
+    <dark constant="0" scalar="1"/>
+    <light constant="0" scalar="1"/>
+  </damage>
+  <mobilities>
+    <mobility type="grass" modifier="1"/>
+    <mobility type="void" modifier="0"/>
+  </mobilities>
+  <abilities>
+  </abilities>
+  <skills>
+  </skills>
+  <equipment>
+  </equipment>
+  <inventory>
+  </inventory>
+</unit>

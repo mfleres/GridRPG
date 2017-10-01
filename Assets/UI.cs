@@ -22,9 +22,10 @@ namespace GridRPG
         //  Displays at top left of the screen.
         //  Will not extend below the top of the message frame.
         private const float UNITFRAME_SPACING = 6.0f;
-        private const float UNITFRAME_WIDTH = 200f;
+        private const float UNITFRAME_WIDTH = 400f;
         private const float UNITFRAME_MAX_WIDTH = 0.25f; //% of screen width
         private const float UNITFRAME_HEIGHT = 600f;
+        private const int UNITFRAME_NAME_FONT_SIZE = 20;
 
         //Message Frame parameters.
         //  Displays at the bottom center of the screen.
@@ -49,7 +50,14 @@ namespace GridRPG
         private GameObject mapList;
 
         //Active Map
-        private GameObject unitFrame;
+        //Organize unit frame elements
+        private struct UnitFrameStruct
+        {
+            public GameObject frame;
+            public GameObject unitName;
+        }
+        private UnitFrameStruct unitFrame;
+        //Message frame
         private GameObject messageFrame;
 
         public UI(Game game)
@@ -125,15 +133,24 @@ namespace GridRPG
                         setMapListVisibility(false);
                         setMapUIVisibility(true);
 
+                        updateUnitFrame(game.unitLibrary.getUnit(1, "campaign")); //TEMP
+
                         mode = value;
                         break;
                 }
             }
         }
 
+        public void updateUnitFrame(Unit unit)
+        {
+            Text nameText = unitFrame.unitName.GetComponent<Text>();
+            nameText.text = unit.name;
+            trimText(unitFrame.unitName);
+        }
+
         private void setMapUIVisibility(bool active)
         {
-            unitFrame.SetActive(active);
+            unitFrame.frame.SetActive(active);
             messageFrame.SetActive(active);
         }
 
@@ -171,7 +188,7 @@ namespace GridRPG
         /// </summary>
         private void generateMapList()
         {
-            Debug.Log("GENERATING MAP SELECT BUTTONS");
+            //Debug.Log("GENERATING MAP SELECT BUTTONS");
             List<Tuple<string, int>> mapEntries = game.mapLibrary.listMaps();
 
             //destroy all child transforms of mapList, in case mapLibrary has changed.
@@ -192,9 +209,9 @@ namespace GridRPG
                                                             , mapList.transform, () => LoadMap(id), mapEntries[i].Item1, (int)(BUTTON_FONT_SIZE * UI_SCALE), Color.white);
                 mapButton.transform.SetParent(mapList.transform);
 
-                Debug.Log("ADDED " + mapEntries[i].Item1 + " BUTTON. ID = " + mapEntries[i].Item2);
+                //Debug.Log("ADDED " + mapEntries[i].Item1 + " BUTTON. ID = " + mapEntries[i].Item2);
             }
-            Debug.Log("DONE GENERATING MAP SELECT BUTTONS");
+            //Debug.Log("DONE GENERATING MAP SELECT BUTTONS");
         }
 
         /// <summary>
@@ -278,7 +295,16 @@ namespace GridRPG
 
             //Generate frame.
             Rect unitFrameDimensions = new Rect(frame_pos_x, frame_pos_y, frame_width, frame_height);
-            unitFrame = UI.generateUIFrame("Unit Frame", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), unitFrameDimensions, canvas.transform);
+            unitFrame.frame = UI.generateUIFrame("Unit Frame", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), unitFrameDimensions, canvas.transform);
+
+            //Add Unit Name Text frame.
+            float unitFrameUnitNameWidth = frame_width;
+            float unitFrameUnitNameHeight = UNITFRAME_NAME_FONT_SIZE;
+            float unitFrameUnitNamePosX = 0;
+            float unitFrameUnitNamePosY = frame_height / 2.0f - UNITFRAME_SPACING - unitFrameUnitNameHeight / 2.0f;
+            Rect unitFrameUnitNameDims = new Rect(unitFrameUnitNamePosX, unitFrameUnitNamePosY, unitFrameUnitNameWidth, unitFrameUnitNameHeight);
+
+            unitFrame.unitName = UI.generateUIText("UnitName", unitFrame.frame.transform, "", UNITFRAME_NAME_FONT_SIZE, Color.white, unitFrameUnitNameDims);
         }
 
         /// <summary>
@@ -361,7 +387,7 @@ namespace GridRPG
             retTransform.SetParent(parent);
             retTransform.localPosition = new Vector3(0, 0, 0);
             retTransform.sizeDelta = ((RectTransform)parent).sizeDelta;
-
+            //.
             Text coreText = ret.GetComponent<Text>();
             try
             {
@@ -375,7 +401,7 @@ namespace GridRPG
             coreText.fontSize = (int)(fontSize*UI_SCALE);
             coreText.text = text;
             coreText.color = color;
-            coreText.alignment = TextAnchor.MiddleCenter;
+            coreText.alignment = anchor;
 
             return ret;
         }
@@ -392,6 +418,28 @@ namespace GridRPG
         public static GameObject generateUIText(Transform parent, string text, int fontSize, Color color, TextAnchor anchor)
         {
             return generateUIText("Text", parent, text, fontSize, color, anchor);
+        }
+
+        /// <summary>
+        /// Generates UI text
+        /// </summary>
+        /// <param name="name">Name of the object.</param>
+        /// <param name="parent">Parent transform.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="fontSize">Font size.</param>
+        /// <param name="color">Text color.</param>
+        /// <param name="rect">Text position relative to parent.</param>
+        /// <returns>Text as a GameObject.</returns>
+        public static GameObject generateUIText(string name, Transform parent, string text, int fontSize, Color color, Rect rect)
+        {
+            GameObject ret = generateUIText(name, parent, text, fontSize, color, TextAnchor.MiddleCenter);
+            RectTransform retRectTransform = ret.GetComponent<RectTransform>();
+            RectTransform parentRectTransform = ret.GetComponentInParent<RectTransform>();
+
+            retRectTransform.localPosition = new Vector3(rect.x, rect.y, 0);
+            retRectTransform.sizeDelta = rect.size;
+
+            return ret;
         }
 
         /// <summary>
@@ -424,6 +472,22 @@ namespace GridRPG
             }
 
             return ret;
+        }
+
+        private static void trimText(GameObject textObject)
+        {
+            Text textComponent = textObject.GetComponent<Text>();
+            float textWidth = LayoutUtility.GetPreferredWidth(textComponent.rectTransform);
+            float parentWidth = textObject.GetComponent<RectTransform>().rect.width;
+
+            if (textWidth > parentWidth)
+            {
+                //Resize to one word
+                string text = textComponent.text;
+
+                string[] splitText = text.Split(null);
+                textComponent.text = splitText[0];
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ namespace GridRPG
     public class Game
     {
         private const string MAP_LIST_FILE = "Assets/Resources/MapList.txt";
+        private const string CAMPAIGN_UNIT_LIST_FILE = "Assets/Resources/CampaignUnitList.csv";
         public enum Modes { MainMenu, Map };
 
         public GridRPG.UnitLibrary unitLibrary;
@@ -21,11 +22,12 @@ namespace GridRPG
         public Game()
         {
             unitLibrary = new GridRPG.UnitLibrary();
+            unitLibrary.loadCampaignUnitList(CAMPAIGN_UNIT_LIST_FILE);
             mapLibrary = new GridRPG.MapLibrary(unitLibrary);
             mapLibrary.loadMapList(MAP_LIST_FILE);
             ui = new UI(this);
         }
-
+        //.
         /// <summary>
         /// Reloads the UI.
         /// </summary>

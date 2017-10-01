@@ -18,9 +18,6 @@ public class GameScript : MonoBehaviour {
 
         game = new GridRPG.Game();
 
-        //Add the campaign units
-        game.unitLibrary.addUnit(new GridRPG.CampaignUnit("George"));
-
         float height = Camera.main.orthographicSize * 2.0f;
         float width = height * Screen.width / Screen.height;
         Debug.Log(width + "," + height);

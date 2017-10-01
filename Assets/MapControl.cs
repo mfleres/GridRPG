@@ -6,6 +6,8 @@ namespace GridRPG
 {
 	public class MapControl : MonoBehaviour
 	{
+        private const float RESIZE_RATE = 2f;
+
 		public float dragSpeed = 1;
 	    private Vector3 dragOrigin;
 		private Vector3 mapOrigin;
@@ -14,7 +16,14 @@ namespace GridRPG
 	 
 	    void Update()
 	    {
-	        if (Input.GetMouseButtonDown(0))
+            float scroll = Input.mouseScrollDelta.y;
+            if (scroll != 0)
+            {
+                Debug.Log("Scroll = " + (float)Math.Pow(RESIZE_RATE, scroll));
+                transform.localScale = new Vector3(transform.localScale.x * (float)Math.Pow(RESIZE_RATE, scroll), transform.localScale.y * (float)Math.Pow(RESIZE_RATE, scroll), transform.localScale.z * (float)Math.Pow(RESIZE_RATE, scroll));
+
+            }
+            if (Input.GetMouseButtonDown(1))
 	        {
 	            dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				mapOrigin = transform.position;
@@ -24,19 +33,17 @@ namespace GridRPG
 	            return;
 	        }
 	 
-	        if (!Input.GetMouseButton(0)) return;
+	        if (!Input.GetMouseButton(1)) return;
 	 		
-			//Debug.Log("mouse: ("+Input.mousePosition.x+","+Input.mousePosition.y+")");
+			//Position map
 	        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition) - dragOrigin;
-			//Debug.Log("pos: ("+pos.x+","+pos.y+")");
 	        Vector3 newPos = new Vector3((pos.x) +mapOrigin.x, pos.y +mapOrigin.y,GridRPG.Map.layer);
-			
-			//Debug.Log("newpos: (" + move.x + ","+move.y+")");
-	 		
-			transform.position = newPos; 
-	        //transform.Translate(move, UnityEngine.Space.World);  
-			//dragOrigin = Input.mousePosition;
-	    }
+			transform.position = newPos;
+
+            
+            //transform.localScale = new Vector3(transform.localScale.x * (float)Math.Pow(2,scroll), transform.localScale.y * (float)Math.Pow(2, scroll), transform.localScale.z * (float)Math.Pow(2, scroll));
+
+        }
 	}
 }
 
