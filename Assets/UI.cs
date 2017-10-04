@@ -8,7 +8,7 @@ namespace GridRPG
     public class UI
     {
         private const string FRAME_FILE_BLUE = "Sprites/GUI/BlueBox";
-        private const string FONT_FILE = "Fonts/VCR_OSD_MONO_1.001";
+        private const string FONT_FILE = "Fonts/PressStart2P";
         private const float FRAME_SPRITE_SIZE = 32f;
         private const float UI_SCALE = 1; //Changing this value causes ui to overlap and not display properly.
        
@@ -16,7 +16,7 @@ namespace GridRPG
         private const int BUTTON_SIZE_X = 200;
         private const int BUTTON_SIZE_Y = 50;
         private const int BUTTON_SPACING_Y = 3; //vertical space between each button
-        private const int BUTTON_FONT_SIZE = 25;
+        private const int BUTTON_FONT_SIZE = 24;
 
         //Unit frame parameters.
         //  Displays at top left of the screen.
@@ -25,7 +25,7 @@ namespace GridRPG
         private const float UNITFRAME_WIDTH = 400f;
         private const float UNITFRAME_MAX_WIDTH = 0.25f; //% of screen width
         private const float UNITFRAME_HEIGHT = 600f;
-        private const int UNITFRAME_NAME_FONT_SIZE = 20;
+        private const int UNITFRAME_NAME_FONT_SIZE = 16;
 
         //Message Frame parameters.
         //  Displays at the bottom center of the screen.
@@ -146,6 +146,16 @@ namespace GridRPG
             Text nameText = unitFrame.unitName.GetComponent<Text>();
             nameText.text = unit.name;
             trimText(unitFrame.unitName);
+
+            //TODO: Finish
+        }
+
+        /// <summary>
+        /// !!!!Destroys the UI gameobjects!!!!
+        /// </summary>
+        public void destroy()
+        {
+            GameObject.Destroy(canvas);
         }
 
         private void setMapUIVisibility(bool active)

@@ -83,7 +83,6 @@
     <Compile Include="Assets\EventCondition.cs" />
     <Compile Include="Assets\Game.cs" />
     <Compile Include="Assets\GameScript.cs" />
-    <Compile Include="Assets\MainMenu.cs" />
     <Compile Include="Assets\Map.cs" />
     <Compile Include="Assets\MapControl.cs" />
     <Compile Include="Assets\MapLibrary.cs" />
@@ -95,7 +94,6 @@
     <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelSnap.cs" />
     <Compile Include="Assets\PixelPerfectCamera\Scripts\Scroller.cs" />
     <Compile Include="Assets\Space.cs" />
-    <Compile Include="Assets\SpriteFix.cs" />
     <Compile Include="Assets\Terrain.cs" />
     <Compile Include="Assets\UI.cs" />
     <Compile Include="Assets\Unit.cs" />

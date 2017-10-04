@@ -9,12 +9,12 @@ public class GameScript : MonoBehaviour {
 	
     public GridRPG.Game game;
 
-    private GridRPG.MainMenu mainMenu;
+    //private GridRPG.MainMenu mainMenu;
 
     // Use this for initialization
     void Start () {
-        //Lock resolution at 720p
-        Screen.SetResolution(1280, 720, true);
+        //Set resolution to 480p-windowed
+        Screen.SetResolution(640, 480, false);
 
         game = new GridRPG.Game();
 
@@ -25,8 +25,13 @@ public class GameScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Q)){
+		if(Input.GetKeyDown(KeyCode.Q))
+        {
             game.ui.Mode = GridRPG.UI.Modes.Main;
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
     }
 	

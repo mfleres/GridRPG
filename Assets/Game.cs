@@ -17,6 +17,12 @@ namespace GridRPG
         public GridRPG.UI ui;
         public GridRPG.Map map;
 
+        /// <summary>
+        /// Supports the following resolutions:
+        /// "640x480"/"480p"
+        /// </summary>
+        private Vector2 resolution;
+
         private Modes mode;
 
         public Game()
@@ -27,7 +33,7 @@ namespace GridRPG
             mapLibrary.loadMapList(MAP_LIST_FILE);
             ui = new UI(this);
         }
-        //.
+
         /// <summary>
         /// Reloads the UI.
         /// </summary>
@@ -36,9 +42,26 @@ namespace GridRPG
         /// </remarks>
         private void reloadUI()
         {
+            Debug.Log("Reloading UI.");
             UI.Modes oldMode = ui.Mode;
+            ui.destroy();
+            ui = new UI(this);
+        }
 
-            //TODO: Finish coding.
+        /// <summary>
+        /// Updates the resolution and reloads the UI.
+        /// </summary>
+        /// <param name="resolution">A string in the format "WIDTHxHEIGHT".</param>
+        /// <seealso cref="Game.resolution"/>
+        public void updateResolution(string resolution)
+        {
+            switch(resolution)
+            {
+                case "640x480":
+                case "480p":
+                    resolution = "480p";
+                    break;
+            }
         }
     }
 }
