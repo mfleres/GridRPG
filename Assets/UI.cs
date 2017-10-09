@@ -13,21 +13,11 @@ namespace GridRPG
         private const float FRAME_SPRITE_SIZE = 32f;
         private const float UI_SCALE = 1; //Changing this value causes ui to overlap and not display properly.
        
-        //Main menu button parameters
+        //Main menu button parameters for wide 480p
         private const int BUTTON_SIZE_X = 200;
         private const int BUTTON_SIZE_Y = 50;
         private const int BUTTON_SPACING_Y = 3; //vertical space between each button
         private const int BUTTON_FONT_SIZE = 24;
-
-        //Unit frame parameters for wide 480p.
-        //  Displays at top left of the screen.
-        //  Should not extend below the top of the message frame.
-        private const float UNITFRAME_POS_X = -300f;
-        private const float UNITFRAME_POS_Y = 48f;
-        private const float UNITFRAME_WIDTH = 210f;
-        //private const float UNITFRAME_MAX_WIDTH = 0.25f; //% of screen width
-        private const float UNITFRAME_HEIGHT = 360f;
-        private const int UNITFRAME_NAME_FONT_SIZE = 16;
 
         //Message Frame parameters.
         //  Displays at the bottom center of the screen.
@@ -46,7 +36,11 @@ namespace GridRPG
         private GameObject canvas;
 
         //Main Menu
-        private GameObject mapSelectButton;
+        private struct MainMenuStruct
+        {
+            public GameObject mapSelectButton;
+        }
+        MainMenuStruct mainMenu;
 
         //Map List
         private GameObject mapList;
@@ -76,8 +70,7 @@ namespace GridRPG
             coreCanvas.pixelPerfect = true;
 
             //Setup main menu
-            mapSelectButton = UI.generateUITextButton("Map Select Button", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), new Rect(0, 0, BUTTON_SIZE_X, BUTTON_SIZE_Y), canvas.transform, (delegate { Mode = Modes.MapList; }), "Select Map", BUTTON_FONT_SIZE, Color.white);
-            
+            setupMainMenu();
 
             //Setup mapList controller
             mapList = new GameObject("Map List");
@@ -169,7 +162,7 @@ namespace GridRPG
 
         private void setMainMenuVisibility(bool active)
         {
-            mapSelectButton.SetActive(active);
+            mainMenu.mapSelectButton.SetActive(active);
         }
 
         private void setMapListVisibility(bool active)
@@ -228,6 +221,30 @@ namespace GridRPG
         }
 
         /// <summary>
+        /// Setup the main menu.
+        /// </summary>
+        private void setupMainMenu()
+        {
+            float button_size_x, button_size_y;
+            int button_font_size;
+
+            //Set resolution parameters
+            if (true || game.resolution.x == 853f && game.resolution.y == 480f)
+            {   //wide 480p or unsupported
+                if (game.resolution.x != 853f || game.resolution.y != 480f)
+                {   //unsupported warning
+                    Debug.Log("Unit Frame: Unsupported resolution " + game.resolution.x + "x" + game.resolution.y);
+                }
+
+                button_font_size = 24;
+                button_size_x = 300f;
+                button_size_y = 50f;
+            }
+
+            mainMenu.mapSelectButton = UI.generateUITextButton("Map Select Button", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), new Rect(0, 0, button_size_x, button_size_y), canvas.transform, (delegate { Mode = Modes.MapList; }), "Select Map", button_font_size, Color.white);
+        }
+
+        /// <summary>
         /// Setup the message frame within the screen boundaries
         /// </summary>
         private void setupMessageFrame()
@@ -270,74 +287,42 @@ namespace GridRPG
         private void setupUnitFrame()
         {
             float frame_width, frame_height, frame_pos_x, frame_pos_y;
-            Vector2 messageFrameSize;
+            float line_length, line_pos_y;
+            float unitFrameUnitNameWidth, unitFrameUnitNameSize, unitFrameUnitNamePosX, unitFrameUnitNamePosY;
 
-            if (messageFrame)
-            {   //use message frame dimensions.
-                RectTransform messageFrameRect = messageFrame.GetComponent<RectTransform>();
-                messageFrameSize = messageFrameRect.sizeDelta;
-            }
-            else
-            {   //assume message frame is 0.
-                messageFrameSize = new Vector2(0, 0);
-            }
-
-            //Setup frame
+            //Set resolution parameters
             if(true || game.resolution.x==853f && game.resolution.y == 480f)
             {   //wide 480p or unsupported
-                frame_width = UNITFRAME_WIDTH;
-                frame_height = UNITFRAME_HEIGHT;
-                frame_pos_x = UNITFRAME_POS_X;
-                frame_pos_y = UNITFRAME_POS_Y;
-            }
+                if (game.resolution.x != 853f || game.resolution.y != 480f)
+                {   //unsupported warning
+                    Debug.Log("Unit Frame: Unsupported resolution " + game.resolution.x + "x" + game.resolution.y);
+                }
 
-            /*//Setup frame width.
-            if (UNITFRAME_WIDTH > Screen.width * UNITFRAME_MAX_WIDTH)
-            {
-                frame_width = Screen.width * UNITFRAME_MAX_WIDTH;
-            }
-            else
-            {
-                frame_width = UNITFRAME_WIDTH;
-            }
-            //Setup frame height.
-            if (UNITFRAME_HEIGHT > Screen.height - messageFrameSize.y - MESSAGE_FRAME_SPACING - UNITFRAME_SPACING*2)
-            {
-                frame_height = Screen.height - messageFrameSize.y - MESSAGE_FRAME_SPACING - UNITFRAME_SPACING * 2;
-            }
-            else
-            {
-                frame_height = UNITFRAME_HEIGHT;
-            }
+                frame_width = 210f;
+                frame_height = 360f;
+                frame_pos_x = -300f;
+                frame_pos_y = 48f;
+                
+                unitFrameUnitNameWidth = frame_width;
+                unitFrameUnitNameSize = 16f;
+                unitFrameUnitNamePosX = 0;
+                unitFrameUnitNamePosY = 164f;
 
-            //Setup frame positioning.
-            frame_pos_x = -Screen.width / 2.0f + UNITFRAME_SPACING + frame_width / 2.0f;
-            frame_pos_y = Screen.height / 2.0f - UNITFRAME_SPACING - frame_height / 2.0f;*/
+                line_length = 200f;
+                line_pos_y = unitFrameUnitNamePosY - 16;
+            }
 
             //Generate frame.
             Rect unitFrameDimensions = new Rect(frame_pos_x, frame_pos_y, frame_width, frame_height);
             unitFrame.frame = UI.generateUIFrame("Unit Frame", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), unitFrameDimensions, canvas.transform);
 
             //Add Unit Name Text frame.
-            float unitFrameUnitNameWidth = frame_width;
-            float unitFrameUnitNameHeight = UNITFRAME_NAME_FONT_SIZE;
-            float unitFrameUnitNamePosX = 0;
-            float unitFrameUnitNamePosY = UNITFRAME_HEIGHT / 2.0f - 8f - unitFrameUnitNameHeight / 2.0f;
-            Rect unitFrameUnitNameDims = new Rect(unitFrameUnitNamePosX, unitFrameUnitNamePosY, unitFrameUnitNameWidth, unitFrameUnitNameHeight);
+            Rect unitFrameUnitNameDims = new Rect(unitFrameUnitNamePosX, unitFrameUnitNamePosY, unitFrameUnitNameWidth, unitFrameUnitNameSize);
+            unitFrame.unitName = UI.generateUIText("UnitName", unitFrame.frame.transform, "", (int)unitFrameUnitNameSize, Color.white, unitFrameUnitNameDims);
 
-            unitFrame.unitName = UI.generateUIText("UnitName", unitFrame.frame.transform, "", UNITFRAME_NAME_FONT_SIZE, Color.white, unitFrameUnitNameDims);
-
-            //White Line underneath unit name.
-            if (true || game.resolution.x == 853f && game.resolution.y == 480f)
-            {   //480p
-                Vector2 linePosition = new Vector2(0, unitFrameUnitNamePosY - 16);
-                unitFrame.line1 = generateUILine("Line 1", WHITE_TEX, new Vector2(0, 0), new Vector2(2, 1), linePosition, 140f, true, unitFrame.frame.transform);
-
-                if (game.resolution.x != 853f || game.resolution.y != 480f)
-                {   //unsupported warning
-                    Debug.Log("Unit Frame: Unsupported resolution " + game.resolution.x + "x" + game.resolution.y);
-                }
-            }
+            //Line underneath unit name
+            Vector2 linePosition = new Vector2(0, line_pos_y);
+            unitFrame.line1 = generateUILine("Line 1", WHITE_TEX, new Vector2(0, 0), new Vector2(2, 1), linePosition, line_length, true, unitFrame.frame.transform);
         }
 
         /// <summary>
