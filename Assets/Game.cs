@@ -19,14 +19,15 @@ namespace GridRPG
 
         /// <summary>
         /// Supports the following resolutions:
-        /// "640x480"/"480p"
+        /// 853x480(wide 480p),
         /// </summary>
-        private Vector2 resolution;
+        public Vector2 resolution { get; private set; }
 
         private Modes mode;
 
         public Game()
         {
+            resolution= new Vector2(Screen.currentResolution.width,Screen.currentResolution.height);
             unitLibrary = new GridRPG.UnitLibrary();
             unitLibrary.loadCampaignUnitList(CAMPAIGN_UNIT_LIST_FILE);
             mapLibrary = new GridRPG.MapLibrary(unitLibrary);
@@ -57,9 +58,10 @@ namespace GridRPG
         {
             switch(resolution)
             {
-                case "640x480":
-                case "480p":
-                    resolution = "480p";
+                case "853x480":
+                case "wide 480p":
+                    this.resolution = new Vector2(853f,480f);
+                    reloadUI();
                     break;
             }
         }

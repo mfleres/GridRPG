@@ -8,6 +8,7 @@ namespace GridRPG
     public class UI
     {
         private const string FRAME_FILE_BLUE = "Sprites/GUI/BlueBox";
+        private const string WHITE_TEX = "Sprites/GUI/White";
         private const string FONT_FILE = "Fonts/PressStart2P";
         private const float FRAME_SPRITE_SIZE = 32f;
         private const float UI_SCALE = 1; //Changing this value causes ui to overlap and not display properly.
@@ -18,13 +19,14 @@ namespace GridRPG
         private const int BUTTON_SPACING_Y = 3; //vertical space between each button
         private const int BUTTON_FONT_SIZE = 24;
 
-        //Unit frame parameters.
+        //Unit frame parameters for wide 480p.
         //  Displays at top left of the screen.
-        //  Will not extend below the top of the message frame.
-        private const float UNITFRAME_SPACING = 6.0f;
-        private const float UNITFRAME_WIDTH = 400f;
-        private const float UNITFRAME_MAX_WIDTH = 0.25f; //% of screen width
-        private const float UNITFRAME_HEIGHT = 600f;
+        //  Should not extend below the top of the message frame.
+        private const float UNITFRAME_POS_X = -300f;
+        private const float UNITFRAME_POS_Y = 48f;
+        private const float UNITFRAME_WIDTH = 210f;
+        //private const float UNITFRAME_MAX_WIDTH = 0.25f; //% of screen width
+        private const float UNITFRAME_HEIGHT = 360f;
         private const int UNITFRAME_NAME_FONT_SIZE = 16;
 
         //Message Frame parameters.
@@ -55,6 +57,7 @@ namespace GridRPG
         {
             public GameObject frame;
             public GameObject unitName;
+            public GameObject line1;
         }
         private UnitFrameStruct unitFrame;
         //Message frame
@@ -279,7 +282,16 @@ namespace GridRPG
                 messageFrameSize = new Vector2(0, 0);
             }
 
-            //Setup frame width.
+            //Setup frame
+            if(true || game.resolution.x==853f && game.resolution.y == 480f)
+            {   //wide 480p or unsupported
+                frame_width = UNITFRAME_WIDTH;
+                frame_height = UNITFRAME_HEIGHT;
+                frame_pos_x = UNITFRAME_POS_X;
+                frame_pos_y = UNITFRAME_POS_Y;
+            }
+
+            /*//Setup frame width.
             if (UNITFRAME_WIDTH > Screen.width * UNITFRAME_MAX_WIDTH)
             {
                 frame_width = Screen.width * UNITFRAME_MAX_WIDTH;
@@ -288,7 +300,6 @@ namespace GridRPG
             {
                 frame_width = UNITFRAME_WIDTH;
             }
-
             //Setup frame height.
             if (UNITFRAME_HEIGHT > Screen.height - messageFrameSize.y - MESSAGE_FRAME_SPACING - UNITFRAME_SPACING*2)
             {
@@ -301,7 +312,7 @@ namespace GridRPG
 
             //Setup frame positioning.
             frame_pos_x = -Screen.width / 2.0f + UNITFRAME_SPACING + frame_width / 2.0f;
-            frame_pos_y = Screen.height / 2.0f - UNITFRAME_SPACING - frame_height / 2.0f;
+            frame_pos_y = Screen.height / 2.0f - UNITFRAME_SPACING - frame_height / 2.0f;*/
 
             //Generate frame.
             Rect unitFrameDimensions = new Rect(frame_pos_x, frame_pos_y, frame_width, frame_height);
@@ -311,10 +322,22 @@ namespace GridRPG
             float unitFrameUnitNameWidth = frame_width;
             float unitFrameUnitNameHeight = UNITFRAME_NAME_FONT_SIZE;
             float unitFrameUnitNamePosX = 0;
-            float unitFrameUnitNamePosY = frame_height / 2.0f - UNITFRAME_SPACING - unitFrameUnitNameHeight / 2.0f;
+            float unitFrameUnitNamePosY = UNITFRAME_HEIGHT / 2.0f - 8f - unitFrameUnitNameHeight / 2.0f;
             Rect unitFrameUnitNameDims = new Rect(unitFrameUnitNamePosX, unitFrameUnitNamePosY, unitFrameUnitNameWidth, unitFrameUnitNameHeight);
 
             unitFrame.unitName = UI.generateUIText("UnitName", unitFrame.frame.transform, "", UNITFRAME_NAME_FONT_SIZE, Color.white, unitFrameUnitNameDims);
+
+            //White Line underneath unit name.
+            if (true || game.resolution.x == 853f && game.resolution.y == 480f)
+            {   //480p
+                Vector2 linePosition = new Vector2(0, unitFrameUnitNamePosY - 16);
+                unitFrame.line1 = generateUILine("Line 1", WHITE_TEX, new Vector2(0, 0), new Vector2(2, 1), linePosition, 140f, true, unitFrame.frame.transform);
+
+                if (game.resolution.x != 853f || game.resolution.y != 480f)
+                {   //unsupported warning
+                    Debug.Log("Unit Frame: Unsupported resolution " + game.resolution.x + "x" + game.resolution.y);
+                }
+            }
         }
 
         /// <summary>
@@ -482,6 +505,37 @@ namespace GridRPG
             }
 
             return ret;
+        }
+
+        /// <summary>
+        /// Generates a line
+        /// </summary>
+        /// <param name="name">Name of the line.</param>
+        /// <param name="spriteFile">File to load sprite from.</param>
+        /// <param name="spriteCoords">Coordinates of the sprite in the file.</param>
+        /// <param name="border">Width of the 2 sides of the line.</param>
+        /// <param name="position">Position of the line.</param>
+        /// <param name="length">length of the line</param>
+        /// <param name="direction">Direction of the line. (Horizontal=true, Vertical=false)</param>
+        /// <param name="parent">Parent UI frame.</param>
+        /// <returns></returns>
+        public static GameObject generateUILine(string name, string spriteFile, Vector2 spriteCoords, Vector2 border, Vector2 position, float length, bool direction, Transform parent)
+        {
+            Vector4 lineBorder;
+            Rect lineRect;
+
+            if (direction)
+            {   //Horizontal
+                lineBorder = new Vector4(0, border.x, 0, border.y);
+                lineRect = new Rect(position, new Vector2(length,border.x + border.y));
+            }
+            else
+            {   //Vertical
+                lineBorder = new Vector4(border.x, 0, border.y, 0);
+                lineRect = new Rect(position, new Vector2(border.x + border.y, length));
+            }
+
+            return generateUIFrame(name, spriteFile, spriteCoords, lineBorder, lineRect, parent);
         }
 
         private static void trimText(GameObject textObject)

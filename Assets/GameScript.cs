@@ -13,8 +13,8 @@ public class GameScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        //Set resolution to 480p-windowed
-        Screen.SetResolution(640, 480, false);
+        //Set resolution to wide 480p-windowed
+        Screen.SetResolution(853, 480, false);
 
         game = new GridRPG.Game();
 
