@@ -363,6 +363,9 @@ namespace GridRPG
             }
 
             this.name = source.name;
+            this.stats = source.stats;
+            this.resistance = source.resistance;
+            this.damage = source.damage;
             this.mobility = source.mobility;
             this.space = null;
             GameObject.Destroy(this.core);
@@ -398,11 +401,176 @@ namespace GridRPG
             this.space = space;
 			this.space.addUnit(this);
 			
-			core.transform.SetParent(space.core.transform);
+			core.transform.SetParent(space.gameObject.transform);
 			this.core.transform.localPosition = new Vector3(0,0,-2);
 			Debug.Log(core.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit);
 			return this.space;
 		}
+
+        public override uint getHP()
+        {
+            return stats.HP;
+        }
+
+        public override uint getMaxHP()
+        {
+            return stats.maxHP;
+        }
+    }
+
+    public class NPCUnit : Unit
+    {
+        public NPCUnit(string filename)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(filename);
+
+            XmlNode unitNode = xmlDoc.DocumentElement.SelectSingleNode("/unit");
+            if (unitNode != null)
+            {
+                this.name = unitNode.Attributes["name"]?.Value ?? "Unknown";
+                this.core.name = this.name;
+
+                //SPRITE
+                XmlNode spriteNode = unitNode.SelectSingleNode("sprite");
+                if (spriteNode != null)
+                {
+                    SpriteRenderer spriteRenderer = this.core.GetComponent<SpriteRenderer>();
+                    Texture2D spriteSheet;
+                    float xOffset;
+                    float yOffset;
+                    try
+                    {
+                        spriteSheet = Resources.Load<Texture2D>(spriteNode.Attributes["file"]?.Value);
+                        xOffset = float.Parse(spriteNode.Attributes["XOffset"]?.Value);
+                        yOffset = float.Parse(spriteNode.Attributes["YOffset"]?.Value);
+                        spriteRenderer = this.core.GetComponent<SpriteRenderer>();
+                        spriteRenderer.sprite = Sprite.Create(spriteSheet, new Rect(0f, 0f, UNIT_SPRITE_SIZE, UNIT_SPRITE_SIZE), new Vector2(0.5f, 0.5f));
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        spriteSheet = Resources.Load<Texture2D>(test_unit_filepath);
+                        spriteRenderer.sprite = Sprite.Create(spriteSheet, new Rect(0f, 0f, UNIT_SPRITE_SIZE, UNIT_SPRITE_SIZE), new Vector2(0.5f, 0.5f));
+                    }
+                }
+                else
+                {
+                    //Default sprite
+                }
+
+                //STATS
+                XmlNode statsNode = unitNode.SelectSingleNode("stats");
+                if (statsNode != null)
+                {
+                    try
+                    {
+                        uint maxHP = uint.Parse(statsNode.SelectSingleNode("maxHP")?.InnerText);
+                        uint HP = uint.Parse(statsNode.SelectSingleNode("HP")?.InnerText);
+                        uint maxMP = uint.Parse(statsNode.SelectSingleNode("maxMP")?.InnerText);
+                        uint MP = uint.Parse(statsNode.SelectSingleNode("MP")?.InnerText);
+                        uint constitution = uint.Parse(statsNode.SelectSingleNode("constitution")?.InnerText);
+                        uint strength = uint.Parse(statsNode.SelectSingleNode("strength")?.InnerText);
+                        uint dexterity = uint.Parse(statsNode.SelectSingleNode("dexterity")?.InnerText);
+                        uint intellect = uint.Parse(statsNode.SelectSingleNode("intellect")?.InnerText);
+                        uint charisma = uint.Parse(statsNode.SelectSingleNode("charisma")?.InnerText);
+                        uint agility = uint.Parse(statsNode.SelectSingleNode("agility")?.InnerText);
+
+                        this.stats = new Stats_S(maxHP, HP, maxMP, MP, constitution, strength, dexterity, intellect, charisma, agility);
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        this.stats = new Stats_S(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                    }
+                }
+                else
+                {
+                    this.stats = new Stats_S(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                }
+
+                //RESISTANCES
+                XmlNode resistNode = unitNode.SelectSingleNode("resistance");
+                if (resistNode == null) Debug.Log("RESISTANCE NODE NOT FOUND");
+                resistance = ElementalMods.loadAllModifiers(resistNode);
+
+                //DAMAGE
+                XmlNode damageNode = unitNode.SelectSingleNode("damage");
+                damage = ElementalMods.loadAllModifiers(damageNode);
+
+                //MOBILITY
+                XmlNode mobilitiesNode = unitNode.SelectSingleNode("mobilities");
+                XmlNodeList mobililyNodeList = mobilitiesNode.SelectNodes("mobility");
+                for (int i = 0; i < mobililyNodeList.Count; i++)
+                {
+                    try
+                    {
+                        string type = mobililyNodeList[i].Attributes["type"]?.Value;
+                        float modifier = float.Parse(mobililyNodeList[i].Attributes["modifier"]?.Value);
+                        mobility.Add(new KeyValuePair<string, float>(type, modifier));
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        Debug.Log("ERROR: Improper mobility XML.");
+                    }
+                }
+            }
+            else
+            {
+                throw new ArgumentException("<unit> node not found in xml file.", "filename");
+            }
+        }
+
+        public NPCUnit(NPCUnit source)
+        {
+            bool source_active = source.core.activeSelf;
+
+            if (!source_active)
+            {
+                source.core.SetActive(true);
+            }
+
+            this.name = source.name;
+            this.stats = source.stats;
+            this.resistance = source.resistance;
+            this.damage = source.damage;
+            this.mobility = source.mobility;
+            this.space = null;
+            GameObject.Destroy(this.core);
+            this.core = GameObject.Instantiate(source.core);
+            this.core.name = source.core.name;
+
+            if (!source_active)
+            {
+                source.core.SetActive(false);
+            }
+        }
+
+        public override GridRPG.Space warpToSpace(GridRPG.Space space)
+        {
+            if (this.space != null)
+            {
+                this.space.removeUnit(this);
+            }
+            else
+            {
+                Debug.Log("Activating " + this.name);
+            }
+
+            if (space == null)
+            {
+                Debug.Log("Space doesnt exist. Deactivating " + this.name);
+                core.SetActive(false);
+                return null;
+            }
+
+            core.SetActive(true);
+            this.space = space;
+            this.space.addUnit(this);
+
+            core.transform.SetParent(space.gameObject.transform);
+            this.core.transform.localPosition = new Vector3(0, 0, -2);
+            Debug.Log(core.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit);
+            return this.space;
+        }
 
         public override uint getHP()
         {

@@ -63,7 +63,7 @@ namespace GridRPG
         {
             this.game = game;
 
-            //Game.selectEvent += updateUnitFrame;
+            Space.selectEvent += updateUnitFrame;
 
             //Setup main canvas
             this.canvas = new GameObject("UI Canvas");
@@ -133,7 +133,7 @@ namespace GridRPG
                         setMapListVisibility(false);
                         setMapUIVisibility(true);
 
-                        updateUnitFrame(game.unitLibrary.getUnit(1, "campaign")); //TEMP
+                        updateUnitFrame(null); //clear unit frame
 
                         mode = value;
                         break;
@@ -143,16 +143,31 @@ namespace GridRPG
 
         public void updateUnitFrame(Unit unit)
         {
-            //Update Name
-            Text nameText = unitFrame.unitName.GetComponent<Text>();
-            nameText.text = unit.name;
-            trimText(unitFrame.unitName);
+            if (unit != null)
+            {
+                //Update Name
+                Text nameText = unitFrame.unitName.GetComponent<Text>();
+                nameText.text = unit.name;
+                trimText(unitFrame.unitName);
 
-            //Update HP
-            Text hpText = unitFrame.hpText.GetComponent<Text>();
-            hpText.text = unit.getHP().ToString() + " / " + unit.getMaxHP().ToString();
+                //Update HP
+                Text hpText = unitFrame.hpText.GetComponent<Text>();
+                hpText.text = unit.getHP().ToString() + " / " + unit.getMaxHP().ToString();
 
-            //TODO: Finish
+                //TODO: Finish
+            }
+            else
+            {
+                //Update Name
+                Text nameText = unitFrame.unitName.GetComponent<Text>();
+                nameText.text = "";
+
+                //Update HP
+                Text hpText = unitFrame.hpText.GetComponent<Text>();
+                hpText.text = " / ";
+
+                //TODO: Finish
+            }
         }
 
         /// <summary>

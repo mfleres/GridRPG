@@ -25,7 +25,7 @@ namespace GridRPG
 		
 		//private List<GridRPG.Terrain> _terrainList;
 		//private GameObject[,] _spaceObjects;
-		private GridRPG.Space[,] _spaceObjects;
+		private GameObject[,] _spaceObjects;
 		private int mapWidth;
 		private int mapLength;
 		private List<EventCondition> _eventConditions;
@@ -34,7 +34,7 @@ namespace GridRPG
 
 		public Map()
 		{
-			_spaceObjects = new GridRPG.Space[0,0];
+			_spaceObjects = new GameObject[0,0];
 			mapWidth = 0;
 			mapLength = 0;
 			_eventConditions = new List<EventCondition>();
@@ -66,7 +66,7 @@ namespace GridRPG
 				mapLength = 0;
 				Int32.TryParse(mapNode.Attributes["width"].Value,out mapWidth);
 				Int32.TryParse(mapNode.Attributes["length"].Value,out mapLength);
-				_spaceObjects = new GridRPG.Space[mapWidth,mapLength];
+				_spaceObjects = new GameObject[mapWidth,mapLength];
 				
 				//init custom terrains
 				XmlNode terrainListNode = mapNode.SelectSingleNode("terrainList");
@@ -102,10 +102,10 @@ namespace GridRPG
 						if(spaceNode.Attributes["terrain"] != null)
 						{
 							//_spaceObjects[y,x] = GridRPG.Space.generateGameObject("("+x.ToString()+","+y.ToString()+")",new Terrain(spaceNode.Attributes["terrain"].Value));
-							_spaceObjects[y,x] = new GridRPG.Space("("+x.ToString()+","+y.ToString()+")",new Terrain(spaceNode.Attributes["terrain"].Value));
+							_spaceObjects[y,x] = Space.newSpace("("+x.ToString()+","+y.ToString()+")",new Terrain(spaceNode.Attributes["terrain"].Value));
 
-							_spaceObjects[y,x].core.GetComponent<Transform>().localPosition = new Vector3(x*(Terrain.terrain_dim)/100f,y*(Terrain.terrain_dim)/100f,layer);
-							_spaceObjects[y,x].core.transform.SetParent(mapParent.transform);
+							_spaceObjects[y,x].GetComponent<Transform>().localPosition = new Vector3(x*(Terrain.terrain_dim)/100f,y*(Terrain.terrain_dim)/100f,layer);
+							_spaceObjects[y,x].transform.SetParent(mapParent.transform);
                             
 
 
@@ -114,20 +114,30 @@ namespace GridRPG
                             //Make the object a void
                             //_spaceObjects[y,x] = GridRPG.Space.generateGameObject("MapA:("+x.ToString()+","+y.ToString()+")");
                             Debug.Log("Map File Error: Space (" + x + "," + y + ") Missing terrain attribute");
-							_spaceObjects[y,x] = new GridRPG.Space("MapA:("+x.ToString()+","+y.ToString()+")");
-                            _spaceObjects[y, x].core.GetComponent<Transform>().localPosition = new Vector3(x * (Terrain.terrain_dim) / 100f, y * (Terrain.terrain_dim) / 100f, layer);
-                            _spaceObjects[y,x].core.transform.SetParent(mapParent.transform);
+							_spaceObjects[y,x] = Space.newSpace("MapA:("+x.ToString()+","+y.ToString()+")");
+                            _spaceObjects[y, x].GetComponent<Transform>().localPosition = new Vector3(x * (Terrain.terrain_dim) / 100f, y * (Terrain.terrain_dim) / 100f, layer);
+                            _spaceObjects[y,x].transform.SetParent(mapParent.transform);
 						}
 
                         XmlNode unitNode = spaceNode.SelectSingleNode("unit");
                         if(unitNode?.Attributes["type"] != null)
                         {
+                            //Debug.Log("Adding unit to map...");
                             if (unitNode.Attributes["type"].Value == "campaign" && unitNode.Attributes["idnum"] != null)
                             {
                                 int unitID = 0;
                                 Int32.TryParse(unitNode.Attributes["idnum"].Value, out unitID);
-
+                                //Debug.Log("Adding CUnit of id: " + unitID);
+                                //Debug.Log("addUnitToSpace(new CampaignUnit(" + (unitLibrary.campaignUnits[unitID]?.name ?? "BAD UNIT") + "),x,y)");
                                 addUnitToSpace(new CampaignUnit(unitLibrary.campaignUnits[unitID]),x,y);
+                            }
+                            else if (unitNode.Attributes["type"].Value == "npc" && unitNode.Attributes["idnum"] != null)
+                            {
+                                int unitID = 0;
+                                Int32.TryParse(unitNode.Attributes["idnum"].Value, out unitID);
+                                //Debug.Log("Adding CUnit of id: " + unitID);
+                                //Debug.Log("addUnitToSpace(new CampaignUnit(" + (unitLibrary.campaignUnits[unitID]?.name ?? "BAD UNIT") + "),x,y)");
+                                addUnitToSpace(new NPCUnit(unitLibrary.unitLibrary[unitID]), x, y);
                             }
                         }
 					}
@@ -137,7 +147,7 @@ namespace GridRPG
 			else //No mapNode in xml
 			{
 				//fill with defaults
-				_spaceObjects = new GridRPG.Space[0,0];
+				_spaceObjects = new GameObject[0,0];
 				mapWidth = 0;
 				mapLength = 0;
 				_eventConditions = new List<EventCondition>();
@@ -148,7 +158,7 @@ namespace GridRPG
 		
 		public void addUnitToSpace(Unit unit, int x, int y)
 		{
-			unit.warpToSpace(_spaceObjects[y,x]);
+			unit.warpToSpace(_spaceObjects[y,x].GetComponent<Space>());
 		}
 		
 		/// <summary>

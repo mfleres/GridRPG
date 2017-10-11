@@ -11,6 +11,7 @@ namespace GridRPG
     {
         private const string MAP_LIST_FILE = "Assets/Resources/MapList.txt";
         private const string CAMPAIGN_UNIT_LIST_FILE = "Assets/Resources/CampaignUnitList.csv";
+        private const string UNIT_LIST_FILE = "Assets/Resources/UnitList.csv";
         public enum Modes { MainMenu, Map };
 
         public GridRPG.UnitLibrary unitLibrary;
@@ -33,6 +34,7 @@ namespace GridRPG
             resolution= new Vector2(Screen.currentResolution.width,Screen.currentResolution.height);
             unitLibrary = new GridRPG.UnitLibrary();
             unitLibrary.loadCampaignUnitList(CAMPAIGN_UNIT_LIST_FILE);
+            unitLibrary.loadUnitList(UNIT_LIST_FILE);
             mapLibrary = new GridRPG.MapLibrary(unitLibrary);
             mapLibrary.loadMapList(MAP_LIST_FILE);
             ui = new UI(this);

@@ -29,7 +29,9 @@
 			<space terrain="grass">
         <unit type="campaign" idnum="1"/>
 			</space>
-			<space terrain="grass"/>
+      <space terrain="grass">
+        <unit type="npc" idnum="1"/>
+      </space>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>

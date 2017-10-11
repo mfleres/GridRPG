@@ -19,7 +19,7 @@ namespace GridRPG
             float scroll = Input.mouseScrollDelta.y;
             if (scroll != 0)
             {
-                Debug.Log("Scroll = " + (float)Math.Pow(RESIZE_RATE, scroll));
+                //Debug.Log("Scroll = " + (float)Math.Pow(RESIZE_RATE, scroll));
                 transform.localScale = new Vector3(transform.localScale.x * (float)Math.Pow(RESIZE_RATE, scroll), transform.localScale.y * (float)Math.Pow(RESIZE_RATE, scroll), transform.localScale.z * (float)Math.Pow(RESIZE_RATE, scroll));
 
             }
