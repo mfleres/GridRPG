@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 
 namespace GridRPG
@@ -16,6 +17,8 @@ namespace GridRPG
         public GridRPG.MapLibrary mapLibrary;
         public GridRPG.UI ui;
         public GridRPG.Map map;
+
+        
 
         /// <summary>
         /// Supports the following resolutions:

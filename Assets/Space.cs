@@ -15,7 +15,7 @@ namespace GridRPG
         public const string TERRAIN_LAYER = "Terrain";
 
         private GridRPG.Terrain terrain = null;
-		private List<Unit> unitList = null;
+		private Unit unit = null;
 		public GameObject core;
 		public GameObject highlight;
 		
@@ -39,7 +39,7 @@ namespace GridRPG
 			setTerrain("void");
 			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
             core.GetComponent<SpriteRenderer>().sortingLayerName = TERRAIN_LAYER;
-            unitList = new List<Unit>();
+            unit = null;
 		}
 		public Space(string name)
 		{	
@@ -60,7 +60,7 @@ namespace GridRPG
             setTerrain("void");
 			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
             core.GetComponent<SpriteRenderer>().sortingLayerName = TERRAIN_LAYER;
-            unitList = new List<Unit>();
+            unit = null;
 		}
 		
 		public Space(string name,GridRPG.Terrain terrain)
@@ -82,7 +82,7 @@ namespace GridRPG
             setTerrain(terrain);
 			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
             core.GetComponent<SpriteRenderer>().sortingLayerName = TERRAIN_LAYER;
-            unitList = new List<Unit>();
+            unit = null;
 		}
 		
 		public void setTerrain(GridRPG.Terrain terrain)
@@ -111,39 +111,40 @@ namespace GridRPG
 		/// </param>
 		public Unit addUnit(Unit unit)
 		{
-			unitList.Add(unit);
-			return unit;
+            if (this.unit == null)
+            {
+                this.unit = unit;
+                return unit;
+            }
+            else
+            {
+                return this.unit;
+            }
 		}
+
+        public Unit removeUnit()
+        {
+            Unit ret = this.unit;
+            this.unit = null;
+            return ret;
+        }
+
+        /// <summary>
+        /// DEPRICATED
+        /// </summary>
+        /// <param name="unitName"></param>
+        /// <returns></returns>
 		public Unit removeUnit(string unitName)
 		{
-			int search = unitList.FindIndex(x => x.name == unitName);
-			
-			if (search != -1)
-			{
-				Unit ret = unitList[search];
-				unitList.RemoveAt(search);
-				return ret;
-			}
-			else
-			{
-				return null;
-			}
+            return removeUnit();
 		}
 		
+        /// <summary>
+        /// DEPRICATED
+        /// </summary>
 		public Unit removeUnit(Unit unit)
 		{
-			int search = unitList.FindIndex(x => x == unit);
-			
-			if (search != -1)
-			{
-				Unit ret = unitList[search];
-				unitList.RemoveAt(search);
-				return ret;
-			}
-			else
-			{
-				return null;
-			}
+            return removeUnit();
 		}
 		
 		public Terrain getTerrain()
@@ -151,10 +152,13 @@ namespace GridRPG
 			return this.terrain;	
 		}
 		
+        /// <summary>
+        /// DEPRICATED
+        /// </summary>
 		public List<Unit> UnitList
 		{
 			get{
-				return this.unitList;
+                return null;
 			}
 		}
 	}
@@ -169,6 +173,9 @@ namespace GridRPG
         public BoxCollider2D collide;
         public Sprite black_box;
         public Sprite yellow_box;
+
+        public delegate void SelectEvent(Unit unit);
+        public static event SelectEvent selectEvent;
 
         private void Start()
         {
@@ -188,6 +195,15 @@ namespace GridRPG
         private void OnMouseExit()
         {
             GetComponent<SpriteRenderer>().sprite = black_box;
+        }
+
+        private void OnMouseDown()
+        {
+            if(selectEvent != null)
+            {
+                selectEvent(null);
+                //TO FIX
+            }
         }
     }
 }

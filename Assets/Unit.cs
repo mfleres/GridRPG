@@ -19,16 +19,16 @@ namespace GridRPG
 
         protected struct Stats_S
         {
-            uint maxHP;
-            uint HP;
-            uint maxMP;
-            uint MP;
-            uint constitution;
-            uint strength;
-            uint dexterity;
-            uint intellect;
-            uint charisma;
-            uint agility;
+            public uint maxHP;
+            public uint HP;
+            public uint maxMP;
+            public uint MP;
+            public uint constitution;
+            public uint strength;
+            public uint dexterity;
+            public uint intellect;
+            public uint charisma;
+            public uint agility;
 
             public Stats_S(uint maxHP, uint HP, uint maxMP, uint MP, uint constitution, uint strength, uint dexterity, uint intellect, uint charisma, uint agility)
             {
@@ -184,6 +184,16 @@ namespace GridRPG
 		}
 		
 		public abstract GridRPG.Space warpToSpace(GridRPG.Space space);
+        /// <summary>
+        /// Gets unit's current HP.
+        /// </summary>
+        /// <returns>Current HP.</returns>
+        public abstract uint getHP();
+        /// <summary>
+        /// Gets unit's maximum HP.
+        /// </summary>
+        /// <returns>Maximum HP.</returns>
+        public abstract uint getMaxHP();
 	}
 	
 	/// <summary>
@@ -393,6 +403,16 @@ namespace GridRPG
 			Debug.Log(core.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit);
 			return this.space;
 		}
-	}
+
+        public override uint getHP()
+        {
+            return stats.HP;
+        }
+
+        public override uint getMaxHP()
+        {
+            return stats.maxHP;
+        }
+    }
 }
 

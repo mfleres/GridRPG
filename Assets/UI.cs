@@ -52,6 +52,8 @@ namespace GridRPG
             public GameObject frame;
             public GameObject unitName;
             public GameObject line1;
+            public GameObject hpTitle;
+            public GameObject hpText;
         }
         private UnitFrameStruct unitFrame;
         //Message frame
@@ -60,6 +62,8 @@ namespace GridRPG
         public UI(Game game)
         {
             this.game = game;
+
+            //Game.selectEvent += updateUnitFrame;
 
             //Setup main canvas
             this.canvas = new GameObject("UI Canvas");
@@ -139,9 +143,14 @@ namespace GridRPG
 
         public void updateUnitFrame(Unit unit)
         {
+            //Update Name
             Text nameText = unitFrame.unitName.GetComponent<Text>();
             nameText.text = unit.name;
             trimText(unitFrame.unitName);
+
+            //Update HP
+            Text hpText = unitFrame.hpText.GetComponent<Text>();
+            hpText.text = unit.getHP().ToString() + " / " + unit.getMaxHP().ToString();
 
             //TODO: Finish
         }
@@ -289,6 +298,8 @@ namespace GridRPG
             float frame_width, frame_height, frame_pos_x, frame_pos_y;
             float line_length, line_pos_y;
             float unitFrameUnitNameWidth, unitFrameUnitNameSize, unitFrameUnitNamePosX, unitFrameUnitNamePosY;
+            float hpTitle_posX, hpTitle_posY, hpTitle_size, hpTitle_width;
+            float hp_pos_x, hp_pos_y, hp_width, hp_size;
 
             //Set resolution parameters
             if(true || game.resolution.x==853f && game.resolution.y == 480f)
@@ -310,6 +321,16 @@ namespace GridRPG
 
                 line_length = 200f;
                 line_pos_y = unitFrameUnitNamePosY - 16;
+
+                hpTitle_posX = -40;
+                hpTitle_posY = line_pos_y - 15;
+                hpTitle_size = 8;
+                hpTitle_width = frame_width / 2f;
+
+                hp_pos_x = 25;
+                hp_pos_y = hpTitle_posY;
+                hp_width = frame_width / 2f;
+                hp_size = 8f;
             }
 
             //Generate frame.
@@ -323,6 +344,14 @@ namespace GridRPG
             //Line underneath unit name
             Vector2 linePosition = new Vector2(0, line_pos_y);
             unitFrame.line1 = generateUILine("Line 1", WHITE_TEX, new Vector2(0, 0), new Vector2(2, 1), linePosition, line_length, true, unitFrame.frame.transform);
+
+            //HP Title
+            Rect hpTitleRect = new Rect(hpTitle_posX, hpTitle_posY, hpTitle_width, hpTitle_size);
+            unitFrame.hpTitle = generateUIText("HP Title", unitFrame.frame.transform, "HP:", (int)hpTitle_size, Color.white, hpTitleRect);
+
+            //HP Numbers
+            Rect hpRect = new Rect(hp_pos_x, hp_pos_y, hp_width, hp_size);
+            unitFrame.hpText = generateUIText("HP Values", unitFrame.frame.transform, "/", (int)hp_size, Color.yellow, hpRect);
         }
 
         /// <summary>
