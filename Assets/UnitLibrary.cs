@@ -10,23 +10,47 @@ namespace GridRPG
     {
         private const string UNIT_FOLDER_FILEPATH = "Assets/Resources/Units/";
 
-        public List<NPCUnit> unitLibrary;
-        public List<CampaignUnit> campaignUnits;
+        public Game game;
+        public List<GameObject> unitLibrary;
+        public List<GameObject> campaignUnits;
         private GameObject core;
 
-        public UnitLibrary()
+        public UnitLibrary(Game game)
         {
-            unitLibrary = new List<NPCUnit>(0);
-            campaignUnits = new List<CampaignUnit>(0);
+            this.game = game;
+            unitLibrary = new List<GameObject>(0);
+            campaignUnits = new List<GameObject>(0);
             core = new GameObject("Unit Library");
             //Debug.Log("Capacity = " + campaignUnits.Count);
         }
 
-        public int addUnit(CampaignUnit unit, int id)
+        public int addUnit(GameObject unit, int id, string type)
         {
-            //Debug.Log(campaignUnits.Count);
-            //Debug.Log(id);
-            if(campaignUnits.Count < id + 1)
+            switch (type)
+            {
+                case "campaign":
+                    return addCampaignUnit(unit, id);
+                case "npc":
+                    return addNPCUnit(unit, id);
+            }
+            throw new ArgumentException("type not valid");
+        }
+
+        public int addCampaignUnit(GameObject unit, int id)
+        {
+            if (id < 0)
+            {
+                for (int i = 0; i < campaignUnits.Capacity; i++)
+                {
+                    if (campaignUnits[i] == null)
+                    {
+                        return addCampaignUnit(unit, i);
+                    }
+                }
+                return addCampaignUnit(unit, campaignUnits.Capacity);
+            }
+
+            if (campaignUnits.Count < id + 1)
             {
                 int oldCount = campaignUnits.Count;
                 //campaignUnits.Count = id + 1;
@@ -37,42 +61,36 @@ namespace GridRPG
             }
             else if (campaignUnits[id] != null)
             {   //destroy old unit
-                GameObject.Destroy(campaignUnits[id].core);
+                GameObject.Destroy(campaignUnits[id]);
                 campaignUnits[id] = null;
             }
             //Debug.Log("NEW COUNT = " + campaignUnits.Count);
 
-            unit.core.transform.parent = core.transform;
+            unit.transform.parent = core.transform;
             campaignUnits[id] = unit;
-            campaignUnits[id].core.SetActive(false);
+            campaignUnits[id].SetActive(false);
 
             Debug.Log("ADDED " + unit.name + " to campaignUnits with id: " + id);
             return id;
            
         }
 
-        public int addUnit(CampaignUnit unit)
+
+        public int addNPCUnit(GameObject unit, int id)
         {
-            if (unit.id == -1)
+            Debug.Log("addUnit(" + unit.name + ", " + id + ") function start");
+            if (id < 0)
             {
                 for (int i = 0; i < campaignUnits.Capacity; i++)
                 {
-                    if( campaignUnits[i] == null)
+                    if (campaignUnits[i] == null)
                     {
-                        return addUnit(unit, i);
+                        return addNPCUnit(unit, i);
                     }
                 }
-                return addUnit(unit, campaignUnits.Capacity);
+                return addNPCUnit(unit, campaignUnits.Capacity);
             }
-            else
-            {
-                return addUnit(unit, unit.id);
-            }
-        }
 
-        public int addUnit(NPCUnit unit, int id)
-        {
-            Debug.Log("addUnit(" + unit.name + ", " + id + ") function start");
             if (unitLibrary.Count < id + 1)
             {
                 
@@ -91,20 +109,20 @@ namespace GridRPG
             }
             else if (unitLibrary[id] != null)
             {   //destroy old unit
-                GameObject.Destroy(unitLibrary[id].core);
+                GameObject.Destroy(unitLibrary[id]);
                 unitLibrary[id] = null;
             }
             //Debug.Log("NEW COUNT = " + campaignUnits.Count);
 
-            unit.core.transform.parent = core.transform;
+            unit.transform.parent = core.transform;
             unitLibrary[id] = unit;
-            unitLibrary[id].core.SetActive(false);
+            unitLibrary[id].SetActive(false);
 
             Debug.Log("ADDED " + unit.name + " to unitLibrary with id: " + id);
             return id;
         }
 
-        //returns index
+        /*
         public int addUnit(Unit unit, string type)
         {
             switch(type)
@@ -127,29 +145,33 @@ namespace GridRPG
                     return addUnit((NPCUnit)unit, id);
             }
             return -1;
-        }
+        }*/
 
-        public Unit getUnit(int id, string type)
+        public GameObject getUnit(int id, string type)
         {
             switch(type)
             {
                 case "campaign":
-                    return getCampaignUnit(id);
+                    if (id < campaignUnits.Count)
+                    {
+                        return campaignUnits[id];
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                case "npc":
+                    if (id < campaignUnits.Count)
+                    {
+                        return unitLibrary[id];
+                    }
+                    else
+                    {
+                        return null;
+                    }
             }
             return null;
         } 
-
-        public CampaignUnit getCampaignUnit(int id)
-        {
-            if(id < campaignUnits.Count)
-            {
-                return campaignUnits[id];
-            }
-            else
-            {
-                return null;
-            }
-        }
 
         /// <summary>
         /// Loads the contents of the file into campaignUnits. Resets the current contents of campaignUnits.
@@ -171,7 +193,7 @@ namespace GridRPG
 
             if(reader != null)
             {
-                campaignUnits = new List<CampaignUnit>(0);
+                campaignUnits = new List<GameObject>(0);
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();
@@ -180,7 +202,7 @@ namespace GridRPG
                     int id = int.Parse(values[0]);
 
                     Debug.Log("Adding " + UNIT_FOLDER_FILEPATH + values[1]);
-                    CampaignUnit unit = loadCampaignUnit(UNIT_FOLDER_FILEPATH + values[1]);
+                    GameObject unit = loadUnit(UNIT_FOLDER_FILEPATH + values[1]);
                     Debug.Log("Created " + unit.name + " for library");
                     addUnit(unit, id, "campaign");
                 }
@@ -203,7 +225,7 @@ namespace GridRPG
 
             if (reader != null)
             {
-                unitLibrary = new List<NPCUnit>(0);
+                unitLibrary = new List<GameObject>(0);
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();
@@ -212,21 +234,20 @@ namespace GridRPG
                     int id = int.Parse(values[0]);
 
                     Debug.Log("Adding " + UNIT_FOLDER_FILEPATH + values[1]);
-                    NPCUnit unit = loadNPCUnit(UNIT_FOLDER_FILEPATH + values[1]);
+                    GameObject unit = loadUnit(UNIT_FOLDER_FILEPATH + values[1]);
                     Debug.Log("Created " + unit.name + " for library");
                     addUnit(unit, id, "npc");
                 }
             }
         }
 
-        private CampaignUnit loadCampaignUnit(string file)
+        private GameObject loadUnit(string file)
         {
-            return new CampaignUnit(file);
-        }
-
-        private NPCUnit loadNPCUnit(string file)
-        {
-            return new NPCUnit(file);
+            GameObject ret = new GameObject();
+            Unit retUnit = ret.AddComponent<Unit>();
+            retUnit.game = this.game;
+            retUnit.loadFromFile(file);
+            return ret;
         }
     }
 }

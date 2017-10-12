@@ -19,8 +19,6 @@ namespace GridRPG
         public GridRPG.UI ui;
         public GridRPG.Map map;
 
-        
-
         /// <summary>
         /// Supports the following resolutions:
         /// 853x480(wide 480p),
@@ -32,10 +30,10 @@ namespace GridRPG
         public Game()
         {
             resolution= new Vector2(Screen.currentResolution.width,Screen.currentResolution.height);
-            unitLibrary = new GridRPG.UnitLibrary();
+            unitLibrary = new GridRPG.UnitLibrary(this);
             unitLibrary.loadCampaignUnitList(CAMPAIGN_UNIT_LIST_FILE);
             unitLibrary.loadUnitList(UNIT_LIST_FILE);
-            mapLibrary = new GridRPG.MapLibrary(unitLibrary);
+            mapLibrary = new GridRPG.MapLibrary(this);
             mapLibrary.loadMapList(MAP_LIST_FILE);
             ui = new UI(this);
         }

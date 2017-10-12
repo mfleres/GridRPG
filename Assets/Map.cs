@@ -122,23 +122,11 @@ namespace GridRPG
                         XmlNode unitNode = spaceNode.SelectSingleNode("unit");
                         if(unitNode?.Attributes["type"] != null)
                         {
-                            //Debug.Log("Adding unit to map...");
-                            if (unitNode.Attributes["type"].Value == "campaign" && unitNode.Attributes["idnum"] != null)
-                            {
-                                int unitID = 0;
-                                Int32.TryParse(unitNode.Attributes["idnum"].Value, out unitID);
-                                //Debug.Log("Adding CUnit of id: " + unitID);
-                                //Debug.Log("addUnitToSpace(new CampaignUnit(" + (unitLibrary.campaignUnits[unitID]?.name ?? "BAD UNIT") + "),x,y)");
-                                addUnitToSpace(new CampaignUnit(unitLibrary.campaignUnits[unitID]),x,y);
-                            }
-                            else if (unitNode.Attributes["type"].Value == "npc" && unitNode.Attributes["idnum"] != null)
-                            {
-                                int unitID = 0;
-                                Int32.TryParse(unitNode.Attributes["idnum"].Value, out unitID);
-                                //Debug.Log("Adding CUnit of id: " + unitID);
-                                //Debug.Log("addUnitToSpace(new CampaignUnit(" + (unitLibrary.campaignUnits[unitID]?.name ?? "BAD UNIT") + "),x,y)");
-                                addUnitToSpace(new NPCUnit(unitLibrary.unitLibrary[unitID]), x, y);
-                            }
+                            int unitID = 0;
+                            Int32.TryParse(unitNode.Attributes["idnum"].Value, out unitID);
+                            //Debug.Log("Adding CUnit of id: " + unitID);
+                            //Debug.Log("addUnitToSpace(new CampaignUnit(" + (unitLibrary.campaignUnits[unitID]?.name ?? "BAD UNIT") + "),x,y)");
+                            addUnitToSpace(Unit.copy(unitLibrary.getUnit(unitID, unitNode.Attributes["type"].Value)),x,y);
                         }
 					}
 				}
@@ -156,10 +144,27 @@ namespace GridRPG
             centerMapOnCamera(Camera.main);
 		}
 		
-		public void addUnitToSpace(Unit unit, int x, int y)
+		public void addUnitToSpace(GameObject unit, int x, int y)
 		{
-			unit.warpToSpace(_spaceObjects[y,x].GetComponent<Space>());
+			unit.GetComponent<Unit>().warpToSpace(new Vector2(x,y), this);
 		}
+
+        public Space getSpace(Vector2 coords)
+        {
+            return getSpace((int)coords.x, (int)coords.y);
+        }
+
+        public Space getSpace(int x, int y)
+        {
+            if (x < 0 || x > mapLength - 1 || y < 0 || y > mapWidth - 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            Debug.Log("Map.getSpace(" + x + ", " + y + ")");
+            GameObject space = _spaceObjects[y, x];
+            return space.GetComponent<Space>();
+        }
 		
 		/// <summary>
 		/// Centers the Map on a Camera.

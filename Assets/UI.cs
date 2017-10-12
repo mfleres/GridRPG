@@ -133,7 +133,7 @@ namespace GridRPG
                         setMapListVisibility(false);
                         setMapUIVisibility(true);
 
-                        updateUnitFrame(null); //clear unit frame
+                        updateUnitFrame((Unit)null); //clear unit frame
 
                         mode = value;
                         break;
@@ -141,8 +141,15 @@ namespace GridRPG
             }
         }
 
+        public void updateUnitFrame(GameObject gameObject)
+        {
+            //Debug.Log("updateUnitFrame(GameObject)");
+            updateUnitFrame(gameObject?.GetComponent<Unit>());
+        }
+
         public void updateUnitFrame(Unit unit)
         {
+            //Debug.Log("updateUnitFrame(Unit)");
             if (unit != null)
             {
                 //Update Name
@@ -168,6 +175,7 @@ namespace GridRPG
 
                 //TODO: Finish
             }
+            //Debug.Log("updateUnitFrame(Unit) Done");
         }
 
         /// <summary>

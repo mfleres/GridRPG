@@ -1,4 +1,4 @@
-﻿<unit name="TestCampaignUnit" displayName="George Genericguy">
+﻿<unit name="George GG.">
   <sprite XOffset="0.0" YOffset="0.0" file="Sprites/Unit/TestUnit"/>
   <stats>
     <maxHP>14</maxHP>

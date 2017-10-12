@@ -65,14 +65,14 @@ namespace GridRPG
         }
 
         public List<MapEntry> mapList;      //List of map filepaths. Unlike units, maps are too large to load all at once
-        public UnitLibrary unitLibrary;     //Game UnitLibrary. Used in map creation.
-        public Map map;                     //Loaded map. Only one can be loaded at a time.
+        public Game game;     //Game 
+        //public Map map;                     //Loaded map. Only one can be loaded at a time.
 
-        public MapLibrary(UnitLibrary unitLibrary)
+        public MapLibrary(Game game)
         {
             mapList = new List<MapEntry>();
-            this.unitLibrary = unitLibrary;
-            this.map = null;
+            this.game = game;
+            //this.map = null;
         }
 
         /// <summary>
@@ -152,13 +152,13 @@ namespace GridRPG
         public Map loadMap(int id)
         {
             Debug.Log("Loading Map with id = " + id);
-            if(map != null)
+            if(game.map != null)
             {
                 unloadMap();
             }
 
-            map = new Map(mapList[id].file, unitLibrary, id);
-            return map;
+            game.map = new Map(mapList[id].file, game.unitLibrary, id);
+            return game.map;
         }
 
         /// <summary>
@@ -166,10 +166,10 @@ namespace GridRPG
         /// </summary>
         public void unloadMap()
         {
-            if (map != null)
+            if (game.map != null)
             {
-                GameObject.Destroy(map.mapParent);
-                map = null;
+                GameObject.Destroy(game.map.mapParent);
+                game.map = null;
             }
         }
 

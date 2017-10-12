@@ -10,6 +10,7 @@ namespace GridRPG
 	{
 		private const string black_highlight_file = "Sprites/Highlighting/BlackBox";
         private const string yellow_highlight_file = "Sprites/Highlighting/YellowBox";
+        private const string blue_highlight_file = "Sprites/Highlighting/BlueBox";
 
         public const int highlight_width = 0;
 		public const float terrain_dim = 32.0f;
@@ -18,21 +19,26 @@ namespace GridRPG
         public const string TERRAIN_LAYER = "Terrain";
 
         private GridRPG.Terrain terrain = null;
-		private Unit unit = null;
+		private GameObject unit = null;
 		//public GameObject core;
-		public GameObject highlight;        
+		public GameObject highlight;
+        private Vector2 coordinates; //Location of the space.
 
         public Sprite black_box;
         public Sprite yellow_box;
+        public Sprite blue_box;
 
-        public delegate void SelectEvent(Unit unit);
+        public delegate void SelectEvent(GameObject unit);
         public static event SelectEvent selectEvent;
+        private bool selectFlag;
 
         public void Start()
         {
             highlight = new GameObject("highlight");
             black_box = Sprite.Create((Texture2D)Resources.Load(black_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, Terrain.terrain_dim, Terrain.terrain_dim), new Vector2(0.5f, 0.5f));
             yellow_box = Sprite.Create((Texture2D)Resources.Load(yellow_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, Terrain.terrain_dim, Terrain.terrain_dim), new Vector2(0.5f, 0.5f));
+            blue_box = Sprite.Create((Texture2D)Resources.Load(blue_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, Terrain.terrain_dim, Terrain.terrain_dim), new Vector2(0.5f, 0.5f));
+
 
             //highlight setup
             highlight.AddComponent<SpriteRenderer>();
@@ -51,25 +57,59 @@ namespace GridRPG
 
             Vector2 S = gameObject.GetComponent<SpriteRenderer>().sprite.bounds.size;
             gameObject.GetComponent<BoxCollider2D>().size = S;
+
+            selectFlag = false;
+            
         }
 
         private void OnMouseEnter()
         {
-            highlight.GetComponent<SpriteRenderer>().sprite = yellow_box;
+            if (!selectFlag)
+            {
+                highlight.GetComponent<SpriteRenderer>().sprite = yellow_box;
+            }
         }
 
         private void OnMouseExit()
         {
-            highlight.GetComponent<SpriteRenderer>().sprite = black_box;
+            if (!selectFlag)
+            {
+                highlight.GetComponent<SpriteRenderer>().sprite = black_box;
+            }
         }
 
         private void OnMouseDown()
         {
-            Debug.Log("Selected unit: " + (unit?.name ?? "NONE"));
+            //Debug.Log("Selected unit: " + (unit?.name ?? "NONE"));
             if (selectEvent != null)
             {                
                 selectEvent(unit);
+                //Debug.Log("selectEvent(GameObject) sent!");
             }
+            selectFlag = true;
+            highlight.GetComponent<SpriteRenderer>().sprite = blue_box;
+            selectEvent += deselect;
+            //Debug.Log("Space.OnMouseDown() Done!");
+        }
+
+        private void OnDestroy()
+        {
+            if(selectFlag == true)
+            {
+                selectEvent -= deselect;
+                //Debug.Log("Removed " + gameObject.name + " from deselect watch");
+            }
+        }
+
+        private void deselect(GameObject u)
+        {
+            if (selectFlag)
+            {
+                highlight.GetComponent<SpriteRenderer>().sprite = black_box;
+                selectFlag = false;
+                selectEvent -= deselect;
+                //Debug.Log("Removed " + gameObject.name + " from deselect watch");
+            }           
         }
 
         /// <summary>
@@ -110,73 +150,6 @@ namespace GridRPG
             return ret;
         }
 
-        /*public Space()
-		{
-            GameObject core = this.gameObject;
-			core = new GameObject("space");
-			highlight = new GameObject("highlight");
-
-            //highlight setup
-            Sprite black_box = Sprite.Create((Texture2D)Resources.Load(black_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, terrain_dim, terrain_dim), new Vector2(0.5f, 0.5f));
-            highlight.AddComponent<SpriteRenderer>();
-			highlight.GetComponent<SpriteRenderer>().sprite=black_box;
-			highlight.transform.SetParent(core.transform);
-            highlight.transform.localPosition = new Vector3(0, 0, highlight_Layer);
-            highlight.GetComponent<SpriteRenderer>().sortingLayerName = HIGHLIGHT_LAYER;
-
-            //mouseover setup
-            highlight.AddComponent<MouseSelection>();
-			
-			setTerrain("void");
-			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
-            core.GetComponent<SpriteRenderer>().sortingLayerName = TERRAIN_LAYER;
-            unit = null;
-		}
-
-        public Space(string name)
-		{	
-			core = new GameObject(name);
-			core.AddComponent<SpriteRenderer>();
-			
-			highlight = new GameObject("highlight");
-
-            Sprite black_box = Sprite.Create((Texture2D)Resources.Load(black_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, terrain_dim, terrain_dim), new Vector2(0.5f, 0.5f));
-            highlight.AddComponent<SpriteRenderer>();
-            highlight.GetComponent<SpriteRenderer>().sprite = black_box;
-            highlight.transform.SetParent(core.transform);
-            //highlight.transform.localPosition = new Vector3(0, 0, highlight_Layer);
-            highlight.GetComponent<SpriteRenderer>().sortingLayerName = HIGHLIGHT_LAYER;
-
-            highlight.AddComponent<MouseSelection>();
-
-            setTerrain("void");
-			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
-            core.GetComponent<SpriteRenderer>().sortingLayerName = TERRAIN_LAYER;
-            unit = null;
-		}
-		
-		public Space(string name,GridRPG.Terrain terrain)
-		{			
-			core = new GameObject(name);
-			core.AddComponent<SpriteRenderer>();
-
-            highlight = new GameObject("highlight");
-
-            Sprite black_box = Sprite.Create((Texture2D)Resources.Load(black_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, terrain_dim, terrain_dim), new Vector2(0.5f, 0.5f));
-            highlight.AddComponent<SpriteRenderer>();
-            highlight.GetComponent<SpriteRenderer>().sprite = black_box;
-            highlight.transform.SetParent(core.transform);
-            highlight.transform.localPosition = new Vector3(0, 0, highlight_Layer);
-            highlight.GetComponent<SpriteRenderer>().sortingLayerName = HIGHLIGHT_LAYER;
-
-            highlight.AddComponent<MouseSelection>();
-
-            setTerrain(terrain);
-			core.GetComponent<SpriteRenderer>().sprite = this.terrain.Sprite;
-            core.GetComponent<SpriteRenderer>().sortingLayerName = TERRAIN_LAYER;
-            unit = null;
-		}*/
-
         public void setTerrain(GridRPG.Terrain terrain)
 		{
 			this.terrain = terrain;
@@ -204,9 +177,9 @@ namespace GridRPG
 		/// <param name='unitName'>
 		/// 	Unit's name.
 		/// </param>
-		public Unit addUnit(Unit unit)
+		public GameObject addUnit(GameObject unit)
 		{
-            if (this.unit == null)
+            if (this.unit == null && unit?.GetComponent<Unit>() != null)
             {
                 this.unit = unit;
                 return unit;
@@ -217,14 +190,14 @@ namespace GridRPG
             }
 		}
 
-        public Unit removeUnit()
+        public GameObject removeUnit()
         {
-            Unit ret = this.unit;
+            GameObject ret = this.unit;
             this.unit = null;
             return ret;
         }
 
-        /// <summary>
+        /*/// <summary>
         /// DEPRICATED
         /// </summary>
         /// <param name="unitName"></param>
@@ -245,7 +218,7 @@ namespace GridRPG
 		public Terrain getTerrain()
 		{
 			return this.terrain;	
-		}
+		}*/
 		
         /// <summary>
         /// DEPRICATED
