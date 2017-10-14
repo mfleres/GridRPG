@@ -1,4 +1,4 @@
-﻿<unit name="George GG.">
+﻿<unit name="George GG." faction="player">
   <sprite XOffset="0.0" YOffset="0.0" file="Sprites/Unit/TestUnit"/>
   <stats>
     <maxHP>14</maxHP>
@@ -10,7 +10,7 @@
     <intellect>3</intellect>
     <dexterity>1</dexterity>
     <charisma>1</charisma>
-    <agility>5</agility>
+    <agility>6</agility>
   </stats>
   <resistance>
     <!--Modifies damage taken-->
@@ -46,6 +46,7 @@
   </damage>
   <mobilities>
     <mobility type="grass" modifier="1"/>
+    <mobility type="water" modifier="2"/>
     <mobility type="void" modifier="0"/>
   </mobilities>
   <abilities>

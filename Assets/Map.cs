@@ -26,9 +26,9 @@ namespace GridRPG
 		//private List<GridRPG.Terrain> _terrainList;
 		//private GameObject[,] _spaceObjects;
 		private GameObject[,] _spaceObjects;
-		private int mapWidth;
-		private int mapLength;
-		private List<EventCondition> _eventConditions;
+		public int mapWidth { get; private set; }
+		public int mapLength { get; private set; }
+        private List<EventCondition> _eventConditions;
 		public GameObject mapParent;
         public int id;
 
@@ -62,11 +62,13 @@ namespace GridRPG
                 //Sprite blackHoriz = Sprite.Create(Texture2D.blackTexture,new Rect(0f,0f,Terrain.terrain_dim,highlight_width),new Vector2(0.5,0.5));
 
                 mapParent.name = mapNode.Attributes["name"]?.Value ?? "Map";
-				mapWidth = 0;
-				mapLength = 0;
-				Int32.TryParse(mapNode.Attributes["width"].Value,out mapWidth);
-				Int32.TryParse(mapNode.Attributes["length"].Value,out mapLength);
-				_spaceObjects = new GameObject[mapWidth,mapLength];
+                int width = 0;
+                int length = 0;
+				Int32.TryParse(mapNode.Attributes["width"].Value,out width);
+				Int32.TryParse(mapNode.Attributes["length"].Value,out length);
+                mapWidth = width;
+                mapLength = length;
+                _spaceObjects = new GameObject[mapWidth,mapLength];
 				
 				//init custom terrains
 				XmlNode terrainListNode = mapNode.SelectSingleNode("terrainList");
@@ -102,7 +104,7 @@ namespace GridRPG
 						if(spaceNode.Attributes["terrain"] != null)
 						{
 							//_spaceObjects[y,x] = GridRPG.Space.generateGameObject("("+x.ToString()+","+y.ToString()+")",new Terrain(spaceNode.Attributes["terrain"].Value));
-							_spaceObjects[y,x] = Space.newSpace("("+x.ToString()+","+y.ToString()+")",new Terrain(spaceNode.Attributes["terrain"].Value));
+							_spaceObjects[y,x] = Space.newSpace(x,y,new Terrain(spaceNode.Attributes["terrain"].Value));
 
 							_spaceObjects[y,x].GetComponent<Transform>().localPosition = new Vector3(x*(Terrain.terrain_dim)/100f,y*(Terrain.terrain_dim)/100f,layer);
 							_spaceObjects[y,x].transform.SetParent(mapParent.transform);
@@ -114,7 +116,7 @@ namespace GridRPG
                             //Make the object a void
                             //_spaceObjects[y,x] = GridRPG.Space.generateGameObject("MapA:("+x.ToString()+","+y.ToString()+")");
                             Debug.Log("Map File Error: Space (" + x + "," + y + ") Missing terrain attribute");
-							_spaceObjects[y,x] = Space.newSpace("MapA:("+x.ToString()+","+y.ToString()+")");
+							_spaceObjects[y,x] = Space.newSpace(x,y,"void");
                             _spaceObjects[y, x].GetComponent<Transform>().localPosition = new Vector3(x * (Terrain.terrain_dim) / 100f, y * (Terrain.terrain_dim) / 100f, layer);
                             _spaceObjects[y,x].transform.SetParent(mapParent.transform);
 						}
@@ -158,10 +160,10 @@ namespace GridRPG
         {
             if (x < 0 || x > mapLength - 1 || y < 0 || y > mapWidth - 1)
             {
-                throw new ArgumentOutOfRangeException();
+                return null; //easier than using exceptions.
             }
 
-            Debug.Log("Map.getSpace(" + x + ", " + y + ")");
+            //Debug.Log("Map.getSpace(" + x + ", " + y + ")");
             GameObject space = _spaceObjects[y, x];
             return space.GetComponent<Space>();
         }

@@ -1,4 +1,4 @@
-<unit name="Goblin Grunt">
+<unit name="Goblin Grunt" faction="monster">
   <sprite XOffset="0" YOffset="0" file="Sprites/Unit/TestUnit"/>
   <stats>
     <maxHP>10</maxHP>
@@ -10,7 +10,7 @@
     <intellect>1</intellect>
     <dexterity>2</dexterity>
     <charisma>1</charisma>
-    <agility>6</agility>
+    <agility>5</agility>
   </stats>
   <resistance> <!--Modifies damage taken-->
     <resilience constant="0" scalar="1"/>

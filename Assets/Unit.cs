@@ -606,7 +606,7 @@ namespace GridRPG
         public Type type { get; protected set; }
         public Vector2 spaceCoords;
 
-        protected string faction;
+        public string faction { get; protected set; }
         protected struct Stats_S
         {
             public uint maxHP;
@@ -743,7 +743,8 @@ namespace GridRPG
         }
         protected ElementalMods resistance;
         protected ElementalMods damage;
-        protected List<KeyValuePair<String, float>> mobility;
+        //protected List<KeyValuePair<String, int>> mobility;
+        protected Dictionary<String, int> mobility;
 
         public void loadFromFile(string fileName)
         {
@@ -754,6 +755,7 @@ namespace GridRPG
             if (unitNode != null)
             {
                 gameObject.name = unitNode.Attributes["name"]?.Value ?? "Unknown";
+                faction = unitNode.Attributes["faction"]?.Value ?? "unknown";
 
                 //SPRITE
                 //Debug.Log("loadFromFile(string): Loading Sprite...");
@@ -829,7 +831,8 @@ namespace GridRPG
 
                 //MOBILITY
                 //Debug.Log("loadFromFile(string): Loading Mobilities...");
-                this.mobility = new List<KeyValuePair<string, float>>();
+                //this.mobility = new List<KeyValuePair<string, int>>();
+                this.mobility = new Dictionary<string, int>();
                 XmlNode mobilitiesNode = unitNode.SelectSingleNode("mobilities");
                 XmlNodeList mobililyNodeList = mobilitiesNode.SelectNodes("mobility");
                 for (int i = 0; i < mobililyNodeList.Count; i++)
@@ -838,10 +841,10 @@ namespace GridRPG
                     try
                     {
                         string terrainType = mobililyNodeList[i].Attributes["type"]?.Value;
-                        float modifier;
+                        int modifier;
                         try
                         {
-                            modifier = float.Parse(mobililyNodeList[i].Attributes["modifier"]?.Value);
+                            modifier = int.Parse(mobililyNodeList[i].Attributes["modifier"]?.Value);
                         }
                         catch (Exception e)
                         {
@@ -849,7 +852,8 @@ namespace GridRPG
                             throw e;
                         }
                        // Debug.Log("loadFromFile(string): Loading Mobility[" + i + "]: (" + (terrainType ?? "null") + ", " + modifier + ")...");
-                        mobility.Add(new KeyValuePair<string, float>(terrainType, modifier));
+                        //mobility.Add(new KeyValuePair<string, int>(terrainType, modifier));
+                        mobility.Add(terrainType, modifier);
                         //Debug.Log("loadFromFile(string): Loaded Mobility[" + i + "]: " + terrainType);
                     }
                     catch (ArgumentNullException)
@@ -884,6 +888,7 @@ namespace GridRPG
 
             this.game = source.game;
             this.name = source.name;
+            this.faction = source.faction;
             this.stats = source.stats;
             //Debug.Log("Unit.copy: Max HP = " + this.stats.maxHP);
             this.resistance = source.resistance;
@@ -989,13 +994,419 @@ namespace GridRPG
         /// <param name="destCoords">Destination coordinates</param>
         /// <remarks>If it fails, movement does not occur and returns null.</remarks>
         /// <returns></returns>
-        public GridRPG.Space tryMove(Vector2 destCoords)
+        public string tryMove(Vector2 destCoords)
         {
-            //TO DO
+            //First test if there is a unit in the way
+            if(game?.map?.getSpace(destCoords)?.unit != null)
+            {
+                //Can't move there
+                Debug.Log("Another Unit is at the destination already!");
+                return "X";
+            }
 
-            return null;
+            return tryMoveDynamic(spaceCoords, destCoords);
+            //return tryMoveUgly(this, game.map, spaceCoords, destCoords, (int)stats.agility);
         }
-    }
+
+        /// <summary>
+        /// Creates a route from the source node to the dest node. Uses brute force and recursion.
+        /// </summary>
+        /// <param name="srcCoords"></param>
+        /// <param name="destCoords"></param>
+        /// <param name="unit"></param>
+        /// <param name="map"></param>
+        /// <param name="moveRemaining">The amount of remaining spaces the unit can move.</param>
+        /// <returns>route with each move in characters ("NSEW"). returns "X" if no route.</returns>
+        /// <remarks>Unit can move through units of the same faction, but not other units.</remarks>
+        private static string tryMoveUgly(Unit unit, Map map, Vector2 srcCoords, Vector2 destCoords,  int moveRemaining)
+        {
+            //Check if we are at the destination.
+            if (srcCoords == destCoords)
+            {
+                //We did it!
+                return "";
+            }
+            if (moveRemaining == 0)
+            {
+                //Unit cannot move anymore, and is not at the destination.
+                return "X";
+            }
+
+            int neededMove;
+            Vector2 nextCoords;
+            Space nextSpace;
+            string nextTerrain;
+
+            //Check north
+            nextCoords = new Vector2((int)srcCoords.x, (int)srcCoords.y + 1);
+            nextSpace = map?.getSpace(nextCoords);
+            if (nextSpace != null)
+            {
+                nextTerrain = nextSpace.getTerrainType();
+
+                //See if movement north is possible           
+                if (!unit.mobility.TryGetValue(nextTerrain, out neededMove))
+                {
+                    //not in mobility list, make 0
+                    neededMove = 0;
+                }
+                if (neededMove > 0 && neededMove <= moveRemaining)
+                {
+                    //north is a possible path
+                    string recurse = tryMoveUgly(unit, map, nextCoords, destCoords, moveRemaining - neededMove);
+                    if (recurse != "X")
+                    {
+                        //destination was reached
+                        return "N" + recurse;
+                    }
+                }
+            }
+
+            //Check east
+            nextCoords = new Vector2((int)srcCoords.x+1, (int)srcCoords.y);
+            nextSpace = map?.getSpace(nextCoords);
+            if (nextSpace != null)
+            {
+                nextTerrain = nextSpace.getTerrainType();
+
+                //See if movement north is possible           
+                if (!unit.mobility.TryGetValue(nextTerrain, out neededMove))
+                {
+                    //not in mobility list, make 0
+                    neededMove = 0;
+                }
+                if (neededMove > 0 && neededMove <= moveRemaining)
+                {
+                    //north is a possible path
+                    string recurse = tryMoveUgly(unit, map, nextCoords, destCoords, moveRemaining - neededMove);
+                    if (recurse != "X")
+                    {
+                        //destination was reached
+                        return "E" + recurse;
+                    }
+                }
+            }
+
+            //Check West
+            nextCoords = new Vector2((int)srcCoords.x-1, (int)srcCoords.y);
+            nextSpace = map?.getSpace(nextCoords);
+            if (nextSpace != null)
+            {
+                nextTerrain = nextSpace.getTerrainType();
+
+                //See if movement north is possible           
+                if (!unit.mobility.TryGetValue(nextTerrain, out neededMove))
+                {
+                    //not in mobility list, make 0
+                    neededMove = 0;
+                }
+                if (neededMove > 0 && neededMove <= moveRemaining)
+                {
+                    //north is a possible path
+                    string recurse = tryMoveUgly(unit, map, nextCoords, destCoords, moveRemaining - neededMove);
+                    if (recurse != "X")
+                    {
+                        //destination was reached
+                        return "W" + recurse;
+                    }
+                }
+            }
+
+            //Check South
+            nextCoords = new Vector2((int)srcCoords.x, (int)srcCoords.y - 1);
+            nextSpace = map?.getSpace(nextCoords);
+            if (nextSpace != null)
+            {
+                nextTerrain = nextSpace.getTerrainType();
+
+                //See if movement north is possible           
+                if (!unit.mobility.TryGetValue(nextTerrain, out neededMove))
+                {
+                    //not in mobility list, make 0
+                    neededMove = 0;
+                }
+                if (neededMove > 0 && neededMove <= moveRemaining)
+                {
+                    //north is a possible path
+                    string recurse = tryMoveUgly(unit, map, nextCoords, destCoords, moveRemaining - neededMove);
+                    if (recurse != "X")
+                    {
+                        //destination was reached
+                        return "S" + recurse;
+                    }
+                }
+            }
+
+            //Route not found
+            return "X";
+        }
+
+        /// <summary>
+        /// Tests neighbor nodes for destination.
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>Assumes movement is an integer.(so no mobility with a decimal modifier)</remarks>
+        private string tryMoveOne(Vector2 srcCoords, Vector2 destCoords, int moveRemaining)
+        {
+            //Test current space for destination
+            if(srcCoords == destCoords)
+            {
+                return "";
+            }
+
+            //Test neighboring spaces for destination
+            Vector2 nextSpace;
+            int neededMove;
+            nextSpace = new Vector2(srcCoords.x, srcCoords.y + 1);  //NORTH
+            if (nextSpace == destCoords)
+            {
+                //Test if movement is possible
+                neededMove = testTerrain(nextSpace, moveRemaining);
+                if(neededMove != 0)
+                {
+                    return "N";
+                }
+                return "X";
+            }
+            nextSpace = new Vector2(srcCoords.x, srcCoords.y - 1);  //SOUTH
+            if (nextSpace == destCoords)
+            {
+                //Test if movement is possible
+                neededMove = testTerrain(nextSpace, moveRemaining);
+                if (neededMove != 0)
+                {
+                    return "S";
+                }
+                return "X";
+            }
+            nextSpace = new Vector2(srcCoords.x + 1, srcCoords.y);  //EAST
+            if (nextSpace == destCoords)
+            {
+                //Test if movement is possible
+                neededMove = testTerrain(nextSpace, moveRemaining);
+                if (neededMove != 0)
+                {
+                    return "E";
+                }
+                return "X";
+            }
+            nextSpace = new Vector2(srcCoords.x + 1, srcCoords.y);  //WEST
+            if (nextSpace == destCoords)
+            {
+                //Test if movement is possible
+                neededMove = testTerrain(nextSpace, moveRemaining);
+                if (neededMove != 0)
+                {
+                    return "W";
+                }
+                return "X";
+            }
+            //Not in a neigboring space
+            return "X";
+        }
+
+        private string tryMoveDynamic(Vector2 srcCoords, Vector2 destCoords)
+        {
+            Debug.Log("tryMoveDynamic(" + srcCoords.ToString() + ", " + destCoords.ToString() + ") start!");
+            //Test self first
+            if(srcCoords == destCoords)
+            {
+                return "!";
+            }
+
+            //Setup the stored data
+            int[,] weightedRoute = new int[game.map.mapLength,game.map.mapWidth]; //(C# compiler sets all to 0)
+
+            //mark start as -1
+            weightedRoute[(int)srcCoords.x, (int)srcCoords.y] = -1;
+
+            return tryMoveDynamicR(weightedRoute, (int)srcCoords.x, (int)srcCoords.y, (int)destCoords.x, (int)destCoords.y, (int)stats.agility, 0);
+        }
+
+        private string tryMoveDynamicR(int[,] weights, int srcX, int srcY, int destX, int destY, int moveRemaining, int moveUsed)
+        {
+            //test if movement is even possible in the 1st place
+            if(moveRemaining < 1)
+            {
+                //Don't bother trying
+                return "X";
+            }
+
+            string ret = "X";
+            int[] testPath = new int[4]; //NESW, int represents needed move for route
+
+            //Add weights to neighboring nodes
+            int move,nextX,nextY;
+            //North
+            nextX = srcX;
+            nextY = srcY + 1;
+            move = testTerrain(new Vector2(nextX, nextY), moveRemaining);
+            if(move != 0 && ((move+moveUsed)<weights[nextX,nextY] || weights[nextX,nextY] == 0))
+            {
+                weights[nextX, nextY] = moveUsed + move;
+                testPath[0] = move;
+                if (nextX == destX && nextY == destY)
+                {
+                    ret = "N";
+                    Debug.Log("U.tMDR(...): Found a route requiring move " + (moveUsed + move));
+                }
+            }
+            //East
+            nextX = srcX + 1;
+            nextY = srcY;
+            move = testTerrain(new Vector2(nextX, nextY), moveRemaining);
+            if (move != 0 && ((move + moveUsed) < weights[nextX, nextY] || weights[nextX, nextY] == 0))
+            {
+                weights[nextX, nextY] = moveUsed + move;
+                testPath[1] = move;
+                if (nextX == destX && nextY == destY)
+                {
+                    ret = "E";
+                    Debug.Log("U.tMDR(...): Found a route requiring move " + (moveUsed + move));
+                }
+            }
+            //South
+            nextX = srcX;
+            nextY = srcY - 1;
+            move = testTerrain(new Vector2(nextX, nextY), moveRemaining);
+            if (move != 0 && ((move + moveUsed) < weights[nextX, nextY] || weights[nextX, nextY] == 0))
+            {
+                weights[nextX, nextY] = moveUsed + move;
+                testPath[2] = move;
+                if (nextX == destX && nextY == destY)
+                {
+                    ret = "S";
+                    Debug.Log("U.tMDR(...): Found a route requiring move " + (moveUsed + move));
+                }
+            }
+            //West
+            nextX = srcX - 1;
+            nextY = srcY;
+            move = testTerrain(new Vector2(nextX, nextY), moveRemaining);
+            if (move != 0 && ((move + moveUsed) < weights[nextX, nextY] || weights[nextX, nextY] == 0))
+            {
+                weights[nextX, nextY] = moveUsed + move;
+                testPath[3] = move;
+                if (nextX == destX && nextY == destY)
+                {
+                    ret = "W";
+                    Debug.Log("U.tMDR(...): Found a route requiring move " + (moveUsed + move));
+                }
+            }
+            
+            //Return if route is found
+            if(ret != "X")
+            {
+                return ret;
+            }
+
+            //Continue search further
+            int i;
+            //North
+            i = 0;
+            if (testPath[i] != 0)
+            {
+                //Test path
+                string route = tryMoveDynamicR(weights, srcX, srcY + 1, destX, destY, moveRemaining - testPath[i], moveUsed + testPath[i]);
+                if(route != "X")
+                {
+                    ret = "N" + route;
+                }
+            }
+            //East
+            i = 1;
+            if (testPath[i] != 0)
+            {
+                //Test path
+                string route = tryMoveDynamicR(weights, srcX + 1, srcY, destX, destY, moveRemaining - testPath[i], moveUsed + testPath[i]);
+                if (route != "X")
+                {
+                    ret = "E" + route;
+                }
+            }
+            //South
+            i = 2;
+            if (testPath[i] != 0)
+            {
+                //Test path
+                string route = tryMoveDynamicR(weights, srcX, srcY - 1, destX, destY, moveRemaining - testPath[i], moveUsed + testPath[i]);
+                if (route != "X")
+                {
+                    ret = "S" + route;
+                }
+            }
+            //West
+            i = 3;
+            if (testPath[i] != 0)
+            {
+                //Test path
+                string route = tryMoveDynamicR(weights, srcX - 1, srcY, destX, destY, moveRemaining - testPath[i], moveUsed + testPath[i]);
+                if (route != "X")
+                {
+                    ret = "W" + route;
+                }
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Tests if the unit has mobility to move through specified space. Also checks if a hostile unit is in the way
+        /// </summary>
+        /// <param name="destCoords"></param>
+        /// <param name="moveRemaining"></param>
+        /// <returns>Amount of move needed.</returns>
+        private int testTerrain(Vector2 destCoords, int moveRemaining)
+        {
+            Space destSpace = this.game.map?.getSpace(destCoords);
+            if (destSpace != null)
+            {
+                //First test if there is a hostile unit
+                if(!isFriendly(destSpace.unit))
+                {
+                    //Can't move through a hostile unit.
+                    return 0;
+                }
+
+                string destTerrain = destSpace.getTerrainType();
+                int neededMove = 0;
+
+                //See if movement is possible           
+                if (!this.mobility.TryGetValue(destTerrain, out neededMove))
+                {
+                    //not in mobility list, make 0
+                    return 0;
+                }
+                if (neededMove <= moveRemaining)
+                {
+                    return neededMove;
+                }
+            }
+            return 0;
+        }
+
+        public bool isFriendly(Unit a)
+        {
+            return isFriendly(this, a);
+        }
+        public bool isFriendly(GameObject a)
+        {
+            return isFriendly(gameObject, a);
+        }
+        public static bool isFriendly(Unit a, Unit b)
+        {
+            if(a == null || b == null)
+            {
+                return true;
+            }
+            return a.faction == b.faction;
+        }
+        public static bool isFriendly(GameObject a, GameObject b)
+        {
+            Unit uA = a?.GetComponent<Unit>();
+            Unit uB = b?.GetComponent<Unit>();
+            return Unit.isFriendly(uA, uB);
+        }
+    } 
 
     public class CampaignUnit : Unit { }
     public class NPCUnit : Unit { }

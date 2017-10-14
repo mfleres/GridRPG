@@ -133,7 +133,7 @@ namespace GridRPG
                         setMapListVisibility(false);
                         setMapUIVisibility(true);
 
-                        updateUnitFrame((Unit)null); //clear unit frame
+                        updateUnitFrame((Space)null); //clear unit frame
 
                         mode = value;
                         break;
@@ -144,12 +144,14 @@ namespace GridRPG
         public void updateUnitFrame(GameObject gameObject)
         {
             //Debug.Log("updateUnitFrame(GameObject)");
-            updateUnitFrame(gameObject?.GetComponent<Unit>());
+            updateUnitFrame(gameObject?.GetComponent<Space>());
         }
 
-        public void updateUnitFrame(Unit unit)
+        public void updateUnitFrame(Space space)
         {
-            //Debug.Log("updateUnitFrame(Unit)");
+            //Debug.Log("updateUnitFrame(space)");
+            Unit unit = space?.unit?.GetComponent<Unit>();
+            
             if (unit != null)
             {
                 //Update Name
@@ -165,6 +167,19 @@ namespace GridRPG
             }
             else
             {
+                if (space == null)
+                {
+                    Debug.Log("uUF(S): Space is null");
+                }
+                else if(space.unit == null)
+                {
+                    Debug.Log("uUF(S): Unit object is null, Space is (" + space.coordinates.x + "," + space.coordinates.y + ")");
+                    Debug.Log(space.getUnitName());
+                }
+                else
+                {
+                    Debug.Log("uUF(S): Unit component is null, Space is (" + space.coordinates.x + "," + space.coordinates.y + ")");
+                }
                 //Update Name
                 Text nameText = unitFrame.unitName.GetComponent<Text>();
                 nameText.text = "";

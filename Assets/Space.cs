@@ -7,30 +7,44 @@ namespace GridRPG
     [RequireComponent(typeof(BoxCollider2D))]
     [RequireComponent(typeof(SpriteRenderer))]
     public class Space : MonoBehaviour
-	{
-		private const string black_highlight_file = "Sprites/Highlighting/BlackBox";
+    {
+        private const string black_highlight_file = "Sprites/Highlighting/BlackBox";
         private const string yellow_highlight_file = "Sprites/Highlighting/YellowBox";
         private const string blue_highlight_file = "Sprites/Highlighting/BlueBox";
 
         public const int highlight_width = 0;
-		public const float terrain_dim = 32.0f;
+        public const float terrain_dim = 32.0f;
         public const int highlight_Layer = 2;
         public const string HIGHLIGHT_LAYER = "SpaceHighlighting";
         public const string TERRAIN_LAYER = "Terrain";
 
         private GridRPG.Terrain terrain = null;
-		private GameObject unit = null;
+        public GameObject unit {get; private set;}
 		//public GameObject core;
 		public GameObject highlight;
-        private Vector2 coordinates; //Location of the space.
+        public Vector2 coordinates { get; private set; } //Location of the space.
 
         public Sprite black_box;
         public Sprite yellow_box;
         public Sprite blue_box;
 
-        public delegate void SelectEvent(GameObject unit);
+        public delegate void SelectEvent(GameObject space);
         public static event SelectEvent selectEvent;
         private bool selectFlag;
+
+        /// <summary>
+        /// Gets the terrain type as a string.
+        /// </summary>
+        /// <returns>The type.</returns>
+        public string getTerrainType()
+        {
+            if(terrain == null)
+            {
+                return "void";
+            }
+
+            return terrain.Type;
+        }
 
         public void Start()
         {
@@ -38,7 +52,6 @@ namespace GridRPG
             black_box = Sprite.Create((Texture2D)Resources.Load(black_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, Terrain.terrain_dim, Terrain.terrain_dim), new Vector2(0.5f, 0.5f));
             yellow_box = Sprite.Create((Texture2D)Resources.Load(yellow_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, Terrain.terrain_dim, Terrain.terrain_dim), new Vector2(0.5f, 0.5f));
             blue_box = Sprite.Create((Texture2D)Resources.Load(blue_highlight_file, typeof(Texture2D)), new Rect(0f, 0f, Terrain.terrain_dim, Terrain.terrain_dim), new Vector2(0.5f, 0.5f));
-
 
             //highlight setup
             highlight.AddComponent<SpriteRenderer>();
@@ -83,13 +96,13 @@ namespace GridRPG
             //Debug.Log("Selected unit: " + (unit?.name ?? "NONE"));
             if (selectEvent != null)
             {                
-                selectEvent(unit);
+                selectEvent(gameObject);
                 //Debug.Log("selectEvent(GameObject) sent!");
             }
             selectFlag = true;
             highlight.GetComponent<SpriteRenderer>().sprite = blue_box;
             selectEvent += deselect;
-            //Debug.Log("Space.OnMouseDown() Done!");
+            Debug.Log("Space.OnMouseDown(): Unit Faction: " + unit?.GetComponent<Unit>()?.faction ?? "None");
         }
 
         private void OnDestroy()
@@ -101,10 +114,15 @@ namespace GridRPG
             }
         }
 
-        private void deselect(GameObject u)
+        private void deselect(GameObject newSpace)
         {
             if (selectFlag)
             {
+                if(unit != null)
+                {
+                    Debug.Log(unit.GetComponent<Unit>().tryMove(newSpace.GetComponent<Space>().coordinates));
+                }
+
                 highlight.GetComponent<SpriteRenderer>().sprite = black_box;
                 selectFlag = false;
                 selectEvent -= deselect;
@@ -117,10 +135,11 @@ namespace GridRPG
         /// </summary>
         /// <param name="name">Name of the GameObject.</param>
         /// <returns>The new GameObject.</returns>
-        public static GameObject newSpace(string name)
+        private static GameObject newSpace(string name)
         {
             GameObject ret = new GameObject(name);
             ret.AddComponent<Space>();
+            ret.GetComponent<Space>().coordinates = new Vector2(0, 0);
             return ret;
         }
 
@@ -130,10 +149,11 @@ namespace GridRPG
         /// <param name="name">Name of the GameObject.</param>
         /// <param name="terrain">Terrain of the space.</param>
         /// <returns>The new GameObject.</returns>
-        public static GameObject newSpace(string name,Terrain terrain)
+        private static GameObject newSpace(string name,Terrain terrain)
         {
             GameObject ret = newSpace(name);
             ret.GetComponent<Space>().setTerrain(terrain);
+            ret.GetComponent<Space>().coordinates = new Vector2(0, 0);
             return ret;
         }
 
@@ -143,10 +163,43 @@ namespace GridRPG
         /// <param name="name">Name of the GameObject.</param>
         /// <param name="terrain">Name of the terrain type.</param>
         /// <returns>The new GameObject.</returns>
-        public static GameObject newSpace(string name, string terrain)
+        private static GameObject newSpace(string name, string terrain)
         {
             GameObject ret = newSpace(name);
             ret.GetComponent<Space>().setTerrain(terrain);
+            ret.GetComponent<Space>().coordinates = new Vector2(0, 0);
+            return ret;
+        }
+
+        /// <summary>
+        /// Generates a new GameObject with the Space component.
+        /// </summary>
+        /// <param name="x">X coordinate of the Space.</param>
+        /// <param name="y">Y coordinate of the Space.</param>
+        /// <param name="terrain">Name of the terrain type.</param>
+        /// <returns>The new GameObject.</returns>
+        public static GameObject newSpace(int x, int y, string terrain)
+        {
+            GameObject ret = newSpace("("+x+","+y+")");
+            ret.GetComponent<Space>().setTerrain(terrain);
+            ret.GetComponent<Space>().coordinates = new Vector2(x, y);
+            ret.GetComponent<Space>().unit = null;
+            return ret;
+        }
+
+        /// <summary>
+        /// Generates a new GameObject with the Space component.
+        /// </summary>
+        /// <param name="x">X coordinate of the Space.</param>
+        /// <param name="y">Y coordinate of the Space.</param>
+        /// <param name="terrain">Terrain of the space.</param>
+        /// <returns>The new GameObject.</returns>
+        public static GameObject newSpace(int x, int y, Terrain terrain)
+        {
+            GameObject ret = newSpace("(" + x + "," + y + ")");
+            ret.GetComponent<Space>().setTerrain(terrain);
+            ret.GetComponent<Space>().coordinates = new Vector2(x, y);
+            ret.GetComponent<Space>().unit = null;
             return ret;
         }
 
@@ -181,14 +234,34 @@ namespace GridRPG
 		{
             if (this.unit == null && unit?.GetComponent<Unit>() != null)
             {
+                Debug.Log("S.aU(GO): Added Unit \"" + unit.name + "\" to space " + coordinates.ToString());
                 this.unit = unit;
                 return unit;
             }
             else
             {
+                Debug.Log("S.aU(GO): Unit add failure "+ coordinates.ToString());
                 return this.unit;
             }
 		}
+
+        public string ToString()
+        {
+            return coordinates.ToString();
+        }
+
+        public string getUnitName()
+        {
+            Debug.Log("TEST");
+            if(unit != null)
+            {
+                return unit.name;
+            }
+            else
+            {
+                return "NONE";
+            }
+        }
 
         public GameObject removeUnit()
         {
@@ -231,7 +304,7 @@ namespace GridRPG
 		}
 	}
 
-    /// <summary>
+    /*/// <summary>
     /// DEPRICATED: Handled in GridRPG.Space
     /// </summary>
     [RequireComponent(typeof(BoxCollider2D))]
@@ -277,6 +350,6 @@ namespace GridRPG
                 //TO FIX
             }
         }
-    }
+    }*/
 }
 
