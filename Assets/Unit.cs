@@ -917,22 +917,38 @@ namespace GridRPG
         }
 
         /// <summary>
+        /// Unit moves to the destination coordinates.
+        /// </summary>
+        /// <param name="destCoords">Destination space.</param>
+        /// <remarks>If the movement is not possible, nothing happens.</remarks>
+        public void moveToSpace(Vector2 destCoords)
+        {
+            string route = tryMove(destCoords);
+            Debug.Log(route);
+            if (route != "X")
+            {
+                warpToSpace(destCoords);
+                game.ui.updateUnitFrame(game.map.getSpace(destCoords));
+            }
+        }
+
+        /// <summary>
         /// Teleports unit to space without movement.
         /// </summary>
         /// <param name="spaceCoords">Coordinates of the space to move to.</param>
         /// <returns>new Space.</returns>
         public GridRPG.Space warpToSpace(Vector2 spaceCoords, Map map)
         {
-            Debug.Log("warpToSpace...");
+            //Debug.Log("warpToSpace...");
             if (map == null)
             {
-                Debug.Log("warpToSpace: GAME.MAP IS NULL");
+                //Debug.Log("warpToSpace: GAME.MAP IS NULL");
                 return null;
             }
             GridRPG.Space space = map.getSpace(spaceCoords);
             if (gameObject.activeSelf)
             {
-                Debug.Log("warpToSpace: Removing unit from old space...");
+                //Debug.Log("warpToSpace: Removing unit from old space...");
                 map.getSpace(this.spaceCoords).removeUnit();
             }
             else
@@ -951,17 +967,17 @@ namespace GridRPG
             this.spaceCoords = spaceCoords;
             space.addUnit(gameObject);
 
-            Debug.Log("warpTS: Setting transforms: " + (gameObject?.name ?? "unit has no GO"));
-            Debug.Log("warpTS: Setting transforms: "+(space?.gameObject?.name ?? "new space has no GO"));
+            //Debug.Log("warpTS: Setting transforms: " + (gameObject?.name ?? "unit has no GO"));
+            //Debug.Log("warpTS: Setting transforms: "+(space?.gameObject?.name ?? "new space has no GO"));
             if(gameObject.transform == null || space.gameObject.transform == null)
             {
                 Debug.Log("warpTS: A TRANSFORM IS NULL");
             }
             gameObject.transform.SetParent(space.gameObject.transform);
-            Debug.Log("warpTS: Set transform part A done");
+            //Debug.Log("warpTS: Set transform part A done");
             gameObject.transform.localPosition = new Vector3(0, 0, -2);
-            Debug.Log("warpTS: Set transform part B done");
-            Debug.Log("warpTS: "+ gameObject.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit);
+            //Debug.Log("warpTS: Set transform part B done");
+            //Debug.Log("warpTS: "+ gameObject.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit);
             return space;
         }
 

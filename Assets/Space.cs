@@ -118,9 +118,11 @@ namespace GridRPG
         {
             if (selectFlag)
             {
-                if(unit != null)
+                if(unit != null && newSpace?.GetComponent<Space>()?.unit == null)
                 {
-                    Debug.Log(unit.GetComponent<Unit>().tryMove(newSpace.GetComponent<Space>().coordinates));
+                    //Debug.Log(unit.GetComponent<Unit>().tryMove(newSpace.GetComponent<Space>().coordinates));
+                    unit.GetComponent<Unit>().moveToSpace(newSpace.GetComponent<Space>().coordinates);
+                    
                 }
 
                 highlight.GetComponent<SpriteRenderer>().sprite = black_box;
@@ -245,7 +247,7 @@ namespace GridRPG
             }
 		}
 
-        public string ToString()
+        public override string ToString()
         {
             return coordinates.ToString();
         }

@@ -1,5 +1,5 @@
 <unit name="Goblin Grunt" faction="monster">
-  <sprite XOffset="0" YOffset="0" file="Sprites/Unit/TestUnit"/>
+  <sprite XOffset="0" YOffset="0" file="Sprites/Unit/TestUnitRed"/>
   <stats>
     <maxHP>10</maxHP>
     <HP>10</HP>
