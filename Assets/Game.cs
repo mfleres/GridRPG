@@ -14,18 +14,20 @@ namespace GridRPG
         private const string UNIT_LIST_FILE = "Assets/Resources/UnitList.csv";
         public enum Modes { MainMenu, Map };
 
-        public GridRPG.UnitLibrary unitLibrary;
-        public GridRPG.MapLibrary mapLibrary;
-        public GridRPG.UI ui;
-        public GridRPG.Map map;
+        public static GridRPG.UnitLibrary unitLibrary;
+        public static GridRPG.MapLibrary mapLibrary;
+        public static GridRPG.UI ui;
+        public static GridRPG.Map map;
+
+        public static bool animationInProgress;
 
         /// <summary>
         /// Supports the following resolutions:
         /// 853x480(wide 480p),
         /// </summary>
-        public Vector2 resolution { get; private set; }
+        public static Vector2 resolution { get; private set; }
 
-        private Modes mode;
+        private static Modes mode;
 
         public Game()
         {
@@ -36,6 +38,7 @@ namespace GridRPG
             mapLibrary = new GridRPG.MapLibrary(this);
             mapLibrary.loadMapList(MAP_LIST_FILE);
             ui = new UI(this);
+            animationInProgress = false;
         }
 
         /// <summary>
@@ -63,7 +66,7 @@ namespace GridRPG
             {
                 case "853x480":
                 case "wide 480p":
-                    this.resolution = new Vector2(853f,480f);
+                    Game.resolution = new Vector2(853f,480f);
                     reloadUI();
                     break;
             }

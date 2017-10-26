@@ -152,13 +152,13 @@ namespace GridRPG
         public Map loadMap(int id)
         {
             Debug.Log("Loading Map with id = " + id);
-            if(game.map != null)
+            if(Game.map != null)
             {
                 unloadMap();
             }
 
-            game.map = new Map(mapList[id].file, game.unitLibrary, id);
-            return game.map;
+            Game.map = new Map(mapList[id].file, Game.unitLibrary, id);
+            return Game.map;
         }
 
         /// <summary>
@@ -166,10 +166,10 @@ namespace GridRPG
         /// </summary>
         public void unloadMap()
         {
-            if (game.map != null)
+            if (Game.map != null)
             {
-                GameObject.Destroy(game.map.mapParent);
-                game.map = null;
+                GameObject.Destroy(Game.map.mapParent);
+                Game.map = null;
             }
         }
 

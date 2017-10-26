@@ -148,6 +148,7 @@ namespace GridRPG
 		
 		public void addUnitToSpace(GameObject unit, int x, int y)
 		{
+            unit.transform.SetParent(this.mapParent.transform);
 			unit.GetComponent<Unit>().warpToSpace(new Vector2(x,y), this);
 		}
 
@@ -184,10 +185,10 @@ namespace GridRPG
 				
 				Vector3 mapBLToMid = new Vector3((float)mapLength*(Terrain.terrain_dim+Space.highlight_width)/2f/100f,(float)mapWidth*(Terrain.terrain_dim+Space.highlight_width)/2f/100f,-layer);
 				
-				Debug.Log("cameraCenter: ("+cameraCenter.x+","+cameraCenter.y+")");
-				Debug.Log("mapBLToMid: ("+mapBLToMid.x+","+mapBLToMid.y+")");
+				//Debug.Log("cameraCenter: ("+cameraCenter.x+","+cameraCenter.y+")");
+				//Debug.Log("mapBLToMid: ("+mapBLToMid.x+","+mapBLToMid.y+")");
 				Vector3 newMapPos = cameraCenter - mapBLToMid;
-				Debug.Log("mnewMapPos: ("+newMapPos.x+","+newMapPos.y+")");
+				//Debug.Log("mnewMapPos: ("+newMapPos.x+","+newMapPos.y+")");
 				
 				mapParent.transform.position = newMapPos;
 				return newMapPos;

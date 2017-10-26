@@ -27,7 +27,7 @@ public class GameScript : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Q))
         {
-            game.ui.Mode = GridRPG.UI.Modes.Main;
+            GridRPG.Game.ui.Mode = GridRPG.UI.Modes.Main;
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {

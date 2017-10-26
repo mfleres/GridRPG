@@ -254,7 +254,7 @@ namespace GridRPG
 
         public string getUnitName()
         {
-            Debug.Log("TEST");
+            //Debug.Log("TEST");
             if(unit != null)
             {
                 return unit.name;

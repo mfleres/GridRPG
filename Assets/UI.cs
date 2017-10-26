@@ -29,6 +29,8 @@ namespace GridRPG
 
 
         public enum Modes { Main, MapList, ActiveMap };
+        //public delegate void DisplayMessage(string message);
+        //public static event DisplayMessage displayMessage;
 
         private Game game;
 
@@ -57,7 +59,13 @@ namespace GridRPG
         }
         private UnitFrameStruct unitFrame;
         //Message frame
-        private GameObject messageFrame;
+        private struct MessageFrameStruct
+        {
+            public GameObject frame;
+            public GameObject text;
+        }
+        private MessageFrameStruct messageFrame;
+        
 
         public UI(Game game)
         {
@@ -103,7 +111,7 @@ namespace GridRPG
                         
                         if (mode == Modes.ActiveMap)
                         {
-                            game.mapLibrary.unloadMap();
+                            Game.mapLibrary.unloadMap();
                         }
 
                         setMainMenuVisibility(true);
@@ -117,7 +125,7 @@ namespace GridRPG
                         
                         if (mode == Modes.ActiveMap)
                         {
-                            game.mapLibrary.unloadMap();
+                            Game.mapLibrary.unloadMap();
                         }
 
                         setMainMenuVisibility(false);
@@ -174,7 +182,7 @@ namespace GridRPG
                 else if(space.unit == null)
                 {
                     Debug.Log("uUF(S): Unit object is null, Space is (" + space.coordinates.x + "," + space.coordinates.y + ")");
-                    Debug.Log(space.getUnitName());
+                    //Debug.Log(space.getUnitName());
                 }
                 else
                 {
@@ -204,7 +212,7 @@ namespace GridRPG
         private void setMapUIVisibility(bool active)
         {
             unitFrame.frame.SetActive(active);
-            messageFrame.SetActive(active);
+            messageFrame.frame.SetActive(active);
         }
 
         private void setMainMenuVisibility(bool active)
@@ -232,7 +240,7 @@ namespace GridRPG
         //Loads a the map with index id.
         private void LoadMap(int id)
         {
-            game.mapLibrary.loadMap(id);
+            Game.mapLibrary.loadMap(id);
             this.Mode = Modes.ActiveMap;
         }
 
@@ -242,7 +250,7 @@ namespace GridRPG
         private void generateMapList()
         {
             //Debug.Log("GENERATING MAP SELECT BUTTONS");
-            List<Tuple<string, int>> mapEntries = game.mapLibrary.listMaps();
+            List<Tuple<string, int>> mapEntries = Game.mapLibrary.listMaps();
 
             //destroy all child transforms of mapList, in case mapLibrary has changed.
             foreach (Transform child in mapList.transform)
@@ -276,11 +284,11 @@ namespace GridRPG
             int button_font_size;
 
             //Set resolution parameters
-            if (true || game.resolution.x == 853f && game.resolution.y == 480f)
+            if (true || Game.resolution.x == 853f && Game.resolution.y == 480f)
             {   //wide 480p or unsupported
-                if (game.resolution.x != 853f || game.resolution.y != 480f)
+                if (Game.resolution.x != 853f || Game.resolution.y != 480f)
                 {   //unsupported warning
-                    Debug.Log("Unit Frame: Unsupported resolution " + game.resolution.x + "x" + game.resolution.y);
+                    Debug.Log("Unit Frame: Unsupported resolution " + Game.resolution.x + "x" + Game.resolution.y);
                 }
 
                 button_font_size = 24;
@@ -297,9 +305,21 @@ namespace GridRPG
         private void setupMessageFrame()
         {
             float frame_width, frame_height, frame_pos_x, frame_pos_y;
+            int text_font_size;
+
+            //Set resolution parameters
+            if (true || Game.resolution.x == 853f && Game.resolution.y == 480f)
+            {   //wide 480p or unsupported
+                if (Game.resolution.x != 853f || Game.resolution.y != 480f)
+                {   //unsupported warning
+                    Debug.Log("Unit Frame: Unsupported resolution " + Game.resolution.x + "x" + Game.resolution.y);
+                }
+
+                text_font_size = 16;
+            }
 
             //Setup frame width.
-            if(MESSAGE_FRAME_WIDTH + MESSAGE_FRAME_SPACING * 2f > Screen.width)
+            if (MESSAGE_FRAME_WIDTH + MESSAGE_FRAME_SPACING * 2f > Screen.width)
             {   
                 frame_width = Screen.width - MESSAGE_FRAME_SPACING * 2f;
             }
@@ -324,7 +344,25 @@ namespace GridRPG
 
             //Generate frame.
             Rect messageFrameDimensions = new Rect(frame_pos_x, frame_pos_y, frame_width, frame_height);
-            messageFrame = UI.generateUIFrame("Message Frame", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), messageFrameDimensions, canvas.transform);
+            messageFrame.frame = UI.generateUIFrame("Message Frame", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), messageFrameDimensions, canvas.transform);
+            //Generate text object
+            messageFrame.text = UI.generateUIText("Text", messageFrame.frame.transform, "", text_font_size, Color.white, TextAnchor.MiddleLeft);
+        }
+
+        /// <summary>
+        /// Displays a message in the message frame.
+        /// </summary>
+        /// <param name="message"></param>
+        public void displayMessage(string message)
+        {
+            if (message != null)
+            {
+                messageFrame.text.GetComponent<Text>().text = message;
+            }
+            else
+            {
+                messageFrame.text.GetComponent<Text>().text = "";
+            }
         }
 
         /// <summary>
@@ -340,11 +378,11 @@ namespace GridRPG
             float hp_pos_x, hp_pos_y, hp_width, hp_size;
 
             //Set resolution parameters
-            if(true || game.resolution.x==853f && game.resolution.y == 480f)
+            if(true || Game.resolution.x==853f && Game.resolution.y == 480f)
             {   //wide 480p or unsupported
-                if (game.resolution.x != 853f || game.resolution.y != 480f)
+                if (Game.resolution.x != 853f || Game.resolution.y != 480f)
                 {   //unsupported warning
-                    Debug.Log("Unit Frame: Unsupported resolution " + game.resolution.x + "x" + game.resolution.y);
+                    Debug.Log("Unit Frame: Unsupported resolution " + Game.resolution.x + "x" + Game.resolution.y);
                 }
 
                 frame_width = 210f;
