@@ -8,7 +8,7 @@
 			<space terrain="grass"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
-			<space terrain="grass"/>
+			<space terrain="void"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
@@ -18,7 +18,7 @@
 			<space terrain="grass"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
-			<space terrain="grass"/>
+			<space terrain="void"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
@@ -30,7 +30,7 @@
       <space terrain="grass"/>
 			<space terrain="water"/>
 			<space terrain="water"/>
-			<space terrain="grass"/>
+			<space terrain="water"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
 		</row>
@@ -51,17 +51,7 @@
       <space terrain="grass">
         <unit type="campaign" idnum="1"/>
       </space>
-			<space terrain="grass"/>
-			<space terrain="grass"/>
-			<space terrain="grass"/>
-			<space terrain="grass"/>
-		</row>
-		<row>
-			<space terrain="grass"/>
-			<space terrain="grass"/>
-			<space terrain="grass"/>
-			<space terrain="grass"/>
-			<space terrain="grass"/>
+			<space terrain="void"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
@@ -70,7 +60,17 @@
 			<space terrain="grass"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
+			<space terrain="void"/>
+			<space terrain="void"/>
 			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+		</row>
+		<row>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="grass"/>
+			<space terrain="void"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
@@ -80,7 +80,7 @@
 			<space terrain="void"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
-			<space terrain="grass"/>
+			<space terrain="void"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>
 			<space terrain="grass"/>

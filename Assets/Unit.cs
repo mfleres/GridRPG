@@ -868,6 +868,24 @@ namespace GridRPG
             }
         }
 
+        protected string currentRoute = "";
+        private bool movementInProgress;
+        private float lastMoveTime = 0;
+
+        public void Update()
+        {
+            if(movementInProgress)
+            {
+                float currentTime = Time.fixedTime;
+                if (currentTime > lastMoveTime + 1)
+                {
+                    //one second wait
+                    moveOne();
+                    lastMoveTime = currentTime;
+                }
+            }
+        }
+
         /// <summary>
         /// Copies the stats from another Unit
         /// </summary>
@@ -923,20 +941,75 @@ namespace GridRPG
         /// <remarks>If the movement is not possible, nothing happens.</remarks>
         public void moveToSpace(Vector2 destCoords)
         {
-            string route = tryMove(destCoords);
-            Debug.Log(route);
-            if (route != "X")
+            if (!Game.animationInProgress && !movementInProgress)
             {
-                //TODO: Animate the movement
+                string route = tryMove(destCoords);
+                Debug.Log(route);
+                if (route != "X")
+                {
+                    //TODO: Animate the movement
+                    Game.animationInProgress = true;
+                    movementInProgress = true;
+                    currentRoute = route;
+                    lastMoveTime = Time.fixedTime;
 
-                warpToSpace(destCoords); //TEMP
+                    //warpToSpace(destCoords); //TEMP
 
-                Game.ui.updateUnitFrame(Game.map.getSpace(destCoords));
-                Game.ui.displayMessage(this.name + " moved with route " + route.ToUpper() + ".");
+                    Game.ui.updateUnitFrame(this);
+                    Game.ui.displayMessage(this.name + " is moving...");
+                }
+                else
+                {
+                    Game.ui.displayMessage(this.name + " cannot move to that location.");
+                }
+            }
+        }
+
+        private void moveOne()
+        {
+            if (currentRoute.Length > 0)
+            {
+                string direction = currentRoute.Substring(0, 1);
+                int dx = 0;
+                int dy = 0;
+
+                switch (direction)
+                {
+                    case "N":
+                        dx = 0;
+                        dy = 1;
+                        break;
+                    case "E":
+                        dx = 1;
+                        dy = 0;
+                        break;
+                    case "S":
+                        dx = 0;
+                        dy = -1;
+                        break;
+                    case "W":
+                        dx = -1;
+                        dy = 0;
+                        break;
+                }
+
+                warpToSpace(new Vector2(spaceCoords.x + (float)dx, spaceCoords.y + (float)dy));
+                currentRoute = currentRoute.Substring(1);
+                Debug.Log("Remaining route: " + currentRoute);
+                if(currentRoute.Length == 0)
+                {
+                    movementInProgress = false;
+                    Game.animationInProgress = false;
+                    Debug.Log("Done moving unit");
+                    Game.ui.displayMessage(name + " has finished moving.");
+                }
             }
             else
             {
-                Game.ui.displayMessage(this.name + " cannot move to that location.");
+                movementInProgress = false;
+                Game.animationInProgress = false;
+                Debug.Log("Done moving unit");
+                Game.ui.displayMessage(name + " has finished moving.");
             }
         }
 
@@ -1480,6 +1553,7 @@ namespace GridRPG
         }
     } 
 
+    //Some legacy support... should be able to remove
     public class CampaignUnit : Unit { }
     public class NPCUnit : Unit { }
 
