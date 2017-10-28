@@ -1,0 +1,1295 @@
+Mono path[0] = 'C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Executable/GridTest_Data/Managed'
+Mono config path = 'C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Executable/GridTest_Data/MonoBleedingEdge/etc'
+PlayerConnection initialized from C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Executable/GridTest_Data (debug = 0)
+PlayerConnection initialized network socket : 0.0.0.0 55014
+Multi-casting "[IP] 192.168.1.3 [Port] 55014 [Flags] 2 [Guid] 4126665958 [EditorId] 3296801635 [Version] 1048832 [Id] WindowsPlayer(L137) [Debug] 0" to [225.0.0.222:54997]...
+Started listening to [0.0.0.0:55014]
+PlayerConnection already initialized - listening to [0.0.0.0:55014]
+Player data archive not found at `C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Executable/GridTest_Data/data.unity3d`, using local filesystem
+Initialize engine version: 2017.1.0f3 (472613c02cf7)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA Quadro 2000M (ID=0xdda)
+    Vendor:   NVIDIA
+    VRAM:     2000 MB
+    Driver:   23.21.13.8508
+Begin MonoManager ReloadAssembly
+Loading C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Executable\GridTest_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Executable\GridTest_Data\Managed\System.Core.dll (this message is harmless)
+Loading C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Executable\GridTest_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Loading C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Executable\GridTest_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Loading C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Executable\GridTest_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Loading C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Executable\GridTest_Data\Managed\UnityEngine.Timeline.dll into Unity Child Domain
+Platform assembly: C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Executable\GridTest_Data\Managed\System.dll (this message is harmless)
+- Completed reload, in  0.053 seconds
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 3.771885 ms
+Adding Units/George
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:200)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UnitLibrary.cs Line: 200)
+
+Platform assembly: C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Executable\GridTest_Data\Managed\System.Xml.dll (this message is harmless)
+Loading unit from file: Units/George
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:757)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 757)
+
+Loading animations for George GG.
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:776)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 776)
+
+Adding animation with first value: 0
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:804)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 804)
+
+AnimationManager.addAnimation(...): start.
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:63)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 63)
+
+AnimationManager.addAnimation(...): Return ID = 0
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:66)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 66)
+
+AnimationManager.addAnimation(...): spriteRect = (x:0.00, y:0.00, width:32.00, height:32.00)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:73)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 73)
+
+AnimationManager.addAnimation(...): end.
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:78)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 78)
+
+Added animation with first value!: 0
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:806)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 806)
+
+Adding animation with first value: 2
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:804)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 804)
+
+AnimationManager.addAnimation(...): start.
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:63)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 63)
+
+AnimationManager.addAnimation(...): Return ID = 1
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:66)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 66)
+
+AnimationManager.addAnimation(...): spriteRect = (x:0.00, y:32.00, width:32.00, height:32.00)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:73)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 73)
+
+AnimationManager.addAnimation(...): end.
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:78)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 78)
+
+Added animation with first value!: 2
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:806)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 806)
+
+Adding animation with first value: 3
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:804)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 804)
+
+AnimationManager.addAnimation(...): start.
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:63)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 63)
+
+AnimationManager.addAnimation(...): Return ID = 2
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:66)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 66)
+
+AnimationManager.addAnimation(...): spriteRect = (x:32.00, y:32.00, width:32.00, height:32.00)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:73)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 73)
+
+AnimationManager.addAnimation(...): spriteRect = (x:32.00, y:0.00, width:32.00, height:32.00)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:73)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 73)
+
+AnimationManager.addAnimation(...): end.
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:78)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 78)
+
+Added animation with first value!: 3
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:806)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 806)
+
+Adding animation with first value: 0
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:804)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 804)
+
+AnimationManager.addAnimation(...): start.
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:63)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 63)
+
+AnimationManager.addAnimation(...): Return ID = 3
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:66)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 66)
+
+AnimationManager.addAnimation(...): spriteRect = (x:0.00, y:0.00, width:32.00, height:32.00)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:73)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 73)
+
+AnimationManager.addAnimation(...): end.
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:78)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 78)
+
+Added animation with first value!: 0
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:806)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 806)
+
+Adding animation with first value: 1
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:804)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 804)
+
+AnimationManager.addAnimation(...): start.
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:63)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 63)
+
+AnimationManager.addAnimation(...): Return ID = 4
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:66)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 66)
+
+AnimationManager.addAnimation(...): spriteRect = (x:32.00, y:0.00, width:32.00, height:32.00)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:73)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 73)
+
+AnimationManager.addAnimation(...): end.
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:addAnimation(Texture2D, Vector2, Vector2, List`1, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:78)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:805)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 78)
+
+Added animation with first value!: 1
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:806)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 806)
+
+AnimationManager: Changing animation to ID: 0
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:set_CurrentAnimationId(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:31)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:811)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:201)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 31)
+
+Created George GG. for library
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:202)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UnitLibrary.cs Line: 202)
+
+ADDED George GG. to campaignUnits with id: 1
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UnitLibrary:addCampaignUnit(GameObject, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:73)
+GridRPG.UnitLibrary:addUnit(GameObject, Int32, String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:32)
+GridRPG.UnitLibrary:loadCampaignUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:203)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:36)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UnitLibrary.cs Line: 73)
+
+Adding Units/Goblin
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UnitLibrary:loadUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:228)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:37)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UnitLibrary.cs Line: 228)
+
+Loading unit from file: Units/Goblin
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:loadFromFile(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:757)
+GridRPG.UnitLibrary:loadUnit(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:241)
+GridRPG.UnitLibrary:loadUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:229)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:37)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 757)
+
+Created Goblin Grunt for library
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UnitLibrary:loadUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:230)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:37)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UnitLibrary.cs Line: 230)
+
+addUnit(Goblin Grunt, 1) function start
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UnitLibrary:addNPCUnit(GameObject, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:81)
+GridRPG.UnitLibrary:addUnit(GameObject, Int32, String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:34)
+GridRPG.UnitLibrary:loadUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:231)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:37)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UnitLibrary.cs Line: 81)
+
+Increased unitLibrary.Count to 2
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UnitLibrary:addNPCUnit(GameObject, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:102)
+GridRPG.UnitLibrary:addUnit(GameObject, Int32, String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:34)
+GridRPG.UnitLibrary:loadUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:231)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:37)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UnitLibrary.cs Line: 102)
+
+ADDED Goblin Grunt to unitLibrary with id: 1
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UnitLibrary:addNPCUnit(GameObject, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:121)
+GridRPG.UnitLibrary:addUnit(GameObject, Int32, String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:34)
+GridRPG.UnitLibrary:loadUnitList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UnitLibrary.cs:231)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:37)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UnitLibrary.cs Line: 121)
+
+Added MapA to library at index 0
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.MapLibrary:addMap(String, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:102)
+GridRPG.MapLibrary:addMap(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:133)
+GridRPG.MapLibrary:loadMapList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:210)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:39)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/MapLibrary.cs Line: 102)
+
+Maps/MapA
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.MapLibrary:loadMapList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:211)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:39)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/MapLibrary.cs Line: 211)
+
+Added MapB to library at index 1
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.MapLibrary:addMap(String, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:102)
+GridRPG.MapLibrary:addMap(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:133)
+GridRPG.MapLibrary:loadMapList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:210)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:39)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/MapLibrary.cs Line: 102)
+
+Maps/MapB
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.MapLibrary:loadMapList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:211)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:39)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/MapLibrary.cs Line: 211)
+
+Added MapC to library at index 2
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.MapLibrary:addMap(String, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:102)
+GridRPG.MapLibrary:addMap(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:133)
+GridRPG.MapLibrary:loadMapList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:210)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:39)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/MapLibrary.cs Line: 102)
+
+Maps/MapC
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.MapLibrary:loadMapList(String) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:211)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:39)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/MapLibrary.cs Line: 211)
+
+Unit Frame: Unsupported resolution 1600x900
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UI:setupMainMenu() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:342)
+GridRPG.UI:.ctor(Game) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:85)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:40)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UI.cs Line: 342)
+
+Unit Frame: Unsupported resolution 1600x900
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UI:setupMessageFrame() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:366)
+GridRPG.UI:.ctor(Game) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:94)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:40)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UI.cs Line: 366)
+
+Unit Frame: Unsupported resolution 1600x900
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UI:setupUnitFrame() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:443)
+GridRPG.UI:.ctor(Game) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:95)
+GridRPG.Game:.ctor() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Game.cs:40)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:19)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UI.cs Line: 443)
+
+4,3
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GameScript:Start() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\GameScript.cs:23)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/GameScript.cs Line: 23)
+
+Loading Map with id = 0
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.MapLibrary:loadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:155)
+GridRPG.UI:LoadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:294)
+GridRPG.<generateMapList>c__AnonStorey0:<>m__0() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:321)
+UnityEngine.Events.InvokableCall:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:154)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:637)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:773)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:52)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:36)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:45)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:50)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:261)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:554)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:453)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:433)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:212)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:285)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/MapLibrary.cs Line: 155)
+
+INITIALIZING TERRAINLIST
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Terrain:initTerrainList() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Terrain.cs:111)
+GridRPG.Terrain:.ctor(String, String, Int32, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Terrain.cs:46)
+GridRPG.Map:.ctor(String, UnitLibrary, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:91)
+GridRPG.MapLibrary:loadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:161)
+GridRPG.UI:LoadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:294)
+GridRPG.<generateMapList>c__AnonStorey0:<>m__0() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:321)
+UnityEngine.Events.InvokableCall:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:154)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:637)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:773)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:52)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:36)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:45)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:50)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:261)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:554)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:453)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:433)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:212)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:285)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Terrain.cs Line: 111)
+
+S.aU(GO): Added Unit "George GG." to space (2.0, 2.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Space:addUnit(GameObject) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:239)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1090)
+GridRPG.Map:addUnitToSpace(GameObject, Int32, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:153)
+GridRPG.Map:.ctor(String, UnitLibrary, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:132)
+GridRPG.MapLibrary:loadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:161)
+GridRPG.UI:LoadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:294)
+GridRPG.<generateMapList>c__AnonStorey0:<>m__0() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:321)
+UnityEngine.Events.InvokableCall:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:154)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:637)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:773)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:52)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:36)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:45)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:50)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:261)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:554)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:453)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:433)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:212)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:285)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Space.cs Line: 239)
+
+Unit.wTS(V3): new transform position = (0.6, 0.6, 3.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1092)
+GridRPG.Map:addUnitToSpace(GameObject, Int32, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:153)
+GridRPG.Map:.ctor(String, UnitLibrary, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:132)
+GridRPG.MapLibrary:loadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:161)
+GridRPG.UI:LoadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:294)
+GridRPG.<generateMapList>c__AnonStorey0:<>m__0() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:321)
+UnityEngine.Events.InvokableCall:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:154)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:637)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:773)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:52)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:36)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:45)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:50)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:261)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:554)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:453)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:433)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:212)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:285)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1092)
+
+S.aU(GO): Added Unit "Goblin Grunt" to space (3.0, 2.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Space:addUnit(GameObject) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:239)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1090)
+GridRPG.Map:addUnitToSpace(GameObject, Int32, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:153)
+GridRPG.Map:.ctor(String, UnitLibrary, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:132)
+GridRPG.MapLibrary:loadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:161)
+GridRPG.UI:LoadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:294)
+GridRPG.<generateMapList>c__AnonStorey0:<>m__0() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:321)
+UnityEngine.Events.InvokableCall:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:154)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:637)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:773)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:52)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:36)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:45)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:50)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:261)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:554)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:453)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:433)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:212)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:285)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Space.cs Line: 239)
+
+Unit.wTS(V3): new transform position = (1.0, 0.6, 3.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1092)
+GridRPG.Map:addUnitToSpace(GameObject, Int32, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:153)
+GridRPG.Map:.ctor(String, UnitLibrary, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:132)
+GridRPG.MapLibrary:loadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:161)
+GridRPG.UI:LoadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:294)
+GridRPG.<generateMapList>c__AnonStorey0:<>m__0() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:321)
+UnityEngine.Events.InvokableCall:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:154)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:637)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:773)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:52)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:36)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:45)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:50)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:261)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:554)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:453)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:433)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:212)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:285)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1092)
+
+S.aU(GO): Added Unit "Goblin Grunt" to space (3.0, 5.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Space:addUnit(GameObject) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:239)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1090)
+GridRPG.Map:addUnitToSpace(GameObject, Int32, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:153)
+GridRPG.Map:.ctor(String, UnitLibrary, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:132)
+GridRPG.MapLibrary:loadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:161)
+GridRPG.UI:LoadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:294)
+GridRPG.<generateMapList>c__AnonStorey0:<>m__0() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:321)
+UnityEngine.Events.InvokableCall:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:154)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:637)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:773)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:52)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:36)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:45)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:50)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:261)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:554)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:453)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:433)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:212)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:285)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Space.cs Line: 239)
+
+Unit.wTS(V3): new transform position = (1.0, 1.6, 3.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1092)
+GridRPG.Map:addUnitToSpace(GameObject, Int32, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:153)
+GridRPG.Map:.ctor(String, UnitLibrary, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Map.cs:132)
+GridRPG.MapLibrary:loadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\MapLibrary.cs:161)
+GridRPG.UI:LoadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:294)
+GridRPG.<generateMapList>c__AnonStorey0:<>m__0() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:321)
+UnityEngine.Events.InvokableCall:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:154)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:637)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:773)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:52)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:36)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:45)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:50)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:261)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:554)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:453)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:433)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:212)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:285)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1092)
+
+updateUnitFrame(space)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UI:updateUnitFrame(Space) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:163)
+GridRPG.UI:set_Mode(Modes) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:144)
+GridRPG.UI:LoadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:295)
+GridRPG.<generateMapList>c__AnonStorey0:<>m__0() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:321)
+UnityEngine.Events.InvokableCall:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:154)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:637)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:773)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:52)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:36)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:45)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:50)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:261)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:554)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:453)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:433)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:212)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:285)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UI.cs Line: 163)
+
+uUF(S): Space is null
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.UI:updateUnitFrame(Space) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:183)
+GridRPG.UI:set_Mode(Modes) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:144)
+GridRPG.UI:LoadMap(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:295)
+GridRPG.<generateMapList>c__AnonStorey0:<>m__0() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\UI.cs:321)
+UnityEngine.Events.InvokableCall:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:154)
+UnityEngine.Events.InvokableCallList:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:637)
+UnityEngine.Events.UnityEventBase:Invoke(Object[]) (at C:\buildslave\unity\build\Runtime\Export\UnityEvent.cs:773)
+UnityEngine.Events.UnityEvent:Invoke() (at C:\buildslave\unity\build\Runtime\Export\UnityEvent_0.cs:52)
+UnityEngine.UI.Button:Press() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:36)
+UnityEngine.UI.Button:OnPointerClick(PointerEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\UI\Core\Button.cs:45)
+UnityEngine.EventSystems.ExecuteEvents:Execute(IPointerClickHandler, BaseEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:50)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\ExecuteEvents.cs:261)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:554)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32) (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:453)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:433)
+UnityEngine.EventSystems.StandaloneInputModule:Process() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\InputModules\StandaloneInputModule.cs:212)
+UnityEngine.EventSystems.EventSystem:Update() (at C:\buildslave\unity\build\Extensions\guisystem\UnityEngine.UI\EventSystem\EventSystem.cs:285)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/UI.cs Line: 183)
+
+Space.OnMouseDown(): Unit Faction: player
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Space:OnMouseDown() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:105)
+UnityEngine.GameObject:SendMessage(GameObject, String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:17)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:163)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:143)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Space.cs Line: 105)
+
+tryMoveDynamic((2.0, 2.0), (4.0, 4.0)) start!
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:tryMoveDynamic(Vector2, Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1383)
+GridRPG.Unit:tryMove(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1180)
+GridRPG.Unit:moveToSpace(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1002)
+GridRPG.Space:deselect(GameObject) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:124)
+GridRPG.Space:OnMouseDown() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:99)
+UnityEngine.GameObject:SendMessage(GameObject, String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:17)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:163)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:143)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1383)
+
+U.tMDR(...): Found a route requiring move 4
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:tryMoveDynamicR(Int32[,], Int32, Int32, Int32, Int32, Int32, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1438)
+GridRPG.Unit:tryMoveDynamicR(Int32[,], Int32, Int32, Int32, Int32, Int32, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1494)
+GridRPG.Unit:tryMoveDynamicR(Int32[,], Int32, Int32, Int32, Int32, Int32, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1483)
+GridRPG.Unit:tryMoveDynamicR(Int32[,], Int32, Int32, Int32, Int32, Int32, Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1483)
+GridRPG.Unit:tryMoveDynamic(Vector2, Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1396)
+GridRPG.Unit:tryMove(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1180)
+GridRPG.Unit:moveToSpace(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1002)
+GridRPG.Space:deselect(GameObject) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:124)
+GridRPG.Space:OnMouseDown() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:99)
+UnityEngine.GameObject:SendMessage(GameObject, String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:17)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:163)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:143)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1438)
+
+NNEE
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:moveToSpace(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1003)
+GridRPG.Space:deselect(GameObject) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:124)
+GridRPG.Space:OnMouseDown() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:99)
+UnityEngine.GameObject:SendMessage(GameObject, String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:17)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:163)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:143)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1003)
+
+Space.OnMouseDown(): Unit Faction: 
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Space:OnMouseDown() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:105)
+UnityEngine.GameObject:SendMessage(GameObject, String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:17)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:163)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32) (at C:\buildslave\unity\build\Runtime\Export\MouseEvents.cs:143)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Space.cs Line: 105)
+
+Should change animation to north...
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1036)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1036)
+
+AnimationManager: Changing animation to ID: 1
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:set_CurrentAnimationId(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:31)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1037)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 31)
+
+S.aU(GO): Added Unit "George GG." to space (2.0, 3.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Space:addUnit(GameObject) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:239)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1090)
+GridRPG.Unit:warpToSpace(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1143)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1058)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Space.cs Line: 239)
+
+Unit.wTS(V3): new transform position = (-0.6, -0.3, 5.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1092)
+GridRPG.Unit:warpToSpace(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1143)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1058)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1092)
+
+Remaining route: NEE
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1060)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1060)
+
+Should change animation to north...
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1036)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1036)
+
+AnimationManager: Changing animation to ID: 1
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:set_CurrentAnimationId(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:31)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1037)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 31)
+
+S.aU(GO): Added Unit "George GG." to space (2.0, 4.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Space:addUnit(GameObject) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:239)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1090)
+GridRPG.Unit:warpToSpace(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1143)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1058)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Space.cs Line: 239)
+
+Unit.wTS(V3): new transform position = (-0.6, 0.0, 5.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1092)
+GridRPG.Unit:warpToSpace(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1143)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1058)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1092)
+
+Remaining route: EE
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1060)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1060)
+
+AnimationManager: Changing animation to ID: 2
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:set_CurrentAnimationId(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:31)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1042)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 31)
+
+S.aU(GO): Added Unit "George GG." to space (3.0, 4.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Space:addUnit(GameObject) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:239)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1090)
+GridRPG.Unit:warpToSpace(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1143)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1058)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Space.cs Line: 239)
+
+Unit.wTS(V3): new transform position = (-0.3, 0.0, 5.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1092)
+GridRPG.Unit:warpToSpace(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1143)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1058)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1092)
+
+Remaining route: E
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1060)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1060)
+
+AnimationManager: Changing animation to ID: 2
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:set_CurrentAnimationId(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:31)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1042)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 31)
+
+S.aU(GO): Added Unit "George GG." to space (4.0, 4.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Space:addUnit(GameObject) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Space.cs:239)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1090)
+GridRPG.Unit:warpToSpace(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1143)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1058)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Space.cs Line: 239)
+
+Unit.wTS(V3): new transform position = (0.0, 0.0, 5.0)
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:warpToSpace(Vector2, Map) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1092)
+GridRPG.Unit:warpToSpace(Vector2) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1143)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1058)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1092)
+
+Remaining route: 
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1060)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1060)
+
+AnimationManager: Changing animation to ID: 0
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.AnimationManager:set_CurrentAnimationId(Int32) (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\AnimationManager.cs:31)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1064)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/AnimationManager.cs Line: 31)
+
+Done moving unit
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+GridRPG.Unit:moveOne() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:1066)
+GridRPG.Unit:Update() (at C:\Users\Class2015\Documents\Game Development\Game Projects\Unity Projects\GridRPG\Assets\Unit.cs:936)
+ 
+(Filename: C:/Users/Class2015/Documents/Game Development/Game Projects/Unity Projects/GridRPG/Assets/Unit.cs Line: 1066)
+
+Setting up 4 worker threads for Enlighten.
+  Thread -> id: 2cf8 -> priority: 1 
+  Thread -> id: e0 -> priority: 1 
+  Thread -> id: 5b0 -> priority: 1 
+  Thread -> id: 1d84 -> priority: 1 

@@ -367,31 +367,38 @@ namespace GridRPG
                 }
 
                 text_font_size = 16;
+                frame_width = 600;
+                frame_height = 76.8f;
+                frame_pos_x = 0;
+                frame_pos_y = -195.6f;
             }
 
-            //Setup frame width.
-            if (MESSAGE_FRAME_WIDTH + MESSAGE_FRAME_SPACING * 2f > Screen.width)
-            {   
-                frame_width = Screen.width - MESSAGE_FRAME_SPACING * 2f;
-            }
-            else
+            if (false)
             {
-                frame_width = MESSAGE_FRAME_WIDTH;
-            }
+                //Setup frame width.
+                if (MESSAGE_FRAME_WIDTH + MESSAGE_FRAME_SPACING * 2f > Screen.width)
+                {
+                    frame_width = Screen.width - MESSAGE_FRAME_SPACING * 2f;
+                }
+                else
+                {
+                    frame_width = MESSAGE_FRAME_WIDTH;
+                }
 
-            //Setup frame height.
-            if(MESSAGE_FRAME_HEIGHT > Screen.height*MESSAGE_FRAME_MAX_HEIGHT)
-            {
-                frame_height = Screen.height * MESSAGE_FRAME_MAX_HEIGHT;
-            }
-            else
-            {
-                frame_height = MESSAGE_FRAME_HEIGHT;
-            }
+                //Setup frame height.
+                if (MESSAGE_FRAME_HEIGHT > Screen.height * MESSAGE_FRAME_MAX_HEIGHT)
+                {
+                    frame_height = Screen.height * MESSAGE_FRAME_MAX_HEIGHT;
+                }
+                else
+                {
+                    frame_height = MESSAGE_FRAME_HEIGHT;
+                }
 
-            //Setup frame positioning.
-            frame_pos_x = 0f;
-            frame_pos_y = -Screen.height / 2.0f + MESSAGE_FRAME_SPACING + frame_height / 2.0f;
+                //Setup frame positioning.
+                frame_pos_x = 0f;
+                frame_pos_y = -Screen.height / 2.0f + MESSAGE_FRAME_SPACING + frame_height / 2.0f;
+            }
 
             //Generate frame.
             Rect messageFrameDimensions = new Rect(frame_pos_x, frame_pos_y, frame_width, frame_height);

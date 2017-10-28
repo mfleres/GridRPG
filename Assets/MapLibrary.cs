@@ -38,18 +38,19 @@ namespace GridRPG
             /// Constructs a mapEntry. If the file loading fails or the map element does not contain a name, both values are set to null.
             /// </summary>
             /// <param name="file">Filepath of the map XML document.</param>
-            public MapEntry(string file)
+            public MapEntry(string filepath)
             {
-                if (file != null)
+                if (filepath != null)
                 {
                     XmlDocument xmlDoc = new XmlDocument();
-                    xmlDoc.Load(file);
+                    TextAsset file = Resources.Load<TextAsset>(filepath);
+                    xmlDoc.LoadXml(file.text);
                     XmlNode mapNode = xmlDoc?.DocumentElement.SelectSingleNode("/map");
 
                     this.name = mapNode?.Attributes["name"]?.Value;
                     if (this.name != null)
                     {
-                        this.file = file;
+                        this.file = filepath;
                     }
                     else
                     {
@@ -196,20 +197,15 @@ namespace GridRPG
         /// <param name="filename">File to load from.</param>
         public void loadMapList(string filename)
         {
+            string fileText;
             string mapFile;
-            System.IO.StreamReader file = null;
+            System.IO.StringReader reader; ;
+            TextAsset file = Resources.Load<TextAsset>(filename);
+            fileText = file.text;
 
-            try
-            {
-                file = new System.IO.StreamReader(filename);
-            }
-            catch (System.Exception e)
-            {
-                Debug.Log("MAP FILE NOT FOUND");
-                file = null;
-            }
+            reader = new System.IO.StringReader(fileText);
 
-            while ((mapFile = file.ReadLine()) != null)
+            while ((mapFile = reader.ReadLine()) != null)
             {
                 this.addMap(mapFile);
                 Debug.Log(mapFile);

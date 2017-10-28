@@ -8,7 +8,7 @@ namespace GridRPG
 {
     public class UnitLibrary
     {
-        private const string UNIT_FOLDER_FILEPATH = "Assets/Resources/Units/";
+        private const string UNIT_FOLDER_FILEPATH = "Units/";
 
         public Game game;
         public List<GameObject> unitLibrary;
@@ -177,26 +177,22 @@ namespace GridRPG
         /// Loads the contents of the file into campaignUnits. Resets the current contents of campaignUnits.
         /// </summary>
         /// <param name="file">File path.</param>
-        public void loadCampaignUnitList(string file)
+        public void loadCampaignUnitList(string filepath)
         {
-            System.IO.StreamReader reader = null;
-
-            try
+            TextAsset file = Resources.Load<TextAsset>(filepath);
+            if(file == null)
             {
-                reader = new System.IO.StreamReader(file);
+                Debug.Log("File read fail");
+                throw new ArgumentException("File "+ filepath +" could not be read");
             }
-            catch (System.Exception e)
-            {
-                Debug.Log("CampaignUnits file load failure");
-                reader = null;
-            }
+            System.IO.StringReader reader = new System.IO.StringReader(file.text);
 
             if(reader != null)
             {
+                string line;
                 campaignUnits = new List<GameObject>(0);
-                while (!reader.EndOfStream)
+                while ((line = reader.ReadLine())!= null)
                 {
-                    string line = reader.ReadLine();
                     string[] values = line.Split(',');
 
                     int id = int.Parse(values[0]);
@@ -209,26 +205,22 @@ namespace GridRPG
             }
         }
 
-        public void loadUnitList(string file)
+        public void loadUnitList(string filepath)
         {
-            System.IO.StreamReader reader = null;
-
-            try
+            TextAsset file = Resources.Load<TextAsset>(filepath);
+            if (file == null)
             {
-                reader = new System.IO.StreamReader(file);
+                Debug.Log("File read fail");
+                throw new ArgumentException("File " + filepath + " could not be read");
             }
-            catch (System.Exception e)
-            {
-                Debug.Log("UnitList file load failure");
-                reader = null;
-            }
+            System.IO.StringReader reader = new System.IO.StringReader(file.text);
 
             if (reader != null)
             {
+                string line;
                 unitLibrary = new List<GameObject>(0);
-                while (!reader.EndOfStream)
+                while ((line = reader.ReadLine()) != null)
                 {
-                    string line = reader.ReadLine();
                     string[] values = line.Split(',');
 
                     int id = int.Parse(values[0]);

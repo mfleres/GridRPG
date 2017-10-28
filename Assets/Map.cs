@@ -53,7 +53,8 @@ namespace GridRPG
             _eventConditions = new List<EventCondition>();
 
             XmlDocument xmlDoc = new XmlDocument();
-			xmlDoc.Load(filename);	
+            TextAsset file = Resources.Load(filename) as TextAsset;
+			xmlDoc.LoadXml(file.text);	
 			
 			XmlNode mapNode = xmlDoc.DocumentElement.SelectSingleNode("/map");
 			if(mapNode != null)

@@ -602,7 +602,7 @@ namespace GridRPG
         public const int layer = 4; //need to remove this
         public const string UNIT_LAYER = "Unit";
         public const float UNIT_SPRITE_SIZE = 32f;
-        public enum AnimationState { Idle, North, East, West, South }
+        public enum AnimationState { Idle, North, East, South, West }
 
         public GridRPG.Game game;
         public Type type { get; protected set; }
@@ -754,8 +754,14 @@ namespace GridRPG
 
         public void loadFromFile(string fileName)
         {
+            Debug.Log("Loading unit from file: " + fileName);
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(fileName);
+            TextAsset file = Resources.Load<TextAsset>(fileName);
+            if(file == null)
+            {
+                throw new ArgumentException(fileName + " file could not be loaded.");
+            }
+            xmlDoc.LoadXml(file.text);
 
             XmlNode unitNode = xmlDoc.DocumentElement.SelectSingleNode("/unit");
             if (unitNode != null)

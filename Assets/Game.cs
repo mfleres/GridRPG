@@ -9,9 +9,9 @@ namespace GridRPG
     /// </summary>
     public class Game
     {
-        private const string MAP_LIST_FILE = "Assets/Resources/MapList.txt";
-        private const string CAMPAIGN_UNIT_LIST_FILE = "Assets/Resources/CampaignUnitList.csv";
-        private const string UNIT_LIST_FILE = "Assets/Resources/UnitList.csv";
+        private const string MAP_LIST_FILE = "MapList";
+        private const string CAMPAIGN_UNIT_LIST_FILE = "CampaignUnitList";
+        private const string UNIT_LIST_FILE = "UnitList";
         public enum Modes { MainMenu, Map };
 
         public static GridRPG.UnitLibrary unitLibrary;
