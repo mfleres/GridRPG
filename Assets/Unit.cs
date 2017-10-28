@@ -595,12 +595,14 @@ using System.Xml;
 namespace GridRPG
 {
     [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(AnimationManager))]
     public class Unit : MonoBehaviour
     {
         protected const string test_unit_filepath = "Sprites/Unit/TestUnit";
         public const int layer = 4; //need to remove this
         public const string UNIT_LAYER = "Unit";
         public const float UNIT_SPRITE_SIZE = 32f;
+        public enum AnimationState { Idle, North, East, West, South }
 
         public GridRPG.Game game;
         public Type type { get; protected set; }
@@ -746,6 +748,10 @@ namespace GridRPG
         //protected List<KeyValuePair<String, int>> mobility;
         protected Dictionary<String, int> mobility;
 
+        protected string currentRoute = "";
+        private bool movementInProgress = false;
+        private float lastMoveTime = 0;
+
         public void loadFromFile(string fileName)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -757,33 +763,78 @@ namespace GridRPG
                 gameObject.name = unitNode.Attributes["name"]?.Value ?? "Unknown";
                 faction = unitNode.Attributes["faction"]?.Value ?? "unknown";
 
-                //SPRITE
-                //Debug.Log("loadFromFile(string): Loading Sprite...");
-                XmlNode spriteNode = unitNode.SelectSingleNode("sprite");
-                if (spriteNode != null)
+                //ANIMATIONS
+                XmlNode animationListNode = unitNode.SelectSingleNode("animations");
+                if (animationListNode != null)
                 {
+                    Debug.Log("Loading animations for " + name);
                     SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+                    AnimationManager animationManager = gameObject.GetComponent<AnimationManager>();
                     Texture2D spriteSheet;
-                    float xOffset;
-                    float yOffset;
-                    try
+                    int spriteWidth, spriteLength, sheetLength, sheetWidth;
+
+                    spriteRenderer.sortingLayerName = UNIT_LAYER;
+                    spriteSheet = Resources.Load<Texture2D>(animationListNode.Attributes["file"]?.Value);
+                    spriteLength = int.Parse(animationListNode.Attributes["spriteLength"]?.Value);
+                    spriteWidth = int.Parse(animationListNode.Attributes["spriteWidth"]?.Value);
+                    sheetLength = int.Parse(animationListNode.Attributes["sheetLength"]?.Value);
+                    sheetWidth = int.Parse(animationListNode.Attributes["sheetWidth"]?.Value);
+
+                    XmlNodeList animationNodeList = animationListNode.SelectNodes("animation");
+                    foreach (XmlNode animationNode in animationNodeList)
                     {
-                        spriteSheet = Resources.Load<Texture2D>(spriteNode.Attributes["file"]?.Value);
-                        xOffset = float.Parse(spriteNode.Attributes["XOffset"]?.Value);
-                        yOffset = float.Parse(spriteNode.Attributes["YOffset"]?.Value);
-                        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-                        spriteRenderer.sprite = Sprite.Create(spriteSheet, new Rect(0f, 0f, UNIT_SPRITE_SIZE, UNIT_SPRITE_SIZE), new Vector2(0.5f, 0.5f));
-                        spriteRenderer.sortingLayerName = UNIT_LAYER;
+                        //TODO: add attribute to match AnimationState with animation
+
+                        int cycleRate = 0;
+                        cycleRate = int.Parse(animationNode.Attributes["cycleRate"]?.Value);
+                        List<int> animation = new List<int>();
+                        XmlNodeList spriteNodeList = animationNode.SelectNodes("sprite");
+                        foreach(XmlNode spriteNode in spriteNodeList)
+                        {
+                            int value = int.Parse(spriteNode?.InnerText);
+                            //Debug.Log("Adding animation frame: " + value);
+                            animation.Add(value);
+                        }
+                        Debug.Log("Adding animation with first value: "+animation[0]);
+                        animationManager.addAnimation(spriteSheet, new Vector2(spriteLength, spriteWidth), new Vector2(sheetLength, sheetWidth), animation, cycleRate);
+                        Debug.Log("Added animation with first value!: " + animation[0]);
                     }
-                    catch (ArgumentNullException)
+                    if(animationNodeList.Count > 0)
                     {
-                        spriteSheet = Resources.Load<Texture2D>(test_unit_filepath);
-                        spriteRenderer.sprite = Sprite.Create(spriteSheet, new Rect(0f, 0f, UNIT_SPRITE_SIZE, UNIT_SPRITE_SIZE), new Vector2(0.5f, 0.5f));
+                        //Set to idle animation
+                        animationManager.CurrentAnimationId = (int)AnimationState.Idle;
                     }
                 }
                 else
                 {
-                    //Default sprite
+                    //SPRITE
+                    //Debug.Log("loadFromFile(string): Loading Sprite...");
+                    XmlNode spriteNode = unitNode.SelectSingleNode("sprite");
+                    if (spriteNode != null)
+                    {
+                        SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+                        Texture2D spriteSheet;
+                        float xOffset;
+                        float yOffset;
+                        try
+                        {
+                            spriteSheet = Resources.Load<Texture2D>(spriteNode.Attributes["file"]?.Value);
+                            xOffset = float.Parse(spriteNode.Attributes["XOffset"]?.Value);
+                            yOffset = float.Parse(spriteNode.Attributes["YOffset"]?.Value);
+                            spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+                            spriteRenderer.sprite = Sprite.Create(spriteSheet, new Rect(0f, 0f, UNIT_SPRITE_SIZE, UNIT_SPRITE_SIZE), new Vector2(0.5f, 0.5f));
+                            spriteRenderer.sortingLayerName = UNIT_LAYER;
+                        }
+                        catch (ArgumentNullException)
+                        {
+                            spriteSheet = Resources.Load<Texture2D>(test_unit_filepath);
+                            spriteRenderer.sprite = Sprite.Create(spriteSheet, new Rect(0f, 0f, UNIT_SPRITE_SIZE, UNIT_SPRITE_SIZE), new Vector2(0.5f, 0.5f));
+                        }
+                    }
+                    else
+                    {
+                        //Default sprite
+                    }
                 }
 
                 //STATS
@@ -868,10 +919,6 @@ namespace GridRPG
             }
         }
 
-        protected string currentRoute = "";
-        private bool movementInProgress;
-        private float lastMoveTime = 0;
-
         public void Update()
         {
             if(movementInProgress)
@@ -912,6 +959,9 @@ namespace GridRPG
             this.resistance = source.resistance;
             this.damage = source.damage;
             this.mobility = source.mobility;
+
+            gameObject.GetComponent<AnimationManager>().copy(source.gameObject.GetComponent<AnimationManager>());
+
             gameObject.SetActive(false);
 
             if (!source_active)
@@ -969,6 +1019,7 @@ namespace GridRPG
         {
             if (currentRoute.Length > 0)
             {
+                AnimationManager animationManager = GetComponent<AnimationManager>();
                 string direction = currentRoute.Substring(0, 1);
                 int dx = 0;
                 int dy = 0;
@@ -976,18 +1027,23 @@ namespace GridRPG
                 switch (direction)
                 {
                     case "N":
+                        Debug.Log("Should change animation to north...");
+                        animationManager.CurrentAnimationId = (int)AnimationState.North;
                         dx = 0;
                         dy = 1;
                         break;
                     case "E":
+                        animationManager.CurrentAnimationId = (int)AnimationState.East;
                         dx = 1;
                         dy = 0;
                         break;
                     case "S":
+                        animationManager.CurrentAnimationId = (int)AnimationState.South;
                         dx = 0;
                         dy = -1;
                         break;
                     case "W":
+                        animationManager.CurrentAnimationId = (int)AnimationState.West;
                         dx = -1;
                         dy = 0;
                         break;
@@ -999,6 +1055,7 @@ namespace GridRPG
                 if(currentRoute.Length == 0)
                 {
                     movementInProgress = false;
+                    animationManager.CurrentAnimationId = (int)AnimationState.Idle;
                     Game.animationInProgress = false;
                     Debug.Log("Done moving unit");
                     Game.ui.displayMessage(name + " has finished moving.");
@@ -1012,41 +1069,6 @@ namespace GridRPG
                 Game.ui.displayMessage(name + " has finished moving.");
             }
         }
-
-        /*private string moveToSpace(string route)
-        {
-            if (route.Length > 0)
-            {
-                string direction = route.Substring(0, 1);
-                int dx = 0;
-                int dy = 0;
-
-                switch (direction)
-                {
-                    case "N":
-                        dx = 0;
-                        dy = 1;
-                        break;
-                    case "E":
-                        dx = 1;
-                        dy = 0;
-                        break;
-                    case "S":
-                        dx = 0;
-                        dy = -1;
-                        break;
-                    case "W":
-                        dx = -1;
-                        dy = 0;
-                        break;
-                }
-
-                warpToSpace(new Vector2(spaceCoords.x + (float)dx, spaceCoords.y + (float)dy));
-                return route.Substring(1);
-            }
-
-            return "";
-        }*/
 
         /// <summary>
         /// Teleports unit to space without movement.

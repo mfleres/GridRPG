@@ -79,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\AnimationManager.cs" />
     <Compile Include="Assets\Core.cs" />
     <Compile Include="Assets\EventCondition.cs" />
     <Compile Include="Assets\Game.cs" />

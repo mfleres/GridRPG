@@ -1,4 +1,28 @@
 ﻿<unit name="George GG." faction="player">
+  <animations file ="Sprites/Unit/TestUnitDirections" spriteLength="32" spriteWidth="32" sheetLength="2" sheetWidth="2">
+    <!--REMEMBER THAT UNITY READS FROM BOTTOM LEFT OF SPRITESHEET-->
+    <animation cycleRate="0">
+      <!--Idle-->
+      <sprite>0</sprite>
+    </animation>
+    <animation cycleRate="0">
+      <!--Move North-->
+      <sprite>2</sprite>
+    </animation>
+    <animation cycleRate="10">
+      <!--Move East-->
+      <sprite>3</sprite>
+      <sprite>1</sprite>
+    </animation>
+    <animation cycleRate="0">
+      <!--Move South-->
+      <sprite>0</sprite>
+    </animation>
+    <animation cycleRate="0">
+      <!--Move West-->
+      <sprite>1</sprite>
+    </animation>   
+  </animations>
   <sprite XOffset="0.0" YOffset="0.0" file="Sprites/Unit/TestUnit"/>
   <stats>
     <maxHP>14</maxHP>
