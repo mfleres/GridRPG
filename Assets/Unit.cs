@@ -594,6 +594,51 @@ using System.Xml;
 
 namespace GridRPG
 {
+    public struct Modifier
+    {
+        public float scalar;
+        public int constant;
+
+        public Modifier(int constant, float scalar)
+        {
+            this.constant = constant;
+            this.scalar = scalar;
+        }
+
+        public static Modifier neutral()
+        {
+            return new Modifier(0, 1f);
+        }
+
+        public float applyTo(int initialValue)
+        {
+            return scalar * initialValue + constant;
+        }
+
+        /// <summary>
+        /// Loads a modifier from a child node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="childName"></param>
+        /// <returns></returns>
+        public static Modifier loadElemModifier(XmlNode node, string childName)
+        {
+            XmlNode childNode = node.SelectSingleNode(childName);
+            try
+            {
+                int constant = int.Parse(childNode?.Attributes["constant"]?.Value);
+                float scalar = float.Parse(childNode?.Attributes["scalar"]?.Value);
+
+                return new Modifier(constant, scalar);
+            }
+            catch (ArgumentNullException)
+            {
+                Debug.Log("ERROR: failed to load " + childName + " modifier.");
+                return Modifier.neutral();
+            }
+        }
+    }
+
     [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(AnimationManager))]
     public class Unit : MonoBehaviour
@@ -609,18 +654,18 @@ namespace GridRPG
         public Vector2 spaceCoords;
 
         public string faction { get; protected set; }
-        protected struct Stats_S
+        public class Stats_S
         {
-            public uint maxHP;
-            public uint HP;
-            public uint maxMP;
-            public uint MP;
-            public uint constitution;
-            public uint strength;
-            public uint dexterity;
-            public uint intellect;
-            public uint charisma;
-            public uint agility;
+            public uint maxHP = 0;
+            public uint HP = 0;
+            public uint maxMP = 0;
+            public uint MP = 0;
+            public uint constitution = 0;
+            public uint strength = 0;
+            public uint dexterity = 0;
+            public uint intellect = 0;
+            public uint charisma = 0;
+            public uint agility = 0;
 
             public Stats_S(uint maxHP, uint HP, uint maxMP, uint MP, uint constitution, uint strength, uint dexterity, uint intellect, uint charisma, uint agility)
             {
@@ -635,62 +680,72 @@ namespace GridRPG
                 this.charisma = charisma;
                 this.agility = agility;
             }
-        }
-        protected Stats_S stats;
-        protected struct Modifier
-        {
-            public float scalar;
-            public int constant;
 
-            public Modifier(int constant, float scalar)
+            public Stats_S(Stats_S source)
             {
-                this.constant = constant;
-                this.scalar = scalar;
+                this.maxHP = source.maxHP;
+                this.HP = source.HP;
+                this.maxMP = source.maxMP;
+                this.MP = source.MP;
+                this.constitution = source.constitution;
+                this.strength = source.strength;
+                this.dexterity = source.dexterity;
+                this.intellect = source.intellect;
+                this.charisma = source.charisma;
+                this.agility = source.agility;
             }
 
-            public static Modifier neutral()
+            public uint setStat(uint value, string stat)
             {
-                return new Modifier(0, 1f);
-            }
-
-            /// <summary>
-            /// Loads a modifier from a child node
-            /// </summary>
-            /// <param name="node"></param>
-            /// <param name="childName"></param>
-            /// <returns></returns>
-            public static Modifier loadElemModifier(XmlNode node, string childName)
-            {
-                XmlNode childNode = node.SelectSingleNode(childName);
-                try
+                string statLowerCase = stat.ToLower();
+                switch (statLowerCase)
                 {
-                    int constant = int.Parse(childNode?.Attributes["constant"]?.Value);
-                    float scalar = float.Parse(childNode?.Attributes["scalar"]?.Value);
+                    case "maxhp": return maxHP = value;
+                    case "hp": return HP = value;
+                    case "maxmp": return maxMP = value;
+                    case "mp": return MP = value;
+                    case "constitution": return constitution = value;
+                    case "strength": return strength = value;
+                    case "dexterity": return dexterity = value;
+                    case "intellect": return intellect = value;
+                    case "charisma": return charisma = value;
+                    case "agility": return agility = value;
 
-                    return new Modifier(constant, scalar);
                 }
-                catch (ArgumentNullException)
-                {
-                    Debug.Log("ERROR: failed to load " + childName + " modifier.");
-                    return Modifier.neutral();
-                }
+                return 0;
+            }
+
+            public void copy(Stats_S source)
+            {
+                this.maxHP = source.maxHP;
+                this.HP = source.HP;
+                this.maxMP = source.maxMP;
+                this.MP = source.MP;
+                this.constitution = source.constitution;
+                this.strength = source.strength;
+                this.dexterity = source.dexterity;
+                this.intellect = source.intellect;
+                this.charisma = source.charisma;
+                this.agility = source.agility;
             }
         }
-        protected struct ElementalMods
+        public Stats_S stats { get; protected set; }
+        
+        public struct ElementalMods
         {
-            Modifier resilience;
-            Modifier mental;
-            Modifier physical;
-            Modifier arcane;
-            Modifier fire;
-            Modifier ice;
-            Modifier earth;
-            Modifier electric;
-            Modifier wind;
-            Modifier water;
-            Modifier psychic;
-            Modifier dark;
-            Modifier light;
+            public Modifier resilience;
+            public Modifier mental;
+            public Modifier physical;
+            public Modifier arcane;
+            public Modifier fire;
+            public Modifier ice;
+            public Modifier earth;
+            public Modifier electric;
+            public Modifier wind;
+            public Modifier water;
+            public Modifier psychic;
+            public Modifier dark;
+            public Modifier light;
 
             public ElementalMods(Modifier resilience, Modifier mental, Modifier physical, Modifier arcane, Modifier fire, Modifier ice, Modifier earth, Modifier electric, Modifier wind,
                 Modifier water, Modifier psychic, Modifier dark, Modifier light)
@@ -708,6 +763,50 @@ namespace GridRPG
                 this.psychic = psychic;
                 this.dark = dark;
                 this.light = light;
+            }
+
+            public Modifier getElement(string element)
+            {
+                string elementLowerCase = element.ToLower();
+                switch (elementLowerCase)
+                {
+                    case "resilience": return resilience;
+                    case "mental": return mental;
+                    case "physical": return physical;
+                    case "arcane": return arcane;
+                    case "fire": return fire;
+                    case "ice": return ice;
+                    case "earth": return earth;
+                    case "electric": return electric;
+                    case "wind": return wind;
+                    case "water": return water;
+                    case "psychic": return psychic;
+                    case "dark": return dark;
+                    case "light": return light;
+                }
+                return Modifier.neutral();
+            }
+
+            public Modifier setElement(Modifier mod, string element)
+            {
+                string elementLowerCase = element.ToLower();
+                switch (elementLowerCase)
+                {
+                    case "resilience": return resilience = mod;
+                    case "mental": return mental = mod;
+                    case "physical": return physical = mod;
+                    case "arcane": return arcane = mod;
+                    case "fire": return fire = mod;
+                    case "ice": return ice = mod;
+                    case "earth": return earth = mod;
+                    case "electric": return electric = mod;
+                    case "wind": return wind = mod;
+                    case "water": return water = mod;
+                    case "psychic": return psychic = mod;
+                    case "dark": return dark = mod;
+                    case "light": return light = mod;
+                }
+                return Modifier.neutral();
             }
 
             public static ElementalMods neutral()
@@ -937,6 +1036,72 @@ namespace GridRPG
                     lastMoveTime = currentTime;
                 }
             }
+            if(stats.HP == 0)
+            {
+                //He is dead :(
+                Game.ui.displayMessage(name + " has died.");
+                die();
+            }
+        }
+
+        public uint getStat(string statName)
+        {
+            string statNameLowerCase = statName.ToLower();
+            switch (statNameLowerCase)
+            {
+                case "maxhp": return stats.maxHP;
+                case "hp": return stats.HP;
+                case "maxmp": return stats.maxMP;
+                case "mp": return stats.MP;
+                case "strength": return stats.strength;
+                case "constitution": return stats.constitution;
+                case "dexterity": return stats.dexterity;
+                case "intellect": return stats.intellect;
+                case "charisma": return stats.charisma;
+                case "agility": return stats.agility;
+            }
+            return 0;
+        }
+
+        public Modifier getResistance(string element)
+        {
+            return resistance.getElement(element);
+        }
+
+        public Modifier getDamageMod(string element)
+        {
+            return damage.getElement(element);
+        }
+
+        /// <summary>
+        /// Unit takes damage.
+        /// </summary>
+        /// <param name="value">Damage to deal before the unit's resistances.</param>
+        /// <param name="element">Type of damage.</param>
+        /// <returns>Damage dealt after resistances.</returns>
+        public int takeDamage(uint value, string element)
+        {
+            Modifier mod = getResistance(element);
+            int damageAmount = (int)(value * mod.scalar) + mod.constant;
+            Debug.Log("Unit.TakeDamage(): Damage amount = " + damageAmount);
+            if(stats.HP < damageAmount)
+            {
+                //hp cannot become less than 0.
+                stats.setStat(0, "hp");
+            }
+            else
+            {
+                stats.setStat((uint)(stats.HP - damageAmount), "hp");
+            }
+
+            return damageAmount;
+        }
+
+        public void die()
+        {
+            Space currentSpace = Game.map.getSpace(spaceCoords);
+            currentSpace.removeUnit();
+            GameObject.Destroy(gameObject);
         }
 
         /// <summary>
@@ -960,7 +1125,7 @@ namespace GridRPG
             this.game = source.game;
             this.name = source.name;
             this.faction = source.faction;
-            this.stats = source.stats;
+            this.stats = new Stats_S(source.stats);
             //Debug.Log("Unit.copy: Max HP = " + this.stats.maxHP);
             this.resistance = source.resistance;
             this.damage = source.damage;
@@ -999,24 +1164,34 @@ namespace GridRPG
         {
             if (!Game.animationInProgress && !movementInProgress)
             {
-                string route = tryMove(destCoords);
-                Debug.Log(route);
-                if (route != "X")
+                //Temporary method of melee attack
+                if (Space.isAdjacent(destCoords, spaceCoords) && Game.map.getUnitOnSpace(destCoords) != null)
                 {
-                    //TODO: Animate the movement
-                    Game.animationInProgress = true;
-                    movementInProgress = true;
-                    currentRoute = route;
-                    lastMoveTime = Time.fixedTime;
-
-                    //warpToSpace(destCoords); //TEMP
-
-                    Game.ui.updateUnitFrame(this);
-                    Game.ui.displayMessage(this.name + " is moving...");
+                    //Melee attack
+                    //Skill.activateSkill<MeleeAttack>(gameObject, destCoords);
                 }
                 else
                 {
-                    Game.ui.displayMessage(this.name + " cannot move to that location.");
+                    //Move
+                    string route = tryMove(destCoords);
+                    Debug.Log(route);
+                    if (route != "X")
+                    {
+                        //TODO: Animate the movement
+                        Game.animationInProgress = true;
+                        movementInProgress = true;
+                        currentRoute = route;
+                        lastMoveTime = Time.fixedTime;
+
+                        //warpToSpace(destCoords); //TEMP
+
+                        Game.ui.updateUnitFrame(this);
+                        Game.ui.displayMessage(this.name + " is moving...");
+                    }
+                    else
+                    {
+                        Game.ui.displayMessage(this.name + " cannot move to that location.");
+                    }
                 }
             }
         }

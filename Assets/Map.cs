@@ -169,6 +169,11 @@ namespace GridRPG
             GameObject space = _spaceObjects[y, x];
             return space.GetComponent<Space>();
         }
+
+        public Unit getUnitOnSpace(Vector2 coords)
+        {
+            return getSpace(coords)?.unit?.GetComponent<Unit>();
+        }
 		
 		/// <summary>
 		/// Centers the Map on a Camera.

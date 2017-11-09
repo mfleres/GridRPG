@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace GridRPG
 {
     /// <summary>
-    /// Handles sprite animations.
+    /// Handles sprite animations and sheets.
     /// </summary>
     [RequireComponent(typeof(SpriteRenderer))]
     public class AnimationManager : MonoBehaviour
@@ -15,6 +15,9 @@ namespace GridRPG
         private int currentAnimationId = -1;
         private int currentSpriteId = 0;
         private float lastUpdateTime = 0;
+
+        public delegate void AnimationDoneEvent(int id);
+        public AnimationDoneEvent animationDone;
 
         public int CurrentAnimationId
         {          
@@ -103,6 +106,7 @@ namespace GridRPG
                     {
                         //Cycle back to sprite #0
                         currentSpriteId = 0;
+                        animationDone?.Invoke(CurrentAnimationId);
                     }
 
                     //Update the last update time

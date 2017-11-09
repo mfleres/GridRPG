@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GridRPG
 {
@@ -16,6 +17,7 @@ namespace GridRPG
 
         public static GridRPG.UnitLibrary unitLibrary;
         public static GridRPG.MapLibrary mapLibrary;
+        public static GridRPG.SkillLibrary skillLibrary;
         public static GridRPG.UI ui;
         public static GridRPG.Map map;
 
@@ -37,8 +39,15 @@ namespace GridRPG
             unitLibrary.loadUnitList(UNIT_LIST_FILE);
             mapLibrary = new GridRPG.MapLibrary(this);
             mapLibrary.loadMapList(MAP_LIST_FILE);
+
+            skillLibrary = new SkillLibrary();
+            List<string> meleeTags = new List<string>();
+            meleeTags.Add("physical");
+            meleeTags.Add("contact");
+            skillLibrary.add(typeof(MeleeAttack), new Skill.Parameters("Melee Attack", meleeTags, 1, 1, Skill.Shape.Single));
             ui = new UI(this);
             animationInProgress = false;
+
         }
 
         /// <summary>

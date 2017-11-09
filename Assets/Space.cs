@@ -94,11 +94,7 @@ namespace GridRPG
         private void OnMouseDown()
         {
             //Debug.Log("Selected unit: " + (unit?.name ?? "NONE"));
-            if (selectEvent != null)
-            {                
-                selectEvent(gameObject);
-                //Debug.Log("selectEvent(GameObject) sent!");
-            }
+            selectEvent?.Invoke(gameObject);
             selectFlag = true;
             highlight.GetComponent<SpriteRenderer>().sprite = blue_box;
             selectEvent += deselect;
@@ -118,10 +114,18 @@ namespace GridRPG
         {
             if (selectFlag)
             {
-                if(unit != null && newSpace?.GetComponent<Space>()?.unit == null)
+                if(unit != null /*&& newSpace?.GetComponent<Space>()?.unit == null*/)
                 {
                     //Debug.Log(unit.GetComponent<Unit>().tryMove(newSpace.GetComponent<Space>().coordinates));
-                    unit.GetComponent<Unit>().moveToSpace(newSpace.GetComponent<Space>().coordinates);
+                    if (Input.GetKey(KeyCode.Alpha1))
+                    {
+                        //temporary method of melee attack
+                        Skill.activateSkill<MeleeAttack>(unit, newSpace.GetComponent<Space>().coordinates);
+                    }
+                    else
+                    {
+                        unit.GetComponent<Unit>().moveToSpace(newSpace.GetComponent<Space>().coordinates);
+                    }
                     
                 }
 
@@ -270,6 +274,11 @@ namespace GridRPG
             GameObject ret = this.unit;
             this.unit = null;
             return ret;
+        }
+
+        public static bool isAdjacent(Vector2 space1,Vector2 space2)
+        {
+            return (Math.Abs(space1.x - space2.x) == 1 && space1.y == space2.y) || (Math.Abs(space1.y - space2.y) == 1 && space1.x == space2.x);
         }
 
         /*/// <summary>

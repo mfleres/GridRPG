@@ -355,7 +355,7 @@ namespace GridRPG
         /// </summary>
         private void setupMessageFrame()
         {
-            float frame_width, frame_height, frame_pos_x, frame_pos_y;
+            float frame_width, frame_height, frame_pos_x, frame_pos_y,text_offset_x;
             int text_font_size;
 
             //Set resolution parameters
@@ -367,6 +367,7 @@ namespace GridRPG
                 }
 
                 text_font_size = 16;
+                text_offset_x = 5;
                 frame_width = 600;
                 frame_height = 76.8f;
                 frame_pos_x = 0;
@@ -404,7 +405,8 @@ namespace GridRPG
             Rect messageFrameDimensions = new Rect(frame_pos_x, frame_pos_y, frame_width, frame_height);
             messageFrame.frame = UI.generateUIFrame("Message Frame", FRAME_FILE_BLUE, new Vector2(0f, 0f), new Vector4(3f, 3f, 3f, 3f), messageFrameDimensions, canvas.transform);
             //Generate text object
-            messageFrame.text = UI.generateUIText("Text", messageFrame.frame.transform, "", text_font_size, Color.white, TextAnchor.MiddleLeft);
+            Rect messageTextDimensions = new Rect(0, 0, frame_width - 2*text_offset_x, frame_height);
+            messageFrame.text = UI.generateUIText("Text", messageFrame.frame.transform, "", text_font_size, Color.white, messageTextDimensions);
         }
 
         /// <summary>

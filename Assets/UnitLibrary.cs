@@ -122,31 +122,6 @@ namespace GridRPG
             return id;
         }
 
-        /*
-        public int addUnit(Unit unit, string type)
-        {
-            switch(type)
-            {
-                case "campaign":
-                    return addUnit((CampaignUnit)unit);
-                case "npc":
-                    return addUnit((NPCUnit)unit,-1);
-            }
-            return -1;
-        }
-
-        public int addUnit(Unit unit, int id, string type)
-        {
-            switch (type)
-            {
-                case "campaign":
-                    return addUnit((CampaignUnit)unit,id);
-                case "npc":
-                    return addUnit((NPCUnit)unit, id);
-            }
-            return -1;
-        }*/
-
         public GameObject getUnit(int id, string type)
         {
             switch(type)
