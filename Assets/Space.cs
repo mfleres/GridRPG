@@ -20,8 +20,9 @@ namespace GridRPG
 
         private GridRPG.Terrain terrain = null;
         public GameObject unit {get; private set;}
-		//public GameObject core;
-		public GameObject highlight;
+        public GameObject tempUnit { get; private set; } //A unit that is simply passing through the space.
+        //public GameObject core;
+        public GameObject highlight;
         public Vector2 coordinates { get; private set; } //Location of the space.
 
         public Sprite black_box;
@@ -251,6 +252,21 @@ namespace GridRPG
             }
 		}
 
+        public GameObject addTempUnit(GameObject unit)
+        {
+            if (this.tempUnit == null && unit?.GetComponent<Unit>() != null)
+            {
+                Debug.Log("S.aU(GO): Added Temporary Unit \"" + unit.name + "\" to space " + coordinates.ToString());
+                this.tempUnit = unit;
+                return unit;
+            }
+            else
+            {
+                Debug.Log("S.aU(GO): Unit add failure " + coordinates.ToString());
+                return this.tempUnit;
+            }
+        }
+
         public override string ToString()
         {
             return coordinates.ToString();
@@ -274,6 +290,31 @@ namespace GridRPG
             GameObject ret = this.unit;
             this.unit = null;
             return ret;
+        }
+
+        public GameObject removeTempUnit()
+        {
+            GameObject ret = this.tempUnit;
+            this.tempUnit = null;
+            return ret;
+        }
+
+        /// <summary>
+        /// Toggles a unit between the temp position and the standing position.
+        /// </summary>
+        /// <param name="key">True to lock, false to unlock.</param>
+        public void lockUnitinSpace(bool key)
+        {
+            if(key && unit == null && tempUnit != null)
+            {
+                unit = tempUnit;
+                tempUnit = null;
+            }
+            else if(!key && unit != null && tempUnit == null)
+            {
+                tempUnit = unit;
+                unit = null;
+            }
         }
 
         public static bool isAdjacent(Vector2 space1,Vector2 space2)

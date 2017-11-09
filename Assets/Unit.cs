@@ -1164,13 +1164,6 @@ namespace GridRPG
         {
             if (!Game.animationInProgress && !movementInProgress)
             {
-                //Temporary method of melee attack
-                if (Space.isAdjacent(destCoords, spaceCoords) && Game.map.getUnitOnSpace(destCoords) != null)
-                {
-                    //Melee attack
-                    //Skill.activateSkill<MeleeAttack>(gameObject, destCoords);
-                }
-                else
                 {
                     //Move
                     string route = tryMove(destCoords);
@@ -1180,6 +1173,7 @@ namespace GridRPG
                         //TODO: Animate the movement
                         Game.animationInProgress = true;
                         movementInProgress = true;
+                        Game.map.getSpace(spaceCoords).lockUnitinSpace(false);
                         currentRoute = route;
                         lastMoveTime = Time.fixedTime;
 
@@ -1230,13 +1224,14 @@ namespace GridRPG
                         break;
                 }
 
-                warpToSpace(new Vector2(spaceCoords.x + (float)dx, spaceCoords.y + (float)dy));
+                warpToSpace(new Vector2(spaceCoords.x + (float)dx, spaceCoords.y + (float)dy),true);
                 currentRoute = currentRoute.Substring(1);
                 Debug.Log("Remaining route: " + currentRoute);
                 if(currentRoute.Length == 0)
                 {
                     movementInProgress = false;
                     animationManager.CurrentAnimationId = (int)AnimationState.Idle;
+                    Game.map.getSpace(spaceCoords).lockUnitinSpace(true);
                     Game.animationInProgress = false;
                     Debug.Log("Done moving unit");
                     Game.ui.displayMessage(name + " has finished moving.");
@@ -1311,11 +1306,44 @@ namespace GridRPG
             return space;
         }
 
+        /// <summary>
+        /// Teleports unit to space without movement.
+        /// </summary>
+        /// <param name="spaceCoords">Coordinates of the space to move to.</param>
+        /// <param name="tempSpace">True if unit goes into the space's temp slot.</param>
+        /// <returns>new Space.</returns>
+        public GridRPG.Space warpToSpace(Vector2 spaceCoords, bool tempSpace, Map map)
+        {
+            GridRPG.Space oldSpace = map.getSpace(this.spaceCoords);
+            GridRPG.Space newSpace = map.getSpace(spaceCoords);
+            this.spaceCoords = spaceCoords;
+            
+            if (tempSpace)
+            {
+                oldSpace.removeTempUnit();
+                newSpace.addTempUnit(this.gameObject);
+            }
+            else
+            {
+                oldSpace.removeUnit();
+                newSpace.addUnit(this.gameObject);
+            }
+            this.transform.position = newSpace.transform.position;
+            Debug.Log("Unit.wTS(V3): new transform position = " + this.transform.position);
+            gameObject.SetActive(true);
+            return map.getSpace(spaceCoords);
+        }
+
         public GridRPG.Space warpToSpace(Vector2 spaceCoords)
         {
             
 
             return warpToSpace(spaceCoords, Game.map);
+        }
+
+        public GridRPG.Space warpToSpace(Vector2 spaceCoords, bool tempSpace)
+        {
+            return warpToSpace(spaceCoords, tempSpace, Game.map);
         }
 
         /// <summary>
