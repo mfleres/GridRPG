@@ -1,1 +1,2 @@
-1,MeleeAttack,Melee Attack,1,1,Single,physical,contact
+1,GridRPG.MeleeAttack,Melee Attack,1,1,Single,physical,contact
+2,GridRPG.FireBlast,Fire Blast,4,1,Single,fire,spell

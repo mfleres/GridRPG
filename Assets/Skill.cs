@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System;
 
 namespace GridRPG {
+    /// <summary>
+    /// Manages the data of all the Skills in the game.
+    /// </summary>
     public class SkillLibrary
     {
         private List<Type> library;
@@ -48,6 +51,9 @@ namespace GridRPG {
                     {
                         skillTagList.Add(values[i]);
                     }
+                    Skill.Parameters skillParameters = new Skill.Parameters(skillName, skillTagList, skillRange, skillSize, skillShape);
+                    Debug.Log("SkillLibrary(string): Attempting to add " + values[1]);
+                    add(skillType, skillParameters,skillId);
                 }
             }
         }
@@ -67,6 +73,7 @@ namespace GridRPG {
                     }
                 }
                 library.Add(skillType);
+                Debug.Log("SkillLibrary.add(Type,Skill.Parameters): Successfolly added skill: " + skillType.ToString());
                 return library.Count - 1;
             }
             return -1;
@@ -90,6 +97,7 @@ namespace GridRPG {
                 }
                 library[id] = skillType;
                 skillParameterList.Add(skillType, parameters);
+                Debug.Log("SkillLibrary.add(Type,Skill.Parameters,int): Successfolly added skill: " + skillType.ToString());
                 return id;
             }
             return -1;
@@ -114,38 +122,6 @@ namespace GridRPG {
 
         
     }
-
-    /*public interface Effect
-    {
-        void activate(Vector2 target, List<string> tags);
-    }
-
-    public class DamageEffect : Effect
-    {
-        public float modifier;
-        public int constant;
-        public Unit sourceUnit;
-        public string stat;
-        public string element;
-
-        public DamageEffect(Unit sourceUnit, string stat, int constant, float modifier, string element)
-        {
-            this.sourceUnit = sourceUnit;
-            this.stat = stat;
-            this.constant = constant;
-            this.modifier = modifier;
-            this.element = element;
-        }
-
-        public void activate(Vector2 target, List<string> tags)
-        {
-            Unit targetUnit = Game.map.getUnitOnSpace(target);
-            if(targetUnit != null)
-            {
-                Modifier mod = sourceUnit.getDamageMod(element);
-            }
-        }
-    }*/
 
     [RequireComponent(typeof(AnimationManager))]
     public abstract class Skill : MonoBehaviour
@@ -179,7 +155,18 @@ namespace GridRPG {
         /// <param name="target">Target of the skill's effect.</param>
         /// <returns></returns>
         public abstract bool initialize(GameObject user, Vector2 target);
+        /// <summary>
+        /// Displays the description of the skill
+        /// </summary>
+        /// <returns></returns>
         public abstract string getDescription();
+        /// <summary>
+        /// Determines if the selected target is valid.
+        /// </summary>
+        /// <param name="startLocation"></param>
+        /// <param name="targetLocation"></param>
+        /// <returns></returns>
+        public abstract bool isTargetValid(GameObject skillSource, Vector2 targetLocation);
 
         /// <summary>
         /// </summary>
@@ -208,7 +195,14 @@ namespace GridRPG {
         /// <returns></returns>
         public static bool isSkill(Type T)
         {
-            return T.IsSubclassOf(typeof(Skill));
+            if (T != null)
+            {
+                return T.IsSubclassOf(typeof(Skill));
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static void activateSkill<T>(GameObject user, Vector2 target) where T : Skill
@@ -237,6 +231,7 @@ namespace GridRPG {
         {
             if ((sourceUnit = user?.GetComponent<Unit>()) != null)
             {
+                this.target = target;
                 this.targetUnit = Game.map?.getUnitOnSpace(target);
                 this.user = user;
                 return true;
@@ -253,6 +248,17 @@ namespace GridRPG {
         {
             int damage = (int)sourceUnit.getDamageMod("physical").applyTo((int)sourceUnit.stats.strength);
             return "Deals " + damageCalculation() + " physical damage to an adjacent enemy.";
+        }
+
+        public override bool isTargetValid(GameObject skillSource, Vector2 targetLocation)
+        {
+            Unit sourceUnitArg = skillSource?.GetComponent<Unit>();
+            if(sourceUnitArg != null)
+            {
+                //source unit exists
+                return Space.isAdjacent(sourceUnit.spaceCoords, targetLocation);
+            }
+            return false;
         }
 
         private int damageCalculation()
@@ -285,6 +291,105 @@ namespace GridRPG {
                     {
                         //no target unit or target space is out of range.
                         Game.ui.displayMessage(sourceUnit.name + "'s attack failed to hit a target.");
+                    }
+                    skillDone = true;
+                }
+            }
+            else
+            {
+                GameObject.Destroy(gameObject);
+            }
+        }
+    }
+    /// <summary>
+    /// Attacks an enemy in range for fire damage.
+    /// </summary>
+    public class FireBlast : Skill
+    {
+        private bool skillDone = false;
+        Unit sourceUnit = null;
+        Unit targetUnit = null;
+
+        public override bool initialize(GameObject user, Vector2 target)
+        {
+            if ((sourceUnit = user?.GetComponent<Unit>()) != null)
+            {
+                this.target = target;
+                this.targetUnit = Game.map?.getUnitOnSpace(target);
+                this.user = user;
+                return true;
+            }
+            else
+            {
+                sourceUnit = null;
+                targetUnit = null;
+                return false;
+            }
+        }
+
+        public override string getDescription()
+        {
+            if (sourceUnit != null)
+            {
+                int damage = damageCalculation();
+                return "Deals " + damageCalculation() + " fire damage to an enemy within 4 spaces.";
+            }
+            else
+            {
+                return "Deals fire damage to an enemy within 4 spaces";
+            }
+        }
+
+        public override bool isTargetValid(GameObject skillSource, Vector2 targetLocation)
+        {
+            if(skillSource?.GetComponent<Unit>() != null)
+            {
+                Vector2 sourceLocation = skillSource.GetComponent<Unit>().spaceCoords;
+                return Game.map.inRange(sourceLocation, targetLocation, 1, 4);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private int damageCalculation()
+        {
+            if (sourceUnit != null)
+            {
+                return (int)sourceUnit.getDamageMod("fire").applyTo((int)sourceUnit.stats.intellect);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private void Update()
+        {
+            if (!skillDone)
+            {
+                if (sourceUnit != null)
+                {
+                    //ready to activate
+                    if (isTargetValid(sourceUnit.gameObject,target))
+                    {
+                        //target found in range
+                        int damage = damageCalculation();
+                        if (damage < 0)
+                        {
+                            //cannot deal less than 0 damage
+                            damage = 0;
+                        }
+                        int damageDealt = targetUnit.takeDamage((uint)damage, "fire");
+                        Game.ui.displayMessage(sourceUnit.name + "'s Fire Blast dealt " + damageDealt + " damage to " + targetUnit.name + ".");
+                        //Game.ui.displayMessage("Attacking for "+damageDealt);
+                        Game.ui.updateUnitFrame(targetUnit);
+                    }
+                    else
+                    {
+                        //no target unit or target space is out of range.
+                        Game.ui.displayMessage(sourceUnit.name + "'s spell failed to hit a target.");
                     }
                     skillDone = true;
                 }

@@ -644,17 +644,18 @@ namespace GridRPG
     public class Unit : MonoBehaviour
     {
         protected const string test_unit_filepath = "Sprites/Unit/TestUnit";
+        protected const int MAX_NUMBER_ACTIVE_SKILLS = 4;
         public const int layer = 4; //need to remove this
         public const string UNIT_LAYER = "Unit";
         public const float UNIT_SPRITE_SIZE = 32f;
         public enum AnimationState { Idle, North, East, South, West }
 
         public GridRPG.Game game;
-        public Type type { get; protected set; }
         public Vector2 spaceCoords;
 
         public string faction { get; protected set; }
-        public class Stats_S
+        public Skill[] activeSkills { get; protected set; }
+        public class Stats
         {
             public uint maxHP = 0;
             public uint HP = 0;
@@ -667,7 +668,7 @@ namespace GridRPG
             public uint charisma = 0;
             public uint agility = 0;
 
-            public Stats_S(uint maxHP, uint HP, uint maxMP, uint MP, uint constitution, uint strength, uint dexterity, uint intellect, uint charisma, uint agility)
+            public Stats(uint maxHP, uint HP, uint maxMP, uint MP, uint constitution, uint strength, uint dexterity, uint intellect, uint charisma, uint agility)
             {
                 this.maxHP = maxHP;
                 this.HP = HP;
@@ -681,7 +682,7 @@ namespace GridRPG
                 this.agility = agility;
             }
 
-            public Stats_S(Stats_S source)
+            public Stats(Stats source)
             {
                 this.maxHP = source.maxHP;
                 this.HP = source.HP;
@@ -715,7 +716,7 @@ namespace GridRPG
                 return 0;
             }
 
-            public void copy(Stats_S source)
+            public void copy(Stats source)
             {
                 this.maxHP = source.maxHP;
                 this.HP = source.HP;
@@ -729,7 +730,7 @@ namespace GridRPG
                 this.agility = source.agility;
             }
         }
-        public Stats_S stats { get; protected set; }
+        public Stats stats { get; protected set; }
         
         public struct ElementalMods
         {
@@ -961,17 +962,17 @@ namespace GridRPG
                         uint charisma = uint.Parse(statsNode.SelectSingleNode("charisma")?.InnerText);
                         uint agility = uint.Parse(statsNode.SelectSingleNode("agility")?.InnerText);
 
-                        this.stats = new Stats_S(maxHP, HP, maxMP, MP, constitution, strength, dexterity, intellect, charisma, agility);
+                        this.stats = new Stats(maxHP, HP, maxMP, MP, constitution, strength, dexterity, intellect, charisma, agility);
                     }
                     catch (ArgumentNullException)
                     {
                         Debug.Log("statsNode missing data");
-                        this.stats = new Stats_S(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                        this.stats = new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
                     }
                 }
                 else
                 {
-                    this.stats = new Stats_S(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                    this.stats = new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
                 }
 
                 //RESISTANCES
@@ -1017,6 +1018,9 @@ namespace GridRPG
                         Debug.Log("ERROR: Improper mobility XML.");
                     }
                 }
+
+                //SKILLS
+                activeSkills = new Skill[MAX_NUMBER_ACTIVE_SKILLS];
             }
             else
             {
@@ -1125,7 +1129,7 @@ namespace GridRPG
             this.game = source.game;
             this.name = source.name;
             this.faction = source.faction;
-            this.stats = new Stats_S(source.stats);
+            this.stats = new Stats(source.stats);
             //Debug.Log("Unit.copy: Max HP = " + this.stats.maxHP);
             this.resistance = source.resistance;
             this.damage = source.damage;

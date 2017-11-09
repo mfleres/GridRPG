@@ -13,6 +13,7 @@ namespace GridRPG
         private const string MAP_LIST_FILE = "MapList";
         private const string CAMPAIGN_UNIT_LIST_FILE = "CampaignUnitList";
         private const string UNIT_LIST_FILE = "UnitList";
+        private const string SKILL_LIST_FILE = "SkillList";
         public enum Modes { MainMenu, Map };
 
         public static GridRPG.UnitLibrary unitLibrary;
@@ -40,11 +41,11 @@ namespace GridRPG
             mapLibrary = new GridRPG.MapLibrary(this);
             mapLibrary.loadMapList(MAP_LIST_FILE);
 
-            skillLibrary = new SkillLibrary();
-            List<string> meleeTags = new List<string>();
+            skillLibrary = new SkillLibrary(SKILL_LIST_FILE);
+            /*List<string> meleeTags = new List<string>();
             meleeTags.Add("physical");
             meleeTags.Add("contact");
-            skillLibrary.add(typeof(MeleeAttack), new Skill.Parameters("Melee Attack", meleeTags, 1, 1, Skill.Shape.Single));
+            skillLibrary.add(typeof(MeleeAttack), new Skill.Parameters("Melee Attack", meleeTags, 1, 1, Skill.Shape.Single));*/
             ui = new UI(this);
             animationInProgress = false;
 

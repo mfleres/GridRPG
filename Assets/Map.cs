@@ -174,17 +174,233 @@ namespace GridRPG
         {
             return getSpace(coords)?.unit?.GetComponent<Unit>();
         }
-		
-		/// <summary>
-		/// Centers the Map on a Camera.
-		/// </summary>
-		/// <returns>
-		/// The new Map location in World coordinates
-		/// </returns>
-		/// <param name='camera'>
-		/// Camera to center on.
-		/// </param>
-		public Vector3? centerMapOnCamera(Camera camera)
+
+        /// <summary>
+        /// Determines if a given coordinate is valid within the map.
+        /// </summary>
+        /// <param name="locationCoord"></param>
+        /// <returns></returns>
+        public bool isLocationValid(Vector2 locationCoord)
+        {
+            return (locationCoord != null && locationCoord.x >= 0 && locationCoord.x < mapLength && locationCoord.y >= 0 && locationCoord.y < mapWidth);
+        }
+
+        /// <summary>
+        /// Gets the number of spaces between two coordinates.
+        /// </summary>
+        /// <param name="location1"></param>
+        /// <param name="location2"></param>
+        /// <returns></returns>
+        public int getDistance(Vector2 location1, Vector2 location2)
+        {
+            if(!isLocationValid(location1) || !isLocationValid(location2))
+            {
+                //one of the arguments is invalid
+                return -1;
+            }
+            Debug.Log("Map.getDistance("+location1+","+location2+"): returns (" + Math.Abs(location2.x - location1.x) + " + " + Math.Abs(location2.y - location1.y) + ")");
+            return (int)(Math.Abs(location2.x - location1.x) + Math.Abs(location2.y - location1.y));
+        }
+
+        /// <summary>
+        /// Gets the direct distance between two spaces.
+        /// </summary>
+        /// <param name="location1"></param>
+        /// <param name="location2"></param>
+        /// <returns></returns>
+        public float getDistanceLine(Vector2 location1, Vector2 location2)
+        {
+            if (!isLocationValid(location1) || !isLocationValid(location2))
+            {
+                //one of the arguments is invalid
+                return -1;
+            }
+            return (float)Math.Sqrt(Math.Pow(Math.Abs(location2.x - location1.x), 2) + Math.Pow(Math.Abs(location2.y - location1.y), 2));
+        }
+
+        /// <summary>
+        /// Determines if two spaces meet range criteria. Ignores line of sight.
+        /// </summary>
+        /// <param name="location1"></param>
+        /// <param name="location2"></param>
+        /// <param name="minRange"></param>
+        /// <param name="maxRange"></param>
+        /// <returns></returns>
+        public bool inRange(Vector2 location1, Vector2 location2, float minRange, float maxRange)
+        {
+            int distance = getDistance(location1, location2);
+            Debug.Log("Map.inRange(): distance = " + distance);
+            if(distance < 0)
+            {
+                Debug.Log("one of the location arguments is invalid.");
+                return false;
+            }
+            else
+            {
+                Debug.Log("Map.inRange returns (" + (distance >= minRange) + " && " + (distance <= maxRange) + ")");
+                return (distance >= minRange && distance <= maxRange);
+            }
+        }
+
+        /// <summary>
+        /// Determines whether two spaces are within range criteria.
+        /// </summary>
+        /// <param name="location1"></param>
+        /// <param name="location2"></param>
+        /// <param name="minRange"></param>
+        /// <param name="maxRange"></param>
+        /// <param name="lineOfSightRequired">Adds line of sight check.</param>
+        /// <returns></returns>
+        public bool inRangeLine(Vector2 location1, Vector2 location2, float minRange, float maxRange,bool lineOfSightRequired)
+        {
+            float distance = getDistanceLine(location1, location2);
+            if(distance < 0)
+            {
+                //one of the location arguments is invalid.
+                return false;
+            }
+            else if((distance >= minRange && distance <= maxRange))
+            {
+                //spaces are in range, check line of sight if needed
+                if (lineOfSightRequired)
+                {
+                    return inLineOfSight(location1, location2);
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether the two locations are within line of sight of eachother.
+        /// </summary>
+        /// <param name="location1"></param>
+        /// <param name="location2"></param>
+        /// <returns></returns>
+        public bool inLineOfSight(Vector2 location1, Vector2 location2)
+        {
+            if(!isLocationValid(location1) || !isLocationValid(location2))
+            {
+                return false;
+            }
+            Vector4 lineSegment = generateMathLineSegment(location1, location2);
+            if(lineSegment.w == -1)
+            {
+                //vertical
+                for(float j = lineSegment.y; j <= lineSegment.z; j += 1)
+                {
+                    if(!getSpace(new Vector2(lineSegment.x, j)).lineOfSight)
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                //other
+                //NOTE: this method is inefficient, but the penalty for double-checking spaces is low.
+                //check vertical boundaries
+                for(float i = lineSegment.y; i <= lineSegment.z; i += 1)
+                {
+                    float j = lineSegment.w * i + lineSegment.x;
+                    //check spaces
+                    if (!getSpace(new Vector2(i-0.5f, j)).lineOfSight || !getSpace(new Vector2(i + 0.5f, j)).lineOfSight)
+                    {
+                        return false;
+                    }
+                }
+                //check horizontal boundaries
+                if (lineSegment.w != 0)
+                {
+                    //not horizontal
+                    Vector4 lineSegmentInverse = inverseLineSegment(lineSegment);
+                    for (float i = lineSegment.y; i <= lineSegment.z; i += 1)
+                    {
+                        float j = lineSegment.w * i + lineSegment.x;
+                        //check spaces
+                        if (!getSpace(new Vector2(j, i - 0.5f)).lineOfSight || !getSpace(new Vector2(j, i + 0.5f)).lineOfSight)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Generates a vector representing the segment between the centers of 2 spaces.
+        /// </summary>
+        /// <param name="location1"></param>
+        /// <param name="location2"></param>
+        /// <returns>Vector4 with segment information (x,y,x1,x2). If line is vertical, format is (-1,x1,y1,y2) </returns>
+        private Vector4 generateMathLineSegment(Vector2 location1, Vector2 location2)
+        {
+            if(location1.y == location2.y)
+            {
+                //horizontal line
+                if (location1.x < location2.x)
+                {
+                    return new Vector4(0, location1.x + 0.5f, location1.x + 0.5f, location2.x + 0.5f);
+                }
+                else
+                {
+                    return new Vector4(0, location2.x + 0.5f, location2.x + 0.5f, location1.x + 0.5f);
+                }
+            }
+            else if(location1.x == location2.x)
+            {
+                //vertical line
+                if(location1.y < location2.y)
+                {
+                    return new Vector4(-1, location1.x + 0.5f, location1.y + 0.5f, location2.y + 0.5f);
+                }
+                else
+                {
+                    return new Vector4(-1, location2.x + 0.5f, location2.y + 0.5f, location1.y + 0.5f);
+                }
+            }
+            else
+            {
+                //angled line
+                float m = (location2.y - location1.y) / (location2.x - location1.x);
+                float c = location1.y + 0.5f;
+                return new Vector4(m, c, location1.x + 0.5f, location2.x + 0.5f);
+            }
+        }
+
+        private Vector4 inverseLineSegment(Vector4 source)
+        {
+            float y1 = source.w * source.y + source.x;
+            float y2 = source.w * source.z + source.x;
+            if(y2 < y1)
+            {
+                //swap
+                float temp = y1;
+                y1 = y2;
+                y2 = temp;
+            }
+            float m = 1 / source.w;
+            float b = -source.x / source.w;
+            return new Vector4(m, b, y1, y2);
+        }
+
+        /// <summary>
+        /// Centers the Map on a Camera.
+        /// </summary>
+        /// <returns>
+        /// The new Map location in World coordinates
+        /// </returns>
+        /// <param name='camera'>
+        /// Camera to center on.
+        /// </param>
+        public Vector3? centerMapOnCamera(Camera camera)
 		{
 			if (camera != null){
 				Vector3 cameraCenter = camera.ScreenToWorldPoint(new Vector3((float)Screen.width/2f, (float)Screen.height/2f, 0));

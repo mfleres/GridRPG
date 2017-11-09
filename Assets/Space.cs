@@ -24,6 +24,7 @@ namespace GridRPG
         //public GameObject core;
         public GameObject highlight;
         public Vector2 coordinates { get; private set; } //Location of the space.
+        public bool lineOfSight = true; //False if the space blocks line of sight.
 
         public Sprite black_box;
         public Sprite yellow_box;
@@ -123,8 +124,14 @@ namespace GridRPG
                         //temporary method of melee attack
                         Skill.activateSkill<MeleeAttack>(unit, newSpace.GetComponent<Space>().coordinates);
                     }
+                    else if (Input.GetKey(KeyCode.Alpha2))
+                    {
+                        //temporary method of spell attack
+                        Skill.activateSkill<FireBlast>(unit, newSpace.GetComponent<Space>().coordinates);
+                    }
                     else
                     {
+                        //move
                         unit.GetComponent<Unit>().moveToSpace(newSpace.GetComponent<Space>().coordinates);
                     }
                     
@@ -319,7 +326,15 @@ namespace GridRPG
 
         public static bool isAdjacent(Vector2 space1,Vector2 space2)
         {
-            return (Math.Abs(space1.x - space2.x) == 1 && space1.y == space2.y) || (Math.Abs(space1.y - space2.y) == 1 && space1.x == space2.x);
+            if (Game.map != null && Game.map.isLocationValid(space1) && Game.map.isLocationValid(space2))
+            {
+                //both spaces are valid in the active map
+                return (Math.Abs(space1.x - space2.x) == 1 && space1.y == space2.y) || (Math.Abs(space1.y - space2.y) == 1 && space1.x == space2.x);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /*/// <summary>
