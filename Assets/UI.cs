@@ -32,8 +32,6 @@ namespace GridRPG
         //public delegate void DisplayMessage(string message);
         //public static event DisplayMessage displayMessage;
 
-        private Game game;
-
         private Modes mode;
         private GameObject canvas;
 
@@ -67,10 +65,8 @@ namespace GridRPG
         private MessageFrameStruct messageFrame;
         
 
-        public UI(Game game)
+        public UI()
         {
-            this.game = game;
-
             Space.selectEvent += updateUnitFrame;
 
             //Setup main canvas

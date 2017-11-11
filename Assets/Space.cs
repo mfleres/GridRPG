@@ -96,7 +96,7 @@ namespace GridRPG
         private void OnMouseDown()
         {
             //Debug.Log("Selected unit: " + (unit?.name ?? "NONE"));
-            selectEvent?.Invoke(gameObject);
+            selectEvent?.Invoke(this.gameObject);
             selectFlag = true;
             highlight.GetComponent<SpriteRenderer>().sprite = blue_box;
             selectEvent += deselect;
@@ -116,27 +116,6 @@ namespace GridRPG
         {
             if (selectFlag)
             {
-                if(unit != null /*&& newSpace?.GetComponent<Space>()?.unit == null*/)
-                {
-                    //Debug.Log(unit.GetComponent<Unit>().tryMove(newSpace.GetComponent<Space>().coordinates));
-                    if (Input.GetKey(KeyCode.Alpha1))
-                    {
-                        //temporary method of melee attack
-                        Skill.activateSkill<MeleeAttack>(unit, newSpace.GetComponent<Space>().coordinates);
-                    }
-                    else if (Input.GetKey(KeyCode.Alpha2))
-                    {
-                        //temporary method of spell attack
-                        Skill.activateSkill<FireBlast>(unit, newSpace.GetComponent<Space>().coordinates);
-                    }
-                    else
-                    {
-                        //move
-                        unit.GetComponent<Unit>().moveToSpace(newSpace.GetComponent<Space>().coordinates);
-                    }
-                    
-                }
-
                 highlight.GetComponent<SpriteRenderer>().sprite = black_box;
                 selectFlag = false;
                 selectEvent -= deselect;
@@ -326,7 +305,7 @@ namespace GridRPG
 
         public static bool isAdjacent(Vector2 space1,Vector2 space2)
         {
-            if (Game.map != null && Game.map.isLocationValid(space1) && Game.map.isLocationValid(space2))
+            if (Game.map != null && Game.map.GetComponent<Map>().isLocationValid(space1) && Game.map.GetComponent<Map>().isLocationValid(space2))
             {
                 //both spaces are valid in the active map
                 return (Math.Abs(space1.x - space2.x) == 1 && space1.y == space2.y) || (Math.Abs(space1.y - space2.y) == 1 && space1.x == space2.x);

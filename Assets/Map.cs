@@ -7,7 +7,7 @@ namespace GridRPG
 {
 	
 	
-	public class Map
+	public class Map : MonoBehaviour
 	{
 		//Center is (0,0)
 		private Vector3 worldToPixel(Vector3 worldCoords)
@@ -21,7 +21,7 @@ namespace GridRPG
 		
 		public const int layer = 3;
         public const string TERRAIN_LAYER = "Terrain";
-		
+        public const float ADVANCE_TURNS_WAIT_TIME = 1f;
 		
 		//private List<GridRPG.Terrain> _terrainList;
 		//private GameObject[,] _spaceObjects;
@@ -29,26 +29,42 @@ namespace GridRPG
 		public int mapWidth { get; private set; }
 		public int mapLength { get; private set; }
         private List<EventCondition> _eventConditions;
-		public GameObject mapParent;
+		//public GameObject mapParent;
         public int id;
 
-		public Map()
+        public List<GameObject> turnOrder { get; private set; }
+        public int currentTurn { get; private set; }
+        public GameObject currentUnit { get; private set; }
+        public enum TurnPhase { Move, Skill }
+        public TurnPhase currentTurnPhase = TurnPhase.Move;
+        public bool advanceTurnsFlag = false;
+        public float advanceTurnsWaitStartTime = 0f;
+
+        public void init()
 		{
 			_spaceObjects = new GameObject[0,0];
 			mapWidth = 0;
 			mapLength = 0;
 			_eventConditions = new List<EventCondition>();
-			mapParent = new GameObject("Map");
-			mapParent.AddComponent<MapControl>();
+			//mapParent = new GameObject("Map");
+			this.gameObject.AddComponent<MapControl>();
+            turnOrder = new List<GameObject>();
+            currentTurn = 0;
+            currentUnit = null;
+            Space.selectEvent += spaceSelected;
 		}
 		
 		//returns null if incompatable xml
-		public Map(string filename, UnitLibrary unitLibrary, int id)
+		public void init(string filename, UnitLibrary unitLibrary, int id)
 		{
+            GameObject mapParent = this.gameObject;
             this.id = id;
-			mapParent = new GameObject("Map");
-			mapParent.AddComponent<MapControl>();
-            //mapParent.transform.localScale=new Vector3(2,2,1);
+            //mapParent = new GameObject("Map");
+            gameObject.AddComponent<MapControl>();
+            turnOrder = new List<GameObject>();
+            currentTurn = 0;
+            currentUnit = null;
+            Space.selectEvent += spaceSelected;
 
             _eventConditions = new List<EventCondition>();
 
@@ -127,9 +143,9 @@ namespace GridRPG
                         {
                             int unitID = 0;
                             Int32.TryParse(unitNode.Attributes["idnum"].Value, out unitID);
-                            //Debug.Log("Adding CUnit of id: " + unitID);
-                            //Debug.Log("addUnitToSpace(new CampaignUnit(" + (unitLibrary.campaignUnits[unitID]?.name ?? "BAD UNIT") + "),x,y)");
-                            addUnitToSpace(Unit.copy(unitLibrary.getUnit(unitID, unitNode.Attributes["type"].Value)),x,y);
+                            GameObject newUnitObject = Unit.copy(unitLibrary.getUnit(unitID, unitNode.Attributes["type"].Value));
+                            turnOrder.Add(newUnitObject);
+                            addUnitToSpace(newUnitObject,x,y);
                         }
 					}
 				}
@@ -144,13 +160,167 @@ namespace GridRPG
 				_eventConditions = new List<EventCondition>();
 			}
 
+            reorderTurns(Unit.Stat.agility, false);
+
             centerMapOnCamera(Camera.main);
 		}
+
+        public GameObject nextTurn()
+        {
+            if(turnOrder.Count == 0)
+            {
+                return null;
+            }
+            currentTurn++;
+            if(currentTurn >= turnOrder.Count)
+            {
+                currentTurn = 0;
+            }
+            currentUnit = turnOrder[currentTurn];
+            if (currentUnit != null) {
+                Game.ui.updateUnitFrame(currentUnit);
+                Game.ui.displayMessage("It is now " + currentUnit.name + "'s turn.");
+            }
+            advanceTurnsFlag = false;
+            currentTurnPhase = TurnPhase.Move;
+            return currentUnit;
+        }
+
+        public void spaceSelected(GameObject spaceObject)
+        {
+            Debug.Log("Map.spaceSelected(" + spaceObject?.name + ")");
+            if (currentUnit != null)
+            {
+                if (Input.GetKey(KeyCode.Alpha1))
+                {
+                    //temporary method of melee attack
+                    Skill.activateSkill<MeleeAttack>(this.currentUnit, spaceObject.GetComponent<Space>().coordinates);
+                    advanceTurnsWaitStartTime = Time.fixedTime;
+                    advanceTurnsFlag = true;
+                }
+                else if (Input.GetKey(KeyCode.Alpha2))
+                {
+                    //temporary method of spell attack
+                    Skill.activateSkill<FireBlast>(this.currentUnit, spaceObject.GetComponent<Space>().coordinates);
+                    advanceTurnsWaitStartTime = Time.fixedTime;
+                    advanceTurnsFlag = true;
+                }
+                else if(this.currentTurnPhase != TurnPhase.Skill)
+                {
+                    //move
+                    if (this.currentUnit.GetComponent<Unit>().moveToSpace(spaceObject.GetComponent<Space>().coordinates))
+                    {
+                        currentTurnPhase = TurnPhase.Skill;
+                    }
+                }
+                
+            }
+        }
 		
+        public void removeUnit(GameObject unit)
+        {
+            if(unit?.GetComponent<Unit>() != null && this.currentUnit == unit)
+            {
+                this.currentUnit = null;
+                this.turnOrder.Remove(unit);
+                unit.GetComponent<Unit>().deathEvent -= removeUnit;
+                if(this.currentTurn >= this.turnOrder.Count)
+                {
+                    //cycle currentTurn to front
+                    this.currentTurn = 0;
+                }
+                if(this.turnOrder.Count != 0)
+                {
+                    this.currentUnit = turnOrder[currentTurn];
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reorders the turn count based on the units' stats.
+        /// </summary>
+        /// <param name="stat">Stat to compare.</param>
+        /// <param name="useMin">Order the turn order with the lesser stat first.</param>
+        public void reorderTurns(Unit.Stat stat, bool useMin)
+        {
+            GameObject currentTurnUnit = this.turnOrder[currentTurn];
+            List<GameObject> sortedTurns = new List<GameObject>();
+            List<GameObject> unsortedTurns = this.turnOrder;
+            while (unsortedTurns.Count > 0) {
+                Debug.Log("Map.reorderTurns(Unit.stat, bool): unsorted.Count = "+unsortedTurns.Count+"; sorted.Count = "+sortedTurns.Count);
+                List<GameObject> groupedTurns = new List<GameObject>();
+                bool currentStatSet = false;
+                uint currentStat = 0;
+
+                //get the current grouping stat
+                for (int i = 0; i < unsortedTurns.Count; i++)
+                {
+                    Unit currentUnit = unsortedTurns[i]?.GetComponent<Unit>();
+                    if (currentUnit != null)
+                    {
+                        uint currentUnitStat = currentUnit.getStat(stat);
+                        if (!currentStatSet)
+                        {
+                            currentStat = currentUnitStat;
+                            currentStatSet = true;
+                        }
+                        else
+                        {
+                            if(useMin && currentStat > currentUnitStat)
+                            {
+                                currentStat = currentUnitStat;
+                            }
+                            else if (!useMin && currentStat < currentUnitStat)
+                            {
+                                currentStat = currentUnitStat;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Not a unit, but in case the object was there for a reason, move it to new list.
+                        sortedTurns.Add(unsortedTurns[i]);
+                        unsortedTurns.RemoveAt(i);
+                        i--;
+                    }
+                }
+
+                //get the group of units with the stat tie
+                for(int i = unsortedTurns.Count - 1; i >= 0; i--)
+                {
+                    if(unsortedTurns[i].GetComponent<Unit>().getStat(stat) == currentStat)
+                    {
+                        groupedTurns.Add(unsortedTurns[i]);
+                        unsortedTurns.RemoveAt(i);
+                    }
+                }
+
+                //add the tied units to the sorted list randomly
+                while(groupedTurns.Count > 0)
+                {
+                    int randomInt = UnityEngine.Random.Range(0, groupedTurns.Count);
+                    if(randomInt != groupedTurns.Count)
+                    {
+                        sortedTurns.Add(groupedTurns[randomInt]);
+                        groupedTurns.RemoveAt(randomInt);
+                    }
+                }
+            }
+
+            this.turnOrder = sortedTurns;
+            //return the current unit to be active
+            this.currentUnit = currentTurnUnit;
+            this.currentTurn = turnOrder.IndexOf(this.currentUnit);
+        }
+
 		public void addUnitToSpace(GameObject unit, int x, int y)
 		{
-            unit.transform.SetParent(this.mapParent.transform);
-			unit.GetComponent<Unit>().warpToSpace(new Vector2(x,y), this);
+            if (unit?.GetComponent<Unit>() != null)
+            {
+                unit.transform.SetParent(this.gameObject.transform);
+                unit.GetComponent<Unit>().deathEvent += removeUnit;
+                unit.GetComponent<Unit>().warpToSpace(new Vector2(x, y), this);
+            }
 		}
 
         public Space getSpace(Vector2 coords)
@@ -410,9 +580,9 @@ namespace GridRPG
 				//Debug.Log("cameraCenter: ("+cameraCenter.x+","+cameraCenter.y+")");
 				//Debug.Log("mapBLToMid: ("+mapBLToMid.x+","+mapBLToMid.y+")");
 				Vector3 newMapPos = cameraCenter - mapBLToMid;
-				//Debug.Log("mnewMapPos: ("+newMapPos.x+","+newMapPos.y+")");
-				
-				mapParent.transform.position = newMapPos;
+                //Debug.Log("mnewMapPos: ("+newMapPos.x+","+newMapPos.y+")");
+
+                gameObject.transform.position = newMapPos;
 				return newMapPos;
 			}
 			else{

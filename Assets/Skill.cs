@@ -232,7 +232,7 @@ namespace GridRPG {
             if ((sourceUnit = user?.GetComponent<Unit>()) != null)
             {
                 this.target = target;
-                this.targetUnit = Game.map?.getUnitOnSpace(target);
+                this.targetUnit = Game.map?.GetComponent<Map>().getUnitOnSpace(target);
                 this.user = user;
                 return true;
             }
@@ -315,7 +315,7 @@ namespace GridRPG {
             if ((sourceUnit = user?.GetComponent<Unit>()) != null)
             {
                 this.target = target;
-                this.targetUnit = Game.map?.getUnitOnSpace(target);
+                this.targetUnit = Game.map?.GetComponent<Map>().getUnitOnSpace(target);
                 this.user = user;
                 return true;
             }
@@ -345,7 +345,7 @@ namespace GridRPG {
             if(skillSource?.GetComponent<Unit>() != null)
             {
                 Vector2 sourceLocation = skillSource.GetComponent<Unit>().spaceCoords;
-                return Game.map.inRange(sourceLocation, targetLocation, 1, 4);
+                return Game.map.GetComponent<Map>().inRange(sourceLocation, targetLocation, 1, 4);
             }
             else
             {

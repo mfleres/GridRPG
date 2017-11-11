@@ -20,7 +20,7 @@ namespace GridRPG
         public static GridRPG.MapLibrary mapLibrary;
         public static GridRPG.SkillLibrary skillLibrary;
         public static GridRPG.UI ui;
-        public static GridRPG.Map map;
+        public static GameObject map;
 
         public static bool animationInProgress;
 
@@ -42,13 +42,8 @@ namespace GridRPG
             mapLibrary.loadMapList(MAP_LIST_FILE);
 
             skillLibrary = new SkillLibrary(SKILL_LIST_FILE);
-            /*List<string> meleeTags = new List<string>();
-            meleeTags.Add("physical");
-            meleeTags.Add("contact");
-            skillLibrary.add(typeof(MeleeAttack), new Skill.Parameters("Melee Attack", meleeTags, 1, 1, Skill.Shape.Single));*/
-            ui = new UI(this);
+            ui = new UI();
             animationInProgress = false;
-
         }
 
         /// <summary>
@@ -57,12 +52,12 @@ namespace GridRPG
         /// <remarks>
         /// Useful for when the user changes UI options.
         /// </remarks>
-        private void reloadUI()
+        private static void reloadUI()
         {
             Debug.Log("Reloading UI.");
             UI.Modes oldMode = ui.Mode;
             ui.destroy();
-            ui = new UI(this);
+            ui = new UI();
         }
 
         /// <summary>

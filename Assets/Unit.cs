@@ -649,9 +649,13 @@ namespace GridRPG
         public const string UNIT_LAYER = "Unit";
         public const float UNIT_SPRITE_SIZE = 32f;
         public enum AnimationState { Idle, North, East, South, West }
+        public enum Stat {  maxHP,  HP,  maxMP,  MP,  constitution,  strength,  dexterity,  intellect,  charisma,  agility}
+        public delegate void DeathEvent(GameObject unit);
 
         public GridRPG.Game game;
         public Vector2 spaceCoords;
+        public event DeathEvent deathEvent;
+
 
         public string faction { get; protected set; }
         public Skill[] activeSkills { get; protected set; }
@@ -1067,6 +1071,24 @@ namespace GridRPG
             return 0;
         }
 
+        public uint getStat(Stat stat)
+        {
+            switch (stat)
+            {
+                case Stat.maxHP: return stats.maxHP;
+                case Stat.HP: return stats.HP;
+                case Stat.maxMP: return stats.maxMP;
+                case Stat.MP: return stats.MP;
+                case Stat.strength: return stats.strength;
+                case Stat.constitution: return stats.constitution;
+                case Stat.dexterity: return stats.dexterity;
+                case Stat.intellect: return stats.intellect;
+                case Stat.charisma: return stats.charisma;
+                case Stat.agility: return stats.agility;
+            }
+            return 0;
+        }
+
         public Modifier getResistance(string element)
         {
             return resistance.getElement(element);
@@ -1103,8 +1125,9 @@ namespace GridRPG
 
         public void die()
         {
-            Space currentSpace = Game.map.getSpace(spaceCoords);
+            Space currentSpace = Game.map.GetComponent<Map>().getSpace(spaceCoords);
             currentSpace.removeUnit();
+            deathEvent?.Invoke(this.gameObject);
             GameObject.Destroy(gameObject);
         }
 
@@ -1164,7 +1187,7 @@ namespace GridRPG
         /// </summary>
         /// <param name="destCoords">Destination space.</param>
         /// <remarks>If the movement is not possible, nothing happens.</remarks>
-        public void moveToSpace(Vector2 destCoords)
+        public bool moveToSpace(Vector2 destCoords)
         {
             if (!Game.animationInProgress && !movementInProgress)
             {
@@ -1177,7 +1200,7 @@ namespace GridRPG
                         //TODO: Animate the movement
                         Game.animationInProgress = true;
                         movementInProgress = true;
-                        Game.map.getSpace(spaceCoords).lockUnitinSpace(false);
+                        Game.map.GetComponent<Map>().getSpace(spaceCoords).lockUnitinSpace(false);
                         currentRoute = route;
                         lastMoveTime = Time.fixedTime;
 
@@ -1185,13 +1208,16 @@ namespace GridRPG
 
                         Game.ui.updateUnitFrame(this);
                         Game.ui.displayMessage(this.name + " is moving...");
+                        return true;
                     }
                     else
                     {
                         Game.ui.displayMessage(this.name + " cannot move to that location.");
+                        return false;
                     }
                 }
             }
+            return false;
         }
 
         private void moveOne()
@@ -1235,7 +1261,7 @@ namespace GridRPG
                 {
                     movementInProgress = false;
                     animationManager.CurrentAnimationId = (int)AnimationState.Idle;
-                    Game.map.getSpace(spaceCoords).lockUnitinSpace(true);
+                    Game.map.GetComponent<Map>().getSpace(spaceCoords).lockUnitinSpace(true);
                     Game.animationInProgress = false;
                     Debug.Log("Done moving unit");
                     Game.ui.displayMessage(name + " has finished moving.");
@@ -1347,7 +1373,7 @@ namespace GridRPG
 
         public GridRPG.Space warpToSpace(Vector2 spaceCoords, bool tempSpace)
         {
-            return warpToSpace(spaceCoords, tempSpace, Game.map);
+            return warpToSpace(spaceCoords, tempSpace, Game.map.GetComponent<Map>());
         }
 
         /// <summary>
@@ -1377,7 +1403,7 @@ namespace GridRPG
         public string tryMove(Vector2 destCoords)
         {
             //First test if there is a unit in the way
-            if(Game.map?.getSpace(destCoords)?.unit != null)
+            if(Game.map?.GetComponent<Map>().getSpace(destCoords)?.unit != null)
             {
                 //Can't move there
                 Debug.Log("Another Unit is at the destination already!");
@@ -1595,7 +1621,7 @@ namespace GridRPG
             }
 
             //Setup the stored data
-            int[,] weightedRoute = new int[Game.map.mapLength,Game.map.mapWidth]; //(C# compiler sets all to 0)
+            int[,] weightedRoute = new int[Game.map.GetComponent<Map>().mapLength,Game.map.GetComponent<Map>().mapWidth]; //(C# compiler sets all to 0)
 
             //mark start as -1
             weightedRoute[(int)srcCoords.x, (int)srcCoords.y] = -1;
@@ -1737,7 +1763,7 @@ namespace GridRPG
         /// <returns>Amount of move needed.</returns>
         private int testTerrain(Vector2 destCoords, int moveRemaining)
         {
-            Space destSpace = Game.map?.getSpace(destCoords);
+            Space destSpace = Game.map?.GetComponent<Map>()?.getSpace(destCoords);
             if (destSpace != null)
             {
                 //First test if there is a hostile unit

@@ -150,7 +150,7 @@ namespace GridRPG
         /// </summary>
         /// <param name="id">Index of the map to load.</param>
         /// <returns>The loaded map.</returns>
-        public Map loadMap(int id)
+        public GameObject loadMap(int id)
         {
             Debug.Log("Loading Map with id = " + id);
             if(Game.map != null)
@@ -158,7 +158,8 @@ namespace GridRPG
                 unloadMap();
             }
 
-            Game.map = new Map(mapList[id].file, Game.unitLibrary, id);
+            Game.map = new GameObject("Map");
+            Game.map.AddComponent<Map>().init(mapList[id].file, Game.unitLibrary, id);
             return Game.map;
         }
 
@@ -169,7 +170,8 @@ namespace GridRPG
         {
             if (Game.map != null)
             {
-                GameObject.Destroy(Game.map.mapParent);
+                Debug.Log("Unloading map: " + Game.map.name);
+                GameObject.Destroy(Game.map);
                 Game.map = null;
             }
         }
