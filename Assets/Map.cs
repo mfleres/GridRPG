@@ -40,6 +40,19 @@ namespace GridRPG
         public bool advanceTurnsFlag = false;
         public float advanceTurnsWaitStartTime = 0f;
 
+        public void Update()
+        {
+            if (!GridRPG.Game.animationInProgress && Input.GetKeyDown(KeyCode.Tab) && !advanceTurnsFlag)
+            {
+                this.nextTurn();
+            }
+
+            if (this.advanceTurnsFlag && this.advanceTurnsWaitStartTime + GridRPG.Map.ADVANCE_TURNS_WAIT_TIME <= Time.fixedTime)
+            {
+                this.nextTurn();
+            }
+        }
+
         public void init()
 		{
 			_spaceObjects = new GameObject[0,0];
@@ -160,8 +173,18 @@ namespace GridRPG
 				_eventConditions = new List<EventCondition>();
 			}
 
+            Debug.Log("Map init done");
             reorderTurns(Unit.Stat.agility, false);
-
+            if (currentUnit != null)
+            {
+                Debug.Log("Map.init(): Updating current unit selection");
+                GridRPG.Space currentSpace = getSpace(currentUnit.GetComponent<Unit>().spaceCoords);
+                if (currentSpace != null)
+                {
+                    currentSpace.GetComponent<Space>().CurrentHighlight = Space.Highlight.Blue;
+                }
+                Game.ui.updateUnitFrame(currentUnit);
+            }
             centerMapOnCamera(Camera.main);
 		}
 
@@ -171,6 +194,7 @@ namespace GridRPG
             {
                 return null;
             }
+            getSpace(currentUnit.GetComponent<Unit>().spaceCoords).GetComponent<Space>().CurrentHighlight = Space.Highlight.Black;
             currentTurn++;
             if(currentTurn >= turnOrder.Count)
             {
@@ -183,6 +207,7 @@ namespace GridRPG
             }
             advanceTurnsFlag = false;
             currentTurnPhase = TurnPhase.Move;
+            getSpace(currentUnit.GetComponent<Unit>().spaceCoords).GetComponent<Space>().CurrentHighlight = Space.Highlight.Blue;
             return currentUnit;
         }
 
@@ -213,7 +238,6 @@ namespace GridRPG
                         currentTurnPhase = TurnPhase.Skill;
                     }
                 }
-                
             }
         }
 		

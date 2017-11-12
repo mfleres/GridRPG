@@ -33,15 +33,7 @@ public class GameScript : MonoBehaviour {
         {
             Application.Quit();
         }
-        else if (!GridRPG.Game.animationInProgress && Input.GetKeyDown(KeyCode.Tab))
-        {
-            GridRPG.Game.map?.GetComponent<GridRPG.Map>().nextTurn();
-        }
-
-        if(!GridRPG.Game.animationInProgress && GridRPG.Game.map != null && GridRPG.Game.map.GetComponent<GridRPG.Map>().advanceTurnsFlag && GridRPG.Game.map.GetComponent<GridRPG.Map>().advanceTurnsWaitStartTime + GridRPG.Map.ADVANCE_TURNS_WAIT_TIME <= Time.fixedTime)
-        {
-            GridRPG.Game.map.GetComponent<GridRPG.Map>().nextTurn();
-        }
+        
     }
 	
 	void LateUpdate() {

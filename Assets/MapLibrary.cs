@@ -160,6 +160,7 @@ namespace GridRPG
 
             Game.map = new GameObject("Map");
             Game.map.AddComponent<Map>().init(mapList[id].file, Game.unitLibrary, id);
+            Game.ui.updateUnitFrame(Game.map.GetComponent<Map>().currentUnit);
             return Game.map;
         }
 

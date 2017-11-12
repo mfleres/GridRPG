@@ -659,7 +659,7 @@ namespace GridRPG
 
         public string faction { get; protected set; }
         public Skill[] activeSkills { get; protected set; }
-        public class Stats
+        public class StatsList
         {
             public uint maxHP = 0;
             public uint HP = 0;
@@ -672,7 +672,7 @@ namespace GridRPG
             public uint charisma = 0;
             public uint agility = 0;
 
-            public Stats(uint maxHP, uint HP, uint maxMP, uint MP, uint constitution, uint strength, uint dexterity, uint intellect, uint charisma, uint agility)
+            public StatsList(uint maxHP, uint HP, uint maxMP, uint MP, uint constitution, uint strength, uint dexterity, uint intellect, uint charisma, uint agility)
             {
                 this.maxHP = maxHP;
                 this.HP = HP;
@@ -686,7 +686,7 @@ namespace GridRPG
                 this.agility = agility;
             }
 
-            public Stats(Stats source)
+            public StatsList(StatsList source)
             {
                 this.maxHP = source.maxHP;
                 this.HP = source.HP;
@@ -720,7 +720,7 @@ namespace GridRPG
                 return 0;
             }
 
-            public void copy(Stats source)
+            public void copy(StatsList source)
             {
                 this.maxHP = source.maxHP;
                 this.HP = source.HP;
@@ -734,7 +734,7 @@ namespace GridRPG
                 this.agility = source.agility;
             }
         }
-        public Stats stats { get; protected set; }
+        public StatsList stats { get; protected set; }
         
         public struct ElementalMods
         {
@@ -966,17 +966,17 @@ namespace GridRPG
                         uint charisma = uint.Parse(statsNode.SelectSingleNode("charisma")?.InnerText);
                         uint agility = uint.Parse(statsNode.SelectSingleNode("agility")?.InnerText);
 
-                        this.stats = new Stats(maxHP, HP, maxMP, MP, constitution, strength, dexterity, intellect, charisma, agility);
+                        this.stats = new StatsList(maxHP, HP, maxMP, MP, constitution, strength, dexterity, intellect, charisma, agility);
                     }
                     catch (ArgumentNullException)
                     {
                         Debug.Log("statsNode missing data");
-                        this.stats = new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                        this.stats = new StatsList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
                     }
                 }
                 else
                 {
-                    this.stats = new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                    this.stats = new StatsList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
                 }
 
                 //RESISTANCES
@@ -1109,7 +1109,7 @@ namespace GridRPG
         {
             Modifier mod = getResistance(element);
             int damageAmount = (int)(value * mod.scalar) + mod.constant;
-            Debug.Log("Unit.TakeDamage(): Damage amount = " + damageAmount);
+            //Debug.Log("Unit.TakeDamage(): Damage amount = " + damageAmount);
             if(stats.HP < damageAmount)
             {
                 //hp cannot become less than 0.
@@ -1152,7 +1152,7 @@ namespace GridRPG
             this.game = source.game;
             this.name = source.name;
             this.faction = source.faction;
-            this.stats = new Stats(source.stats);
+            this.stats = new StatsList(source.stats);
             //Debug.Log("Unit.copy: Max HP = " + this.stats.maxHP);
             this.resistance = source.resistance;
             this.damage = source.damage;
@@ -1200,6 +1200,7 @@ namespace GridRPG
                         //TODO: Animate the movement
                         Game.animationInProgress = true;
                         movementInProgress = true;
+                        Game.map.GetComponent<Map>().getSpace(spaceCoords).CurrentHighlight = Space.Highlight.Black;
                         Game.map.GetComponent<Map>().getSpace(spaceCoords).lockUnitinSpace(false);
                         currentRoute = route;
                         lastMoveTime = Time.fixedTime;
@@ -1261,6 +1262,7 @@ namespace GridRPG
                 {
                     movementInProgress = false;
                     animationManager.CurrentAnimationId = (int)AnimationState.Idle;
+                    Game.map.GetComponent<Map>().getSpace(spaceCoords).CurrentHighlight = Space.Highlight.Blue;
                     Game.map.GetComponent<Map>().getSpace(spaceCoords).lockUnitinSpace(true);
                     Game.animationInProgress = false;
                     Debug.Log("Done moving unit");
@@ -1374,24 +1376,6 @@ namespace GridRPG
         public GridRPG.Space warpToSpace(Vector2 spaceCoords, bool tempSpace)
         {
             return warpToSpace(spaceCoords, tempSpace, Game.map.GetComponent<Map>());
-        }
-
-        /// <summary>
-        /// Gets unit's current HP.
-        /// </summary>
-        /// <returns>Current HP.</returns>
-        public uint getHP() {
-            
-            return stats.HP;
-        }
-
-        /// <summary>
-        /// Gets unit's maximum HP.
-        /// </summary>
-        /// <returns>Maximum HP.</returns>
-        public uint getMaxHP() {
-            //Debug.Log(gameObject.name + ": Max HP = " + stats.maxHP);
-            return stats.maxHP;
         }
 
         /// <summary>
