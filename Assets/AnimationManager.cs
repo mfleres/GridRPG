@@ -15,9 +15,14 @@ namespace GridRPG
         private int currentAnimationId = -1;
         private int currentSpriteId = 0;
         private float lastUpdateTime = 0;
+        private float translateSpeed = 0;
+        private Vector2 translateDestination = Vector2.zero;
 
         public delegate void AnimationDoneEvent(int id);
         public AnimationDoneEvent animationDone;
+
+        public delegate void DestinationReachedEvent();
+        public DestinationReachedEvent destinationReached;
 
         public int CurrentAnimationId
         {          
@@ -82,6 +87,39 @@ namespace GridRPG
             return animationId;
         }
 
+        /// <summary>
+        /// Adds an animation to the animation manager.
+        /// </summary>
+        /// <param name="spriteSheet">Source to pull the sprites from.</param>
+        /// <param name="spriteDims">Size of each sprite on the sheet.</param>
+        /// <param name="sheetDims">Number of sprites in each dimension.</param>
+        /// <param name="spriteOrder">Order to cycle through the sprites.</param>
+        /// <param name="cycleRate">Number of sprites per second. 0 disables animation.</param>
+        /// <param name="speed">Number of space units to move per second.</param>
+        /// <param name="destination">Destination Space to stop at. Triggers destinationReached event when reached.</param>
+        /// <returns>ID of the animation in the manager.</returns>
+        public int addAnimation(Texture2D spriteSheet, Vector2 spriteDims, Vector2 sheetDims, List<int> spriteOrder, int cycleRate, float speed, Vector2 destination)
+        {
+            int ret = addAnimation(spriteSheet, spriteDims, sheetDims, spriteOrder, cycleRate);
+            this.translateSpeed = speed;
+            if(this.translateSpeed < 0)
+            {
+                this.translateSpeed = Math.Abs(this.translateSpeed);
+            }
+            this.translateDestination = destination;
+            return ret;
+        }
+
+        public void changeMovement(float speed, Vector2 destination)
+        {
+            this.translateSpeed = speed;
+            if (this.translateSpeed < 0)
+            {
+                this.translateSpeed = Math.Abs(this.translateSpeed);
+            }
+            this.translateDestination = destination;
+        }
+
         public void copy(AnimationManager source)
         {
             animationList = source.animationList;
@@ -114,6 +152,18 @@ namespace GridRPG
 
                     //Update the sprite
                     gameObject.GetComponent<SpriteRenderer>().sprite = animationList[currentAnimationId].Item1[currentSpriteId];
+                }
+            }
+            if(translateSpeed != 0)
+            {
+                float step = translateSpeed * Time.deltaTime;
+                GridRPG.Space destSpace = Game.map.GetComponent<Map>().getSpace(translateDestination);
+                transform.position = Vector3.MoveTowards(transform.position, destSpace.transform.position, step);
+                if(transform.position == destSpace.transform.position)
+                {
+                    translateSpeed = 0;
+                    Debug.Log(name + ">AnimationManager: destination reached.");
+                    destinationReached?.Invoke();
                 }
             }
         }

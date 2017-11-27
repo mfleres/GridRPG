@@ -145,8 +145,11 @@ namespace GridRPG {
         }
         public enum Shape { Single, Square, Circle, Cone, Line }
 
+        protected const string SKILL_LAYER = "Effect";
         protected GameObject user = null;
         public Vector2 target = Vector2.zero;
+        public delegate void CompletedEvent(Skill skill);
+        public CompletedEvent complete;
 
         /// <summary>
         /// Initializes the skill to be active.
@@ -205,7 +208,7 @@ namespace GridRPG {
             }
         }
 
-        public static void activateSkill<T>(GameObject user, Vector2 target) where T : Skill
+        public static Skill activateSkill<T>(GameObject user, Vector2 target) where T : Skill
         {
             Debug.Log("Attempting to activate skill");
             if (user != null && typeof(T).IsSubclassOf(typeof(Skill)) && SkillLibrary.skillParameterList.ContainsKey(typeof(T)))
@@ -214,7 +217,9 @@ namespace GridRPG {
                 GameObject skillObject = new GameObject(user.name + "'s " + typeof(T).ToString() + " skill");
                 skillObject.AddComponent<T>();
                 skillObject.GetComponent<T>().initialize(user, target);
+                return skillObject.GetComponent<T>();
             }
+            return null;
         }
     }
 
@@ -306,6 +311,8 @@ namespace GridRPG {
     /// </summary>
     public class FireBlast : Skill
     {
+        private const string FIRE_BLAST_SHEET = "Sprites/Skill/FireBlast";
+
         private bool skillDone = false;
         Unit sourceUnit = null;
         Unit targetUnit = null;
@@ -316,7 +323,10 @@ namespace GridRPG {
             {
                 this.target = target;
                 this.targetUnit = Game.map?.GetComponent<Map>().getUnitOnSpace(target);
+                GetComponent<SpriteRenderer>().sortingLayerName = SKILL_LAYER;
                 this.user = user;
+                setupAnimation();
+                transform.position = sourceUnit.transform.position;
                 return true;
             }
             else
@@ -325,6 +335,19 @@ namespace GridRPG {
                 targetUnit = null;
                 return false;
             }
+        }
+
+        private void setupAnimation()
+        {
+            Texture2D spriteSheet = Resources.Load<Texture2D>(FIRE_BLAST_SHEET);
+            if(spriteSheet == null)
+            {
+                Debug.Log("FireBlast: could not load spritesheet");
+            }
+            List<int> spriteOrder = new List<int>();
+            spriteOrder.Add(0);
+            GetComponent<AnimationManager>().addAnimation(spriteSheet, new Vector2(32, 32), new Vector2(1, 1), spriteOrder, 0);
+            GetComponent<AnimationManager>().CurrentAnimationId = 0;
         }
 
         public override string getDescription()
@@ -369,35 +392,46 @@ namespace GridRPG {
         {
             if (!skillDone)
             {
-                if (sourceUnit != null)
+                if (sourceUnit != null && !Game.animationInProgress)
                 {
                     //ready to activate
                     if (isTargetValid(sourceUnit.gameObject,target))
                     {
                         //target found in range
-                        int damage = damageCalculation();
-                        if (damage < 0)
-                        {
-                            //cannot deal less than 0 damage
-                            damage = 0;
-                        }
-                        int damageDealt = targetUnit.takeDamage((uint)damage, "fire");
-                        Game.ui.displayMessage(sourceUnit.name + "'s Fire Blast dealt " + damageDealt + " damage to " + targetUnit.name + ".");
-                        //Game.ui.displayMessage("Attacking for "+damageDealt);
-                        Game.ui.updateUnitFrame(targetUnit);
+                        GetComponent<AnimationManager>().changeMovement(1, target);
+                        GetComponent<AnimationManager>().destinationReached += hitTarget;
+                        Game.animationInProgress = true;
                     }
                     else
                     {
                         //no target unit or target space is out of range.
-                        Game.ui.displayMessage(sourceUnit.name + "'s spell failed to hit a target.");
+                        Game.ui.displayMessage(sourceUnit.name + "'s spell failed to find a target.");
+                        skillDone = true;
                     }
-                    skillDone = true;
                 }
             }
             else
             {
+                this.complete?.Invoke(this);
                 GameObject.Destroy(gameObject);
             }
+        }
+
+        private void hitTarget()
+        {
+            int damage = damageCalculation();
+            if (damage < 0)
+            {
+                //cannot deal less than 0 damage
+                damage = 0;
+            }
+            int damageDealt = targetUnit.takeDamage((uint)damage, "fire");
+            Game.ui.displayMessage(sourceUnit.name + "'s Fire Blast dealt " + damageDealt + " damage to " + targetUnit.name + ".");
+            //Game.ui.displayMessage("Attacking for "+damageDealt);
+            //Game.ui.updateUnitFrame(targetUnit);
+            Game.animationInProgress = false;
+            GetComponent<AnimationManager>().destinationReached -= hitTarget;
+            skillDone = true;
         }
     }
 

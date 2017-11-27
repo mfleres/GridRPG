@@ -855,6 +855,7 @@ namespace GridRPG
         protected string currentRoute = "";
         private bool movementInProgress = false;
         private float lastMoveTime = 0;
+        private bool deathFlag = false;
 
         public void loadFromFile(string fileName)
         {
@@ -1044,11 +1045,12 @@ namespace GridRPG
                     lastMoveTime = currentTime;
                 }
             }
-            if(stats.HP == 0)
+            if(deathFlag)
             {
                 //He is dead :(
                 Game.ui.displayMessage(name + " has died.");
-                die();
+                Debug.Log("Unit.Update(): destroying " + this.name);
+                GameObject.Destroy(this.gameObject);
             }
         }
 
@@ -1120,6 +1122,11 @@ namespace GridRPG
                 stats.setStat((uint)(stats.HP - damageAmount), "hp");
             }
 
+            if(stats.HP == 0)
+            {
+                Debug.Log(name + "'s HP is zero after takeDamage(uint,string).");
+                die();
+            }
             return damageAmount;
         }
 
@@ -1127,8 +1134,9 @@ namespace GridRPG
         {
             Space currentSpace = Game.map.GetComponent<Map>().getSpace(spaceCoords);
             currentSpace.removeUnit();
+            Debug.Log(name + "'s deathEvent is being invoked.");
             deathEvent?.Invoke(this.gameObject);
-            GameObject.Destroy(gameObject);
+            deathFlag = true;
         }
 
         /// <summary>

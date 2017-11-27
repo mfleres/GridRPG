@@ -157,8 +157,7 @@ namespace GridRPG
                             int unitID = 0;
                             Int32.TryParse(unitNode.Attributes["idnum"].Value, out unitID);
                             GameObject newUnitObject = Unit.copy(unitLibrary.getUnit(unitID, unitNode.Attributes["type"].Value));
-                            turnOrder.Add(newUnitObject);
-                            addUnitToSpace(newUnitObject,x,y);
+                            initializeUnit(newUnitObject, x, y);
                         }
 					}
 				}
@@ -188,6 +187,13 @@ namespace GridRPG
             centerMapOnCamera(Camera.main);
 		}
 
+        private void initializeUnit(GameObject unit, int x, int y)
+        {
+            turnOrder.Add(unit);
+            //unit.GetComponent<Unit>().deathEvent += removeUnit;
+            addUnitToSpace(unit, x, y);
+        }
+
         public GameObject nextTurn()
         {
             if(turnOrder.Count == 0)
@@ -211,6 +217,12 @@ namespace GridRPG
             return currentUnit;
         }
 
+        private void skillDone(Skill skill)
+        {
+            skill.complete -= skillDone;
+            nextTurn();
+        }
+
         public void spaceSelected(GameObject spaceObject)
         {
             Debug.Log("Map.spaceSelected(" + spaceObject?.name + ")");
@@ -226,9 +238,9 @@ namespace GridRPG
                 else if (Input.GetKey(KeyCode.Alpha2))
                 {
                     //temporary method of spell attack
-                    Skill.activateSkill<FireBlast>(this.currentUnit, spaceObject.GetComponent<Space>().coordinates);
+                    Skill fireBlastSkill = Skill.activateSkill<FireBlast>(this.currentUnit, spaceObject.GetComponent<Space>().coordinates);
                     advanceTurnsWaitStartTime = Time.fixedTime;
-                    advanceTurnsFlag = true;
+                    fireBlastSkill.complete += skillDone;
                 }
                 else if(this.currentTurnPhase != TurnPhase.Skill)
                 {
@@ -243,19 +255,27 @@ namespace GridRPG
 		
         public void removeUnit(GameObject unit)
         {
-            if(unit?.GetComponent<Unit>() != null && this.currentUnit == unit)
+            if(unit?.GetComponent<Unit>() != null)
             {
-                this.currentUnit = null;
-                this.turnOrder.Remove(unit);
-                unit.GetComponent<Unit>().deathEvent -= removeUnit;
-                if(this.currentTurn >= this.turnOrder.Count)
+                Debug.Log("Map.removeUnit: Removing " + unit.name);
+                int unitTurnNum = this.turnOrder.IndexOf(unit);
+                if (unitTurnNum != -1)
                 {
-                    //cycle currentTurn to front
-                    this.currentTurn = 0;
-                }
-                if(this.turnOrder.Count != 0)
-                {
-                    this.currentUnit = turnOrder[currentTurn];
+                    if (unit == this.currentUnit)
+                    {
+                        this.currentUnit = null;
+                    }
+                    unit.GetComponent<Unit>().deathEvent -= removeUnit;
+                    //Remove Unit from turn list and adjust current turn if needed
+                    if(unitTurnNum < this.currentTurn)
+                    {
+                        this.currentTurn--;
+                    }
+                    turnOrder.Remove(unit);
+                    if(this.currentTurn >= this.turnOrder.Count)
+                    {
+                        this.currentTurn = 0;
+                    }
                 }
             }
         }
