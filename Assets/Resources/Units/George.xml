@@ -76,7 +76,8 @@
   <abilities>
   </abilities>
   <skills>
-    <skill id="1"/>
+    <skill class="GridRPG.MeleeAttack"/>
+    <skill class="GridRPG.FireBlast"/>
   </skills>
   <equipment>
   </equipment>

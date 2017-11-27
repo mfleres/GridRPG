@@ -9,6 +9,7 @@ namespace GridRPG {
     /// </summary>
     public class SkillLibrary
     {
+        protected const float ICON_DIMS = 32f;
         private List<Type> library;
         public static Dictionary<Type, Skill.Parameters> skillParameterList = new Dictionary<Type, Skill.Parameters>();
 
@@ -31,29 +32,36 @@ namespace GridRPG {
             if (reader != null)
             {
                 string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] values = line.Split(',');
+                if ((line = reader.ReadLine()) != null) //Skip the header line
+                { 
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string[] values = line.Split(',');
 
-                    if(values.Length < 6)
-                    {
-                        throw new ArgumentException("SkillLibrary: Entry in file is invalid.");
+                        if (values.Length < 6)
+                        {
+                            throw new ArgumentException("SkillLibrary: Entry in file is invalid.");
+                        }
+                        int skillId = int.Parse(values[0]);
+                        Type skillType = Type.GetType(values[1]);
+                        string skillName = values[2];
+                        int skillRange = int.Parse(values[3]);
+                        int skillSize = int.Parse(values[4]);
+                        Skill.Shape skillShape = Skill.stringToShape(values[5]);
+                        Texture2D skillSpriteSheet = Resources.Load<Texture2D>(values[6]);
+                        int skillSpriteX = int.Parse(values[7]);
+                        int skillSpriteY = int.Parse(values[8]);
+                        Sprite skillSprite = Sprite.Create(skillSpriteSheet, new Rect((float)skillSpriteX, (float)skillSpriteY, ICON_DIMS, ICON_DIMS), new Vector2(0.5f, 0.5f));
+                        //Get tags from the remainder of the line
+                        List<string> skillTagList = new List<string>();
+                        for (int i = 9; i < values.Length; i++)
+                        {
+                            skillTagList.Add(values[i]);
+                        }
+                        Skill.Parameters skillParameters = new Skill.Parameters(skillName, skillTagList, skillRange, skillSize, skillShape, skillSprite);
+                        Debug.Log("SkillLibrary(string): Attempting to add " + values[1]);
+                        add(skillType, skillParameters, skillId);
                     }
-                    int skillId = int.Parse(values[0]);
-                    Type skillType = Type.GetType(values[1]);
-                    string skillName = values[2];
-                    int skillRange = int.Parse(values[3]);
-                    int skillSize = int.Parse(values[4]);
-                    Skill.Shape skillShape = Skill.stringToShape(values[5]);
-                    //Get tags from the remainder of the line
-                    List<string> skillTagList = new List<string>();
-                    for(int i = 6; i < values.Length; i++)
-                    {
-                        skillTagList.Add(values[i]);
-                    }
-                    Skill.Parameters skillParameters = new Skill.Parameters(skillName, skillTagList, skillRange, skillSize, skillShape);
-                    Debug.Log("SkillLibrary(string): Attempting to add " + values[1]);
-                    add(skillType, skillParameters,skillId);
                 }
             }
         }
@@ -103,6 +111,19 @@ namespace GridRPG {
             return -1;
         }
 
+        public Sprite getIcon(Type T)
+        {
+            if (T != null)
+            {
+                Skill.Parameters ret = skillParameterList[T];
+                return ret.icon;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// Adds the skill targetting information to a static location.
         /// </summary>
@@ -111,16 +132,14 @@ namespace GridRPG {
         /// <param name="range">The skill's range.</param>
         /// <param name="radius">The radius of the skill's effect.</param>
         /// <param name="shape">Shape of the skill.</param>
-        private void initializeSkillParameters(Type T, string name, List<string> tags, int range, int size, Skill.Shape shape)
+        private void initializeSkillParameters(Type T, string name, List<string> tags, int range, int size, Skill.Shape shape, Sprite icon)
         {
             if (T.IsSubclassOf(typeof(Skill)) && tags != null && !skillParameterList.ContainsKey(T))
             {
-                Skill.Parameters sp = new Skill.Parameters(name, tags, range, size, shape);
+                Skill.Parameters sp = new Skill.Parameters(name, tags, range, size, shape,icon);
                 skillParameterList.Add(T, sp);
             }
         }
-
-        
     }
 
     [RequireComponent(typeof(AnimationManager))]
@@ -133,19 +152,22 @@ namespace GridRPG {
             public int range;
             public int size;
             public Shape shape;
+            public Sprite icon;
 
-            public Parameters(string name, List<string> tags,int range, int size, Shape shape)
+            public Parameters(string name, List<string> tags, int range, int size, Shape shape, Sprite icon)
             {
                 this.name = name;
                 this.tags = tags;
                 this.range = range;
                 this.size = size;
                 this.shape = shape;
+                this.icon = icon;
             }
         }
         public enum Shape { Single, Square, Circle, Cone, Line }
 
         protected const string SKILL_LAYER = "Effect";
+
         protected GameObject user = null;
         public Vector2 target = Vector2.zero;
         public delegate void CompletedEvent(Skill skill);

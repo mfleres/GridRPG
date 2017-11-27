@@ -63,7 +63,19 @@ namespace GridRPG
             public GameObject text;
         }
         private MessageFrameStruct messageFrame;
-        
+        private struct SkillListStruct
+        {
+            public GameObject frame;
+            public GameObject skillIcon1;
+            public GameObject text1;
+            public GameObject skillIcon2;
+            public GameObject text2;
+            public GameObject skillIcon3;
+            public GameObject text3;
+            public GameObject skillIcon4;
+            public GameObject text4;
+        }
+        private SkillListStruct skillList;
 
         public UI()
         {
@@ -89,6 +101,7 @@ namespace GridRPG
             //Setup map ui
             setupMessageFrame();
             setupUnitFrame();
+            setupSkillList();
 
             this.Mode = Modes.Main;
         }
@@ -229,6 +242,8 @@ namespace GridRPG
         {
             unitFrame.frame.SetActive(active);
             messageFrame.frame.SetActive(active);
+            skillList.frame.SetActive(active);
+            updateUnitFrame((GameObject)null);
             displayMessage("");
         }
 
@@ -375,6 +390,127 @@ namespace GridRPG
             messageFrame.text = UI.generateUIText("Text", messageFrame.frame.transform, "", text_font_size, Color.white, messageTextDimensions);
         }
 
+        private void setupSkillList()
+        {
+            float x_anchor, y_anchor; //Position of the leftmost skill
+            float icon_height, icon_width, x_spacing, y_spacing;
+            int fontSize;
+
+            //Set resolution parameters
+            if (true || Game.resolution.x == 853f && Game.resolution.y == 480f)
+            {   //wide 480p or unsupported
+                if (Game.resolution.x != 853f || Game.resolution.y != 480f)
+                {   //unsupported warning
+                    Debug.Log("UI Skill List: Unsupported resolution " + Game.resolution.x + "x" + Game.resolution.y);
+                }
+
+                x_anchor = -100f;
+                y_anchor = 204f;
+                icon_width = 32f;
+                icon_height = 32f;
+                x_spacing = 3f;
+                y_spacing = 3f;
+                fontSize = 8;
+            }
+
+            float frameWidth = x_spacing * 5 + icon_width * 4;
+            float frameHeight = y_spacing * 3 + icon_height + fontSize;
+            Rect frameDims = new Rect(x_anchor, y_anchor, frameWidth, frameHeight);
+            skillList.frame = generateUIFrame("Skill List", FRAME_FILE_BLUE, Vector2.zero, new Vector4(3f, 3f, 3f, 3f), frameDims, canvas.transform);
+
+            //Skill 1
+            int i = 1;
+            float x_position = -frameWidth / 2f + i * x_spacing + (i - 1) * icon_width + icon_width / 2f;
+            Rect textRect = new Rect(x_position, -frameHeight / 2f + y_spacing + fontSize / 2f, 32f, fontSize);
+            skillList.text1 = generateUIText("1 Text", skillList.frame.transform, "1", fontSize, Color.white, textRect);
+            Rect iconRect = new Rect(x_position, frameHeight / 2f - y_spacing - icon_height / 2f, icon_width, icon_height);
+            skillList.skillIcon1 = generateUIFrame("Skill Icon 1", FRAME_FILE_BLUE, Vector2.zero, Vector4.zero, iconRect, skillList.frame.transform);
+
+            //Skill 2
+            i = 2;
+            x_position = -frameWidth / 2f + i * x_spacing + (i - 1) * icon_width + icon_width / 2f;
+            textRect = new Rect(x_position, -frameHeight / 2f + y_spacing + fontSize / 2f, 32f, fontSize);
+            skillList.text2 = generateUIText("2 Text", skillList.frame.transform, "2", fontSize, Color.white, textRect);
+            iconRect = new Rect(x_position, frameHeight / 2f - y_spacing - icon_height / 2f, icon_width, icon_height);
+            skillList.skillIcon2 = generateUIFrame("Skill Icon 2", FRAME_FILE_BLUE, Vector2.zero, Vector4.zero, iconRect, skillList.frame.transform);
+
+            //Skill 3
+            i = 3;
+            x_position = -frameWidth / 2f + i * x_spacing + (i - 1) * icon_width + icon_width / 2f;
+            
+            iconRect = new Rect(x_position, frameHeight / 2f - y_spacing - icon_height / 2f, icon_width, icon_height);
+            skillList.skillIcon3 = generateUIFrame("Skill Icon 3", FRAME_FILE_BLUE, Vector2.zero, Vector4.zero, iconRect, skillList.frame.transform);
+            textRect = new Rect(x_position, -frameHeight / 2f + y_spacing + fontSize / 2f, 32f, fontSize);
+            skillList.text3 = generateUIText("3 Text", skillList.frame.transform, "3", fontSize, Color.white, textRect);
+
+            //Skill 4
+            i = 4;
+            x_position = -frameWidth / 2f + i * x_spacing + (i - 1) * icon_width + icon_width / 2f;
+            textRect = new Rect(x_position, -frameHeight / 2f + y_spacing + fontSize / 2f, 32f, fontSize);
+            skillList.text4 = generateUIText("4 Text", skillList.frame.transform, "4", fontSize, Color.white, textRect);
+            iconRect = new Rect(x_position, frameHeight / 2f - y_spacing - icon_height / 2f, icon_width, icon_height);
+            skillList.skillIcon4 = generateUIFrame("Skill Icon 4", FRAME_FILE_BLUE, Vector2.zero, Vector4.zero, iconRect, skillList.frame.transform);
+        }
+
+        /// <summary>
+        /// Updates the skill list to show the icons of a unit's skills
+        /// </summary>
+        /// <param name="unit"></param>
+        public void updateSkillList(Unit unit)
+        {
+            Texture2D blueFrameTex = (Texture2D)Resources.Load(FRAME_FILE_BLUE, typeof(Texture2D));
+            Sprite blueFrameSpr = Sprite.Create(blueFrameTex, new Rect(0, 0, 32f, 32f), new Vector2(0.5f, 0.5f));
+            if (unit != null)
+            {
+                int i = 0;
+                if (unit.activeSkills != null)
+                {
+                    Debug.Log("UI.UpdateSkillList(): displaying ["+i+"]: " + unit.activeSkills[i]);
+                }
+                else
+                {
+                    Debug.Log("UI.UpdateSkillList(): displaying [" + i + "]: null");
+                }
+                Sprite sprite = Game.skillLibrary.getIcon(unit.activeSkills[i]);
+                if( sprite == null)
+                {
+                    sprite = blueFrameSpr;
+                }
+                skillList.skillIcon1.GetComponent<Image>().sprite = sprite;
+
+                i = 1;
+                sprite = Game.skillLibrary.getIcon(unit.activeSkills[i]);
+                if (sprite == null)
+                {
+                    sprite = blueFrameSpr;
+                }
+                skillList.skillIcon2.GetComponent<Image>().sprite = sprite;
+
+                i = 2;
+                sprite = Game.skillLibrary.getIcon(unit.activeSkills[i]);
+                if (sprite == null)
+                {
+                    sprite = blueFrameSpr;
+                }
+                skillList.skillIcon3.GetComponent<Image>().sprite = sprite;
+
+                i = 3;
+                sprite = Game.skillLibrary.getIcon(unit.activeSkills[i]);
+                if (sprite == null)
+                {
+                    sprite = blueFrameSpr;
+                }
+                skillList.skillIcon4.GetComponent<Image>().sprite = sprite;
+            }
+            else
+            {
+                skillList.skillIcon1.GetComponent<Image>().sprite = blueFrameSpr;
+                skillList.skillIcon2.GetComponent<Image>().sprite = blueFrameSpr;
+                skillList.skillIcon3.GetComponent<Image>().sprite = blueFrameSpr;
+                skillList.skillIcon4.GetComponent<Image>().sprite = blueFrameSpr;
+            }
+        }
+
         /// <summary>
         /// Displays a message in the message frame.
         /// </summary>
@@ -460,7 +596,7 @@ namespace GridRPG
         /// Generates a UI frame.
         /// </summary>
         /// <param name="name">Name of the frame.</param>
-        /// <param name="spriteFile">File to load the sprite from.</param>
+        /// <param name="spriteFile">File to load the sprite from. Set to null to have no image.</param>
         /// <param name="spriteCoords">Coordinates of the sprite in the file.</param>
         /// <param name="border">Width of the frame borders.</param>
         /// <param name="rect">Position and size of the frame relative to the parent (Pixels from bottom left).</param>
@@ -476,15 +612,18 @@ namespace GridRPG
             ret.AddComponent<Image>();
             Image retImage = ret.GetComponent<Image>();
             Rect retSpriteCoords = new Rect(spriteCoords.x, spriteCoords.y, FRAME_SPRITE_SIZE, FRAME_SPRITE_SIZE);
-            try
+            if (spriteFile != null)
             {
-                retImage.sprite = Sprite.Create((Texture2D)Resources.Load(spriteFile, typeof(Texture2D)), retSpriteCoords, new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect, border);
-            }
-            catch (System.Exception e)
-            {
-                GameObject.Destroy(ret);
-                Debug.Log(name + " Creation Error: Failed to load sprite.");
-                throw e;
+                try
+                {
+                    retImage.sprite = Sprite.Create((Texture2D)Resources.Load(spriteFile, typeof(Texture2D)), retSpriteCoords, new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect, border);
+                }
+                catch (System.Exception e)
+                {
+                    GameObject.Destroy(ret);
+                    Debug.Log(name + " Creation Error: Failed to load sprite.");
+                    throw e;
+                }
             }
             retImage.type = Image.Type.Tiled;
 

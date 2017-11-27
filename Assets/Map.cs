@@ -183,6 +183,7 @@ namespace GridRPG
                     currentSpace.GetComponent<Space>().CurrentHighlight = Space.Highlight.Blue;
                 }
                 Game.ui.updateUnitFrame(currentUnit);
+                Game.ui.updateSkillList(currentUnit.GetComponent<Unit>());
             }
             centerMapOnCamera(Camera.main);
 		}
@@ -214,6 +215,7 @@ namespace GridRPG
             advanceTurnsFlag = false;
             currentTurnPhase = TurnPhase.Move;
             getSpace(currentUnit.GetComponent<Unit>().spaceCoords).GetComponent<Space>().CurrentHighlight = Space.Highlight.Blue;
+            Game.ui.updateSkillList(currentUnit?.GetComponent<Unit>());
             return currentUnit;
         }
 

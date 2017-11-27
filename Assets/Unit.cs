@@ -644,7 +644,7 @@ namespace GridRPG
     public class Unit : MonoBehaviour
     {
         protected const string test_unit_filepath = "Sprites/Unit/TestUnit";
-        protected const int MAX_NUMBER_ACTIVE_SKILLS = 4;
+        public const int MAX_NUMBER_ACTIVE_SKILLS = 4;
         public const int layer = 4; //need to remove this
         public const string UNIT_LAYER = "Unit";
         public const float UNIT_SPRITE_SIZE = 32f;
@@ -658,7 +658,7 @@ namespace GridRPG
 
 
         public string faction { get; protected set; }
-        public Skill[] activeSkills { get; protected set; }
+        public Type[] activeSkills { get; protected set; }
         public class StatsList
         {
             public uint maxHP = 0;
@@ -900,17 +900,17 @@ namespace GridRPG
                         cycleRate = int.Parse(animationNode.Attributes["cycleRate"]?.Value);
                         List<int> animation = new List<int>();
                         XmlNodeList spriteNodeList = animationNode.SelectNodes("sprite");
-                        foreach(XmlNode spriteNode in spriteNodeList)
+                        foreach (XmlNode spriteNode in spriteNodeList)
                         {
                             int value = int.Parse(spriteNode?.InnerText);
                             //Debug.Log("Adding animation frame: " + value);
                             animation.Add(value);
                         }
-                        Debug.Log("Adding animation with first value: "+animation[0]);
+                        Debug.Log("Adding animation with first value: " + animation[0]);
                         animationManager.addAnimation(spriteSheet, new Vector2(spriteLength, spriteWidth), new Vector2(sheetLength, sheetWidth), animation, cycleRate);
                         Debug.Log("Added animation with first value!: " + animation[0]);
                     }
-                    if(animationNodeList.Count > 0)
+                    if (animationNodeList.Count > 0)
                     {
                         //Set to idle animation
                         animationManager.CurrentAnimationId = (int)AnimationState.Idle;
@@ -1013,7 +1013,7 @@ namespace GridRPG
                             Debug.Log("modifier parse fail");
                             throw e;
                         }
-                       // Debug.Log("loadFromFile(string): Loading Mobility[" + i + "]: (" + (terrainType ?? "null") + ", " + modifier + ")...");
+                        // Debug.Log("loadFromFile(string): Loading Mobility[" + i + "]: (" + (terrainType ?? "null") + ", " + modifier + ")...");
                         //mobility.Add(new KeyValuePair<string, int>(terrainType, modifier));
                         mobility.Add(terrainType, modifier);
                         //Debug.Log("loadFromFile(string): Loaded Mobility[" + i + "]: " + terrainType);
@@ -1025,7 +1025,24 @@ namespace GridRPG
                 }
 
                 //SKILLS
-                activeSkills = new Skill[MAX_NUMBER_ACTIVE_SKILLS];
+                activeSkills = new Type[MAX_NUMBER_ACTIVE_SKILLS];
+                XmlNode skillListNode = unitNode.SelectSingleNode("skills");
+                XmlNodeList skillNodeList = skillListNode.SelectNodes("skill");
+                for (int i = 0; i < skillNodeList.Count && i < MAX_NUMBER_ACTIVE_SKILLS; i++)
+                {
+                    Type skillType = null;
+                    try
+                    {
+                        skillType = Type.GetType(skillNodeList[i].Attributes["class"]?.Value);
+                        Debug.Log("Unit.LoadFromFile(): skillType=" + skillType.ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log("skill parse fail");
+                        throw e;
+                    }
+                    activeSkills[i] = skillType;
+                }
             }
             else
             {
@@ -1165,6 +1182,8 @@ namespace GridRPG
             this.resistance = source.resistance;
             this.damage = source.damage;
             this.mobility = source.mobility;
+            this.activeSkills = new Type[MAX_NUMBER_ACTIVE_SKILLS];
+            source.activeSkills.CopyTo(this.activeSkills, 0);
 
             gameObject.GetComponent<AnimationManager>().copy(source.gameObject.GetComponent<AnimationManager>());
 

@@ -35,13 +35,13 @@ namespace GridRPG
         public Game()
         {
             resolution= new Vector2(Screen.currentResolution.width,Screen.currentResolution.height);
+            skillLibrary = new GridRPG.SkillLibrary(SKILL_LIST_FILE);
             unitLibrary = new GridRPG.UnitLibrary(this);
             unitLibrary.loadCampaignUnitList(CAMPAIGN_UNIT_LIST_FILE);
             unitLibrary.loadUnitList(UNIT_LIST_FILE);
             mapLibrary = new GridRPG.MapLibrary(this);
             mapLibrary.loadMapList(MAP_LIST_FILE);
 
-            skillLibrary = new SkillLibrary(SKILL_LIST_FILE);
             ui = new UI();
             animationInProgress = false;
         }

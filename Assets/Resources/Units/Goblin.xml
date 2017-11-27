@@ -49,7 +49,7 @@
   <abilities>
   </abilities>
   <skills>
-    <skill source="Skills/Core" id="1"/> <!--Attack (Unarmed)-->
+    <skill class="GridRPG.MeleeAttack"/> <!--MeleeAttack-->
   </skills>
   <equipment>
     
