@@ -1,3 +1,3 @@
 ID,Class,Name,Range,Size,Shape,SpriteSheet,Sprite X,Sprite Y,Tags,
-1,GridRPG.MeleeAttack,Melee Attack,1,1,Single,Sprites/Unit/TestUnit,0,0,physical,contact
+1,GridRPG.MeleeAttack,Melee Attack,1,1,Single,Sprites/Skill/MeleeAttack,0,0,physical,contact
 2,GridRPG.FireBlast,Fire Blast,4,1,Single,Sprites/Skill/FireBlast,0,0,fire,spell

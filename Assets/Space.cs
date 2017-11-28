@@ -110,10 +110,13 @@ namespace GridRPG
 
         private void OnMouseDown()
         {
-            //Debug.Log("Selected unit: " + (unit?.name ?? "NONE"));
-            selectEvent?.Invoke(this.gameObject);
-            //highlight.GetComponent<SpriteRenderer>().sprite = blue_box;
-            //Debug.Log("Space.OnMouseDown(): Unit Faction: " + unit?.GetComponent<Unit>()?.faction ?? "None");
+            if (!Game.animationInProgress)
+            {
+                //Debug.Log("Selected unit: " + (unit?.name ?? "NONE"));
+                selectEvent?.Invoke(this.gameObject);
+                //highlight.GetComponent<SpriteRenderer>().sprite = blue_box;
+                //Debug.Log("Space.OnMouseDown(): Unit Faction: " + unit?.GetComponent<Unit>()?.faction ?? "None");
+            }
         }
 
         private void OnDestroy()

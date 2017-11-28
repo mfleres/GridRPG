@@ -21,7 +21,7 @@ namespace GridRPG
         public delegate void AnimationDoneEvent(int id);
         public AnimationDoneEvent animationDone;
 
-        public delegate void DestinationReachedEvent();
+        public delegate void DestinationReachedEvent(int id);
         public DestinationReachedEvent destinationReached;
 
         public int CurrentAnimationId
@@ -36,7 +36,7 @@ namespace GridRPG
                 if (value < animationList.Count && value >= 0)
                 {
                     //Change animation
-                    Debug.Log("AnimationManager: Changing animation to ID: " + value);
+                    //Debug.Log("AnimationManager: Changing animation to ID: " + value);
                     currentAnimationId = value;
                     currentSpriteId = 0;
                     lastUpdateTime = Time.fixedTime;
@@ -68,22 +68,22 @@ namespace GridRPG
         /// <returns>ID of the animation in the manager.</returns>
         public int addAnimation(Texture2D spriteSheet,Vector2 spriteDims,Vector2 sheetDims,List<int> spriteOrder, int cycleRate)
         {
-            Debug.Log("AnimationManager.addAnimation(...): start.");
+            //Debug.Log("AnimationManager.addAnimation(...): start.");
             //Record position
             int animationId = animationList.Count;
-            Debug.Log("AnimationManager.addAnimation(...): Return ID = "+animationId);
+            //Debug.Log("AnimationManager.addAnimation(...): Return ID = "+animationId);
             //Create new animation
             List<Sprite> animation = new List<Sprite>();
 
             foreach (int spriteId in spriteOrder){
                 //Add each sprite to the animation
-                Rect spriteRect = new Rect(spriteDims.x * (spriteId % (int)sheetDims.x), spriteDims.y * (spriteId / (int)sheetDims.y), spriteDims.x, spriteDims.y);
-                Debug.Log("AnimationManager.addAnimation(...): spriteRect = " + spriteRect);
+                Rect spriteRect = new Rect(spriteDims.x * (spriteId % (int)sheetDims.x), spriteDims.y * (spriteId / (int)sheetDims.x), spriteDims.x, spriteDims.y);
+                //Debug.Log("AnimationManager.addAnimation(...): spriteRect = " + spriteRect);
                 animation.Add(Sprite.Create(spriteSheet, spriteRect, new Vector2(0.5f, 0.5f)));
             }
 
             animationList.Add(new Tuple<List<Sprite>, int>(animation,cycleRate));
-            Debug.Log("AnimationManager.addAnimation(...): end.");
+            //Debug.Log("AnimationManager.addAnimation(...): end.");
             return animationId;
         }
 
@@ -136,7 +136,7 @@ namespace GridRPG
                 //Check if the sprite is due for an update
                 float currentTime = Time.fixedTime;
                 int cycleRate = animationList[currentAnimationId].Item2;
-                if (cycleRate != 0 && currentTime - lastUpdateTime > 1 / cycleRate)
+                if (cycleRate != 0 && currentTime - lastUpdateTime > 1 / (float)cycleRate)
                 {
                     //Update the sprite ID
                     currentSpriteId++;
@@ -162,18 +162,10 @@ namespace GridRPG
                 if(transform.position == destSpace.transform.position)
                 {
                     translateSpeed = 0;
-                    Debug.Log(name + ">AnimationManager: destination reached.");
-                    destinationReached?.Invoke();
+                    //Debug.Log(name + ">AnimationManager: destination reached.");
+                    destinationReached?.Invoke(currentAnimationId);
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// A single set of sprites
-    /// </summary>
-    public class AnimationSet
-    {
-        public Sprite[] sprites; //The sprites to iterate through
     }
 }

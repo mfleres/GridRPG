@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Reflection;
 
-namespace GridRPG {
+namespace GridRPG
+{
     /// <summary>
     /// Manages the data of all the Skills in the game.
     /// </summary>
@@ -33,7 +35,7 @@ namespace GridRPG {
             {
                 string line;
                 if ((line = reader.ReadLine()) != null) //Skip the header line
-                { 
+                {
                     while ((line = reader.ReadLine()) != null)
                     {
                         string[] values = line.Split(',');
@@ -97,7 +99,7 @@ namespace GridRPG {
                     //expand library to fit the skill
                     library.Add(null);
                 }
-                if(library[id] != null)
+                if (library[id] != null)
                 {
                     //remove old entry
                     skillParameterList.Remove(library[id]);
@@ -136,7 +138,7 @@ namespace GridRPG {
         {
             if (T.IsSubclassOf(typeof(Skill)) && tags != null && !skillParameterList.ContainsKey(T))
             {
-                Skill.Parameters sp = new Skill.Parameters(name, tags, range, size, shape,icon);
+                Skill.Parameters sp = new Skill.Parameters(name, tags, range, size, shape, icon);
                 skillParameterList.Add(T, sp);
             }
         }
@@ -170,7 +172,7 @@ namespace GridRPG {
 
         protected GameObject user = null;
         public Vector2 target = Vector2.zero;
-        public delegate void CompletedEvent(Skill skill);
+        public delegate void CompletedEvent(Skill skill, bool success);
         public CompletedEvent complete;
 
         /// <summary>
@@ -230,18 +232,32 @@ namespace GridRPG {
             }
         }
 
-        public static Skill activateSkill<T>(GameObject user, Vector2 target) where T : Skill
+        public static Skill genericActivateSkill<T>(GameObject user, Vector2 target) where T : Skill
         {
-            Debug.Log("Attempting to activate skill");
+            //Debug.Log("Attempting to activate skill");
             if (user != null && typeof(T).IsSubclassOf(typeof(Skill)) && SkillLibrary.skillParameterList.ContainsKey(typeof(T)))
             {
-                Debug.Log("Activating skill: " + typeof(T).ToString());
+                //Debug.Log("Activating skill: " + typeof(T).ToString());
                 GameObject skillObject = new GameObject(user.name + "'s " + typeof(T).ToString() + " skill");
                 skillObject.AddComponent<T>();
-                skillObject.GetComponent<T>().initialize(user, target);
+                if (!(skillObject.GetComponent<T>().initialize(user, target)))
+                {
+                    //Initialization failed
+                    Destroy(skillObject);
+                    return null;
+                }
                 return skillObject.GetComponent<T>();
             }
             return null;
+        }
+
+        public static Skill activateSkill(Type skill, GameObject user, Vector2 target)
+        {
+            MethodInfo method = typeof(Skill).GetMethod("genericActivateSkill");
+            MethodInfo generic = method.MakeGenericMethod(skill);
+            object[] parameters = new object[] { user, target };
+            Skill activatedSkill = (Skill)generic.Invoke(null, parameters);
+            return activatedSkill;
         }
     }
 
@@ -250,23 +266,25 @@ namespace GridRPG {
     /// </summary>
     public class MeleeAttack : Skill
     {
-        private bool skillDone = false;
+        private const string SPRITE_SHEET = "Sprites/Skill/MeleeAttack";
+        private bool success = false;
         Unit sourceUnit = null;
         Unit targetUnit = null;
 
         public override bool initialize(GameObject user, Vector2 target)
         {
-            if ((sourceUnit = user?.GetComponent<Unit>()) != null)
+            if (isTargetValid(user, target)) //Test if user is an existing unit, if the target is valid
             {
-                this.target = target;
-                this.targetUnit = Game.map?.GetComponent<Map>().getUnitOnSpace(target);
                 this.user = user;
+                this.target = target;
+                this.sourceUnit = user.GetComponent<Unit>();
+                this.targetUnit = Game.map?.GetComponent<Map>().getUnitOnSpace(target);
+                setupAnimation();
+                Game.animationInProgress = true;
                 return true;
             }
             else
             {
-                sourceUnit = null;
-                targetUnit = null;
                 return false;
             }
         }
@@ -279,53 +297,96 @@ namespace GridRPG {
 
         public override bool isTargetValid(GameObject skillSource, Vector2 targetLocation)
         {
-            Unit sourceUnitArg = skillSource?.GetComponent<Unit>();
-            if(sourceUnitArg != null)
+            if (skillSource?.GetComponent<Unit>() != null)
             {
-                //source unit exists
-                return Space.isAdjacent(sourceUnit.spaceCoords, targetLocation);
+                Vector2 sourceLocation = skillSource.GetComponent<Unit>().spaceCoords;
+                bool targetInRange = Game.map.GetComponent<Map>().inRange(sourceLocation, targetLocation, 1, 1);
+                bool targetIsUnit = Game.map.GetComponent<Map>().getUnitOnSpace(targetLocation) != null;
+                return targetInRange && targetIsUnit;
             }
-            return false;
+            else
+            {
+                //sourceUnit is invalid
+                return false;
+            }
         }
 
         private int damageCalculation()
         {
-            return (int)sourceUnit.getDamageMod("physical").applyTo((int)sourceUnit.stats.strength);
+            if (sourceUnit != null)
+            {
+                int damage = (int)sourceUnit.getDamageMod("physical").applyTo((int)sourceUnit.stats.strength);
+                if (damage < 0)
+                {
+                    //cannot deal less than 0 damage
+                    damage = 0;
+                }
+                return damage;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private void setupAnimation()
+        {
+            //Set the starting location for the skill graphic.
+            transform.position = targetUnit.transform.position;
+            //Place the graphic in the correct layer.
+            GetComponent<SpriteRenderer>().sortingLayerName = SKILL_LAYER;
+
+            //Load the spritesheet
+            Texture2D spriteSheet = Resources.Load<Texture2D>(SPRITE_SHEET);
+            if (spriteSheet == null)
+            {
+                Debug.Log("MeleeAttack: could not load spritesheet");
+                //May want to throw some exceptions here.
+            }
+
+            //Setup the sprite order for the animation manager.
+            List<int> spriteOrder = new List<int>();
+            spriteOrder.Add(1);
+            spriteOrder.Add(0);
+
+            //Setup the animation manager.
+            GetComponent<AnimationManager>().addAnimation(spriteSheet, new Vector2(32, 32), new Vector2(2, 1), spriteOrder, 10);
+            //Setup graphic movement.
+            // None
+            //Watch for when the graphic completes the animation.
+            GetComponent<AnimationManager>().animationDone += hitTarget;
+            //Activate the animation by setting the current animation id.
+            GetComponent<AnimationManager>().CurrentAnimationId = 0;
+        }
+
+        private void hitTarget(int id)
+        {
+            //Calculate the damage.
+            int damage = damageCalculation();
+            //Deal the damage.
+            int damageDealt = targetUnit.takeDamage((uint)damage, "physical");
+            //Display the message describing what happened.
+            Game.ui.displayMessage(sourceUnit.name + "'s attack dealt " + damageDealt + " damage to " + targetUnit.name + ".");
+
+            //Clean up.
+            Game.animationInProgress = false;
+            GetComponent<AnimationManager>().animationDone -= hitTarget;
+            success = true;
+            GameObject.Destroy(this.gameObject);
         }
 
         private void Update()
         {
-            if(!skillDone)
-            {
-                if(sourceUnit!=null)
-                {
-                    //ready to activate
-                    if (targetUnit != null && Space.isAdjacent(sourceUnit.spaceCoords, targetUnit.spaceCoords))
-                    {
-                        //target found in range
-                        int damage = damageCalculation();
-                        if (damage < 0)
-                        {
-                            //cannot deal less than 0 damage
-                            damage = 0;
-                        }
-                        int damageDealt = targetUnit.takeDamage((uint)damage, "physical");
-                        Game.ui.displayMessage(sourceUnit.name + "'s attack dealt " + damageDealt + " damage to " + targetUnit.name + ".");
-                        //Game.ui.displayMessage("Attacking for "+damageDealt);
-                        Game.ui.updateUnitFrame(targetUnit);
-                    }
-                    else
-                    {
-                        //no target unit or target space is out of range.
-                        Game.ui.displayMessage(sourceUnit.name + "'s attack failed to hit a target.");
-                    }
-                    skillDone = true;
-                }
-            }
-            else
-            {
-                GameObject.Destroy(gameObject);
-            }
+            
+        }
+
+        /// <summary>
+        /// Inherited from MonoBehavior
+        /// </summary>
+        private void OnDestroy()
+        {
+            //Let everyone know that you are done.
+            this.complete?.Invoke(this, success);
         }
     }
     /// <summary>
@@ -333,45 +394,41 @@ namespace GridRPG {
     /// </summary>
     public class FireBlast : Skill
     {
-        private const string FIRE_BLAST_SHEET = "Sprites/Skill/FireBlast";
+        private const string SPRITE_SHEET = "Sprites/Skill/FireBlast"; //Spritesheet for animation here
 
-        private bool skillDone = false;
+        private bool success = false;
         Unit sourceUnit = null;
         Unit targetUnit = null;
 
+        /// <summary>
+        /// Sets the skill data so it can be run.
+        /// Setup animation.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
         public override bool initialize(GameObject user, Vector2 target)
         {
-            if ((sourceUnit = user?.GetComponent<Unit>()) != null)
+            if (isTargetValid(user, target)) //Test if user is an existing unit, if the target is valid
             {
-                this.target = target;
-                this.targetUnit = Game.map?.GetComponent<Map>().getUnitOnSpace(target);
-                GetComponent<SpriteRenderer>().sortingLayerName = SKILL_LAYER;
                 this.user = user;
+                this.target = target;
+                this.sourceUnit = user.GetComponent<Unit>();
+                this.targetUnit = Game.map?.GetComponent<Map>().getUnitOnSpace(target);
                 setupAnimation();
-                transform.position = sourceUnit.transform.position;
+                Game.animationInProgress = true;
                 return true;
             }
             else
             {
-                sourceUnit = null;
-                targetUnit = null;
                 return false;
             }
         }
 
-        private void setupAnimation()
-        {
-            Texture2D spriteSheet = Resources.Load<Texture2D>(FIRE_BLAST_SHEET);
-            if(spriteSheet == null)
-            {
-                Debug.Log("FireBlast: could not load spritesheet");
-            }
-            List<int> spriteOrder = new List<int>();
-            spriteOrder.Add(0);
-            GetComponent<AnimationManager>().addAnimation(spriteSheet, new Vector2(32, 32), new Vector2(1, 1), spriteOrder, 0);
-            GetComponent<AnimationManager>().CurrentAnimationId = 0;
-        }
-
+        /// <summary>
+        /// Returns the description of the skill.
+        /// </summary>
+        /// <returns></returns>
         public override string getDescription()
         {
             if (sourceUnit != null)
@@ -385,24 +442,75 @@ namespace GridRPG {
             }
         }
 
+        /// <summary>
+        /// Determines if the skill can be active.
+        /// </summary>
+        /// <param name="skillSource"></param>
+        /// <param name="targetLocation"></param>
+        /// <returns></returns>
         public override bool isTargetValid(GameObject skillSource, Vector2 targetLocation)
         {
-            if(skillSource?.GetComponent<Unit>() != null)
+            if (skillSource?.GetComponent<Unit>() != null)
             {
                 Vector2 sourceLocation = skillSource.GetComponent<Unit>().spaceCoords;
-                return Game.map.GetComponent<Map>().inRange(sourceLocation, targetLocation, 1, 4);
+                bool targetInRange = Game.map.GetComponent<Map>().inRange(sourceLocation, targetLocation, 1, 4);
+                bool targetIsUnit = Game.map.GetComponent<Map>().getUnitOnSpace(targetLocation) != null;
+                return targetInRange && targetIsUnit;
             }
             else
             {
+                //sourceUnit is invalid
                 return false;
             }
         }
 
+        /// <summary>
+        /// Setup the graphical display of the skill.
+        /// </summary>
+        private void setupAnimation()
+        {
+            //Set the starting location for the skill graphic.
+            transform.position = sourceUnit.transform.position;
+            //Place the graphic in the correct layer.
+            GetComponent<SpriteRenderer>().sortingLayerName = SKILL_LAYER;
+
+            //Load the spritesheet
+            Texture2D spriteSheet = Resources.Load<Texture2D>(SPRITE_SHEET);
+            if (spriteSheet == null)
+            {
+                Debug.Log("FireBlast: could not load spritesheet");
+                //May want to throw some exceptions here.
+            }
+
+            //Setup the sprite order for the animation manager.
+            List<int> spriteOrder = new List<int>();
+            spriteOrder.Add(0);
+
+            //Setup the animation manager.
+            GetComponent<AnimationManager>().addAnimation(spriteSheet, new Vector2(32, 32), new Vector2(1, 1), spriteOrder, 0);
+            //Setup graphic movement.
+            GetComponent<AnimationManager>().changeMovement(1, target);
+            //Watch for when the graphic reaches the destination.
+            GetComponent<AnimationManager>().destinationReached += hitTarget;
+            //Activate the animation by setting the current animation id.
+            GetComponent<AnimationManager>().CurrentAnimationId = 0;
+        }
+
+        /// <summary>
+        /// Calculate damage before the target's resistances.
+        /// </summary>
+        /// <returns></returns>
         private int damageCalculation()
         {
             if (sourceUnit != null)
             {
-                return (int)sourceUnit.getDamageMod("fire").applyTo((int)sourceUnit.stats.intellect);
+                int damage = (int)sourceUnit.getDamageMod("fire").applyTo((int)sourceUnit.stats.intellect);
+                if (damage < 0)
+                {
+                    //cannot deal less than 0 damage
+                    damage = 0;
+                }
+                return damage;
             }
             else
             {
@@ -410,93 +518,223 @@ namespace GridRPG {
             }
         }
 
-        private void Update()
+        /// <summary>
+        /// Script to run when the animation's event triggers
+        /// </summary>
+        private void hitTarget(int id)
         {
-            if (!skillDone)
-            {
-                if (sourceUnit != null && !Game.animationInProgress)
-                {
-                    //ready to activate
-                    if (isTargetValid(sourceUnit.gameObject,target))
-                    {
-                        //target found in range
-                        GetComponent<AnimationManager>().changeMovement(1, target);
-                        GetComponent<AnimationManager>().destinationReached += hitTarget;
-                        Game.animationInProgress = true;
-                    }
-                    else
-                    {
-                        //no target unit or target space is out of range.
-                        Game.ui.displayMessage(sourceUnit.name + "'s spell failed to find a target.");
-                        skillDone = true;
-                    }
-                }
-            }
-            else
-            {
-                this.complete?.Invoke(this);
-                GameObject.Destroy(gameObject);
-            }
-        }
-
-        private void hitTarget()
-        {
+            //Calculate the damage.
             int damage = damageCalculation();
-            if (damage < 0)
-            {
-                //cannot deal less than 0 damage
-                damage = 0;
-            }
+            //Deal the damage.
             int damageDealt = targetUnit.takeDamage((uint)damage, "fire");
+            //Display the message describing what happened.
             Game.ui.displayMessage(sourceUnit.name + "'s Fire Blast dealt " + damageDealt + " damage to " + targetUnit.name + ".");
-            //Game.ui.displayMessage("Attacking for "+damageDealt);
-            //Game.ui.updateUnitFrame(targetUnit);
+
+            //Clean up.
             Game.animationInProgress = false;
             GetComponent<AnimationManager>().destinationReached -= hitTarget;
-            skillDone = true;
+            success = true;
+            GameObject.Destroy(this.gameObject);
         }
+
+        /// <summary>
+        /// Inherited from MonoBehavior
+        /// </summary>
+        private void Start()
+        {
+            //Place code you want to occur before the animation.
+        }
+
+        /// <summary>
+        /// Inherited from MonoBehavior
+        /// </summary>
+        private void Update()
+        {
+
+        }
+
+        /// <summary>
+        /// Inherited from MonoBehavior
+        /// </summary>
+        private void OnDestroy()
+        {
+            //Let everyone know that you are done.
+            this.complete?.Invoke(this, success);
+        }       
     }
 
-    /*public abstract class Skill
+    /// <summary>
+    /// Example skill template
+    /// </summary>
+    public class DummySkill : Skill
     {
-        public string name { get; protected set; }
-        public List<string> tags { get; protected set; }
-        public string description { get; protected set; }
-        public int range { get; protected set; }
-        public List<Effect> effects { get; protected set; }
+        private const string SPRITE_SHEET = "Sprites/Skill/FireBlast"; //Spritesheet for animation here
 
-        public abstract bool activate(GameObject user, Vector2 target);
-        public abstract string getDescription(GameObject user);
-    }*/
+        private bool success = false;
+        Unit sourceUnit = null;
+        Unit targetUnit = null;
 
-    /*public class MeleeAttack : Skill
-    {
-        public MeleeAttack()
+        /// <summary>
+        /// Sets the skill data so it can be run.
+        /// Setup animation.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public override bool initialize(GameObject user, Vector2 target)
         {
-            name = "MeleeAttack";
-            tags = new List<string>();
-            tags.Add("physical");
-            tags.Add("contact");
-        }
-
-        public override string getDescription(GameObject user)
-        {
-            return "Deals " + user.GetComponent<Unit>().stats.strength + "physical damage to an adjacent enemy";
-        }
-
-        public override bool activate(GameObject user, Vector2 target)
-        {
-            Unit currentUnit = user?.GetComponent<Unit>();
-            Unit targetUnit = Game.map.getSpace(target)?.unit?.GetComponent<Unit>();
-            if (currentUnit == null || targetUnit == null)
+            if (isTargetValid(user, target)) //Test if user is an existing unit, if the target is valid
+            {
+                this.user = user;
+                this.target = target;
+                this.sourceUnit = user.GetComponent<Unit>();
+                this.targetUnit = Game.map?.GetComponent<Map>().getUnitOnSpace(target);
+                setupAnimation();
+                Game.animationInProgress = true;
+                return true;
+            }
+            else
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Setup the graphical display of the skill.
+        /// </summary>
+        private void setupAnimation()
+        {
+            //Set the starting location for the skill graphic.
+            transform.position = sourceUnit.transform.position;
+            //Place the graphic in the correct layer.
+            GetComponent<SpriteRenderer>().sortingLayerName = SKILL_LAYER;
+
+            //Load the spritesheet
+            Texture2D spriteSheet = Resources.Load<Texture2D>(SPRITE_SHEET);
+            if (spriteSheet == null)
+            {
+                Debug.Log("DummySkill: could not load spritesheet");
+                //May want to throw some exceptions here.
+            }
+
+            //Setup the sprite order for the animation manager.
+            List<int> spriteOrder = new List<int>();
+            spriteOrder.Add(0);
+
+            //Setup the animation manager.
+            GetComponent<AnimationManager>().addAnimation(spriteSheet, new Vector2(32, 32), new Vector2(1, 1), spriteOrder, 0);
+            //Setup graphic movement.
+            GetComponent<AnimationManager>().changeMovement(1, target);
+            //Watch for when the graphic reaches the destination.
+            GetComponent<AnimationManager>().destinationReached += hitTarget;
+            //Activate the animation by setting the current animation id.
+            GetComponent<AnimationManager>().CurrentAnimationId = 0;
+
+        }
+
+        /// <summary>
+        /// Returns the description of the skill.
+        /// </summary>
+        /// <returns></returns>
+        public override string getDescription()
+        {
+            if (sourceUnit != null)
+            {
+                int damage = damageCalculation();
+                return "Deals " + damageCalculation() + " fire damage to an enemy within 4 spaces.";
+            }
             else
             {
-                //todo
-                return true;
+                return "Deals fire damage to an enemy within 4 spaces";
             }
         }
-    }*/
+
+        /// <summary>
+        /// Determines if the skill can be active.
+        /// </summary>
+        /// <param name="skillSource"></param>
+        /// <param name="targetLocation"></param>
+        /// <returns></returns>
+        public override bool isTargetValid(GameObject skillSource, Vector2 targetLocation)
+        {
+            if (skillSource?.GetComponent<Unit>() != null)
+            {
+                Vector2 sourceLocation = skillSource.GetComponent<Unit>().spaceCoords;
+                bool targetInRange = Game.map.GetComponent<Map>().inRange(sourceLocation, targetLocation, 1, 4);
+                bool targetIsUnit = Game.map.GetComponent<Map>().getUnitOnSpace(targetLocation) != null;
+                return targetInRange && targetIsUnit;
+            }
+            else
+            {
+                //sourceUnit is invalid
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Calculate damage before the target's resistances.
+        /// </summary>
+        /// <returns></returns>
+        private int damageCalculation()
+        {
+            if (sourceUnit != null)
+            {
+                int damage = (int)sourceUnit.getDamageMod("fire").applyTo((int)sourceUnit.stats.intellect);
+                if (damage < 0)
+                {
+                    //cannot deal less than 0 damage
+                    damage = 0;
+                }
+                return damage;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Inherited from MonoBehavior
+        /// </summary>
+        private void Start()
+        {
+            //Place code you want to occur before the animation.
+        }
+
+        /// <summary>
+        /// Inherited from MonoBehavior
+        /// </summary>
+        private void Update()
+        {
+
+        }
+
+        /// <summary>
+        /// Inherited from MonoBehavior
+        /// </summary>
+        private void OnDestroy()
+        {
+            //Let everyone know that you are done.
+            this.complete?.Invoke(this, success);
+        }
+
+        /// <summary>
+        /// Script to run when the animation's event triggers
+        /// </summary>
+        private void hitTarget(int id)
+        {
+            //Calculate the damage.
+            int damage = damageCalculation();
+            //Deal the damage.
+            int damageDealt = targetUnit.takeDamage((uint)damage, "fire");
+            //Display the message describing what happened.
+            Game.ui.displayMessage(sourceUnit.name + "'s Fire Blast dealt " + damageDealt + " damage to " + targetUnit.name + ".");
+            
+            //Clean up.
+            Game.animationInProgress = false;
+            GetComponent<AnimationManager>().destinationReached -= hitTarget;
+            success = true;
+            GameObject.Destroy(this.gameObject);
+        }
+    }
 }

@@ -465,11 +465,11 @@ namespace GridRPG
                 int i = 0;
                 if (unit.activeSkills != null)
                 {
-                    Debug.Log("UI.UpdateSkillList(): displaying ["+i+"]: " + unit.activeSkills[i]);
+                    //Debug.Log("UI.UpdateSkillList(): displaying ["+i+"]: " + unit.activeSkills[i]);
                 }
                 else
                 {
-                    Debug.Log("UI.UpdateSkillList(): displaying [" + i + "]: null");
+                    //Debug.Log("UI.UpdateSkillList(): displaying [" + i + "]: null");
                 }
                 Sprite sprite = Game.skillLibrary.getIcon(unit.activeSkills[i]);
                 if( sprite == null)
@@ -520,6 +520,7 @@ namespace GridRPG
             if (message != null)
             {
                 messageFrame.text.GetComponent<Text>().text = message;
+                Debug.Log("UI: Displaying Message: " + message);
             }
             else
             {

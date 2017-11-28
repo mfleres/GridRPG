@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using System.Reflection;
 using UnityEngine;
 
 namespace GridRPG
@@ -35,9 +36,10 @@ namespace GridRPG
         public List<GameObject> turnOrder { get; private set; }
         public int currentTurn { get; private set; }
         public GameObject currentUnit { get; private set; }
-        public enum TurnPhase { Move, Skill }
+        public enum TurnPhase { Move, Skill, Wait }
         public TurnPhase currentTurnPhase = TurnPhase.Move;
         public bool advanceTurnsFlag = false;
+        private bool skillInProgress = false;
         public float advanceTurnsWaitStartTime = 0f;
 
         public void Update()
@@ -219,32 +221,69 @@ namespace GridRPG
             return currentUnit;
         }
 
-        private void skillDone(Skill skill)
+        private void skillDone(Skill skill, bool success)
         {
+            Debug.Log("Map:SkillDone: Activated Skill Has Completed.");
             skill.complete -= skillDone;
-            nextTurn();
+            advanceTurnsWaitStartTime = Time.fixedTime;
+            advanceTurnsFlag = true;
+            skillInProgress = false;
+            currentTurnPhase = TurnPhase.Wait;
         }
 
         public void spaceSelected(GameObject spaceObject)
         {
             Debug.Log("Map.spaceSelected(" + spaceObject?.name + ")");
-            if (currentUnit != null)
+            if (currentUnit != null && !skillInProgress && currentTurnPhase != TurnPhase.Wait)
             {
                 if (Input.GetKey(KeyCode.Alpha1))
                 {
                     //temporary method of melee attack
-                    Skill.activateSkill<MeleeAttack>(this.currentUnit, spaceObject.GetComponent<Space>().coordinates);
-                    advanceTurnsWaitStartTime = Time.fixedTime;
-                    advanceTurnsFlag = true;
+                    //Skill.activateSkill<MeleeAttack>(this.currentUnit, spaceObject.GetComponent<Space>().coordinates);
+                    //advanceTurnsWaitStartTime = Time.fixedTime;
+                    //advanceTurnsFlag = true;
+                    //Use Skill #1
+                    Type skillType = currentUnit.GetComponent<Unit>().activeSkills[0];
+                    if (skillType != null && Skill.isSkill(skillType))
+                    {
+                        //MethodInfo method = typeof(Skill).GetMethod("activateSkill");
+                        //MethodInfo generic = method.MakeGenericMethod(skillType);
+                        //object[] parameters = new object[] { this.currentUnit, spaceObject.GetComponent<Space>().coordinates };
+                        //Skill activatedSkill = (Skill)generic.Invoke(null, parameters);
+                        Skill activatedSkill = Skill.activateSkill(skillType, this.currentUnit, spaceObject.GetComponent<GridRPG.Space>().coordinates);
+
+                        if (activatedSkill != null)
+                        {
+                            //The skill was successfully activated
+                            Debug.Log("Map:SpaceSelected: Activated Skill");
+                            activatedSkill.complete += skillDone;
+                            skillInProgress = true;
+                        }
+                    }
+
                 }
                 else if (Input.GetKey(KeyCode.Alpha2))
                 {
-                    //temporary method of spell attack
-                    Skill fireBlastSkill = Skill.activateSkill<FireBlast>(this.currentUnit, spaceObject.GetComponent<Space>().coordinates);
-                    advanceTurnsWaitStartTime = Time.fixedTime;
-                    fireBlastSkill.complete += skillDone;
+                    //Use Skill #2
+                    Type skillType = currentUnit.GetComponent<Unit>().activeSkills[1];
+                    if (skillType != null && Skill.isSkill(skillType))
+                    {
+                        //MethodInfo method = typeof(Skill).GetMethod("activateSkill");
+                        //MethodInfo generic = method.MakeGenericMethod(skillType);
+                        //object[] parameters = new object[] { this.currentUnit, spaceObject.GetComponent<Space>().coordinates };
+                        //Skill activatedSkill = (Skill)generic.Invoke(null, parameters);
+                        Skill activatedSkill = Skill.activateSkill(skillType, this.currentUnit, spaceObject.GetComponent<GridRPG.Space>().coordinates);
+
+                        //make sure the skill was activated
+                        if (activatedSkill != null)
+                        {
+                            //The skill was successfully activated
+                            activatedSkill.complete += skillDone;
+                            skillInProgress = true;
+                        }
+                    }
                 }
-                else if(this.currentTurnPhase != TurnPhase.Skill)
+                else if(this.currentTurnPhase == TurnPhase.Move)
                 {
                     //move
                     if (this.currentUnit.GetComponent<Unit>().moveToSpace(spaceObject.GetComponent<Space>().coordinates))
