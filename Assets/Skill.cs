@@ -273,7 +273,7 @@ namespace GridRPG
 
         public override bool initialize(GameObject user, Vector2 target)
         {
-            if (isTargetValid(user, target)) //Test if user is an existing unit, if the target is valid
+            if (isTargetValid(user, target) && !Game.animationInProgress) //Test if user is an existing unit, if the target is valid, and if there isnt already a major animation in progress.
             {
                 this.user = user;
                 this.target = target;
@@ -366,7 +366,7 @@ namespace GridRPG
             //Deal the damage.
             int damageDealt = targetUnit.takeDamage((uint)damage, "physical");
             //Display the message describing what happened.
-            Game.ui.displayMessage(sourceUnit.name + "'s attack dealt " + damageDealt + " damage to " + targetUnit.name + ".");
+            Game.ui.GetComponent<UI>().queueMessage(sourceUnit.name + "'s attack dealt " + damageDealt + " damage to " + targetUnit.name + ".");
 
             //Clean up.
             Game.animationInProgress = false;
@@ -409,7 +409,7 @@ namespace GridRPG
         /// <returns></returns>
         public override bool initialize(GameObject user, Vector2 target)
         {
-            if (isTargetValid(user, target)) //Test if user is an existing unit, if the target is valid
+            if (isTargetValid(user, target) && !Game.animationInProgress) //Test if user is an existing unit, if the target is valid, and if there isnt already a major animation in progress.
             {
                 this.user = user;
                 this.target = target;
@@ -528,7 +528,7 @@ namespace GridRPG
             //Deal the damage.
             int damageDealt = targetUnit.takeDamage((uint)damage, "fire");
             //Display the message describing what happened.
-            Game.ui.displayMessage(sourceUnit.name + "'s Fire Blast dealt " + damageDealt + " damage to " + targetUnit.name + ".");
+            Game.ui.GetComponent<UI>().queueMessage(sourceUnit.name + "'s Fire Blast dealt " + damageDealt + " damage to " + targetUnit.name + ".");
 
             //Clean up.
             Game.animationInProgress = false;
@@ -543,6 +543,7 @@ namespace GridRPG
         private void Start()
         {
             //Place code you want to occur before the animation.
+            Game.ui.GetComponent<UI>().queueMessage(user.name + " cast Fire Blast!");
         }
 
         /// <summary>
@@ -583,7 +584,7 @@ namespace GridRPG
         /// <returns></returns>
         public override bool initialize(GameObject user, Vector2 target)
         {
-            if (isTargetValid(user, target)) //Test if user is an existing unit, if the target is valid
+            if (isTargetValid(user, target) && !Game.animationInProgress) //Test if user is an existing unit, if the target is valid, and if there isnt already a major animation in progress.
             {
                 this.user = user;
                 this.target = target;
@@ -728,7 +729,7 @@ namespace GridRPG
             //Deal the damage.
             int damageDealt = targetUnit.takeDamage((uint)damage, "fire");
             //Display the message describing what happened.
-            Game.ui.displayMessage(sourceUnit.name + "'s Fire Blast dealt " + damageDealt + " damage to " + targetUnit.name + ".");
+            Game.ui.GetComponent<UI>().queueMessage(sourceUnit.name + "'s Fire Blast dealt " + damageDealt + " damage to " + targetUnit.name + ".");
             
             //Clean up.
             Game.animationInProgress = false;

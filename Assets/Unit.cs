@@ -1062,13 +1062,25 @@ namespace GridRPG
                     lastMoveTime = currentTime;
                 }
             }
-            if(deathFlag)
+            if(deathFlag && Game.ui.GetComponent<UI>().messagesUpToDate)
             {
                 //He is dead :(
-                Game.ui.displayMessage(name + " has died.");
-                Debug.Log("Unit.Update(): destroying " + this.name);
+                Game.ui.GetComponent<UI>().queueMessage(name + " has died.");
+                //Debug.Log("Unit.Update(): destroying " + this.name);
                 GameObject.Destroy(this.gameObject);
             }
+        }
+
+        public void OnDestroy()
+        {
+            Space currentSpace = Game.map?.GetComponent<Map>()?.getSpace(spaceCoords);
+            if (currentSpace != null)
+            {
+                currentSpace.removeUnit();
+            }
+            //Debug.Log(name + "'s deathEvent is being invoked.");
+            deathEvent?.Invoke(this.gameObject);
+            deathFlag = true;
         }
 
         public uint getStat(string statName)
@@ -1151,7 +1163,7 @@ namespace GridRPG
         {
             Space currentSpace = Game.map.GetComponent<Map>().getSpace(spaceCoords);
             currentSpace.removeUnit();
-            Debug.Log(name + "'s deathEvent is being invoked.");
+            //Debug.Log(name + "'s deathEvent is being invoked.");
             deathEvent?.Invoke(this.gameObject);
             deathFlag = true;
         }
@@ -1234,13 +1246,13 @@ namespace GridRPG
 
                         //warpToSpace(destCoords); //TEMP
 
-                        Game.ui.updateUnitFrame(this);
-                        Game.ui.displayMessage(this.name + " is moving...");
+                        Game.ui.GetComponent<UI>().updateUnitFrame(this);
+                        Game.ui.GetComponent<UI>().queueMessage(this.name + " is moving...");
                         return true;
                     }
                     else
                     {
-                        Game.ui.displayMessage(this.name + " cannot move to that location.");
+                        Game.ui.GetComponent<UI>().queueMessage(this.name + " cannot move to that location.");
                         return false;
                     }
                 }
@@ -1293,7 +1305,7 @@ namespace GridRPG
                     Game.map.GetComponent<Map>().getSpace(spaceCoords).lockUnitinSpace(true);
                     Game.animationInProgress = false;
                     Debug.Log("Done moving unit");
-                    Game.ui.displayMessage(name + " has finished moving.");
+                    Game.ui.GetComponent<UI>().queueMessage(name + " has finished moving.");
                 }
             }
             else
@@ -1301,7 +1313,7 @@ namespace GridRPG
                 movementInProgress = false;
                 Game.animationInProgress = false;
                 Debug.Log("Done moving unit");
-                Game.ui.displayMessage(name + " has finished moving.");
+                Game.ui.GetComponent<UI>().queueMessage(name + " has finished moving.");
             }
         }
 

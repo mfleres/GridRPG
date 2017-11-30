@@ -39,17 +39,16 @@ namespace GridRPG
         public enum TurnPhase { Move, Skill, Wait }
         public TurnPhase currentTurnPhase = TurnPhase.Move;
         public bool advanceTurnsFlag = false;
-        private bool skillInProgress = false;
         public float advanceTurnsWaitStartTime = 0f;
 
-        public void Update()
+        public void LateUpdate()
         {
-            if (!GridRPG.Game.animationInProgress && Input.GetKeyDown(KeyCode.Tab) && !advanceTurnsFlag)
+            if (!GridRPG.Game.animationInProgress && Input.GetKeyDown(KeyCode.Tab))
             {
-                this.nextTurn();
+                advanceTurnsFlag = true;
             }
 
-            if (this.advanceTurnsFlag && this.advanceTurnsWaitStartTime + GridRPG.Map.ADVANCE_TURNS_WAIT_TIME <= Time.fixedTime)
+            if (this.advanceTurnsFlag && !Game.animationInProgress && Game.ui.GetComponent<UI>().messagesUpToDate)
             {
                 this.nextTurn();
             }
@@ -184,8 +183,8 @@ namespace GridRPG
                 {
                     currentSpace.GetComponent<Space>().CurrentHighlight = Space.Highlight.Blue;
                 }
-                Game.ui.updateUnitFrame(currentUnit);
-                Game.ui.updateSkillList(currentUnit.GetComponent<Unit>());
+                Game.ui.GetComponent<UI>().updateUnitFrame(currentUnit);
+                Game.ui.GetComponent<UI>().updateSkillList(currentUnit.GetComponent<Unit>());
             }
             centerMapOnCamera(Camera.main);
 		}
@@ -211,13 +210,13 @@ namespace GridRPG
             }
             currentUnit = turnOrder[currentTurn];
             if (currentUnit != null) {
-                Game.ui.updateUnitFrame(currentUnit);
-                Game.ui.displayMessage("It is now " + currentUnit.name + "'s turn.");
+                Game.ui.GetComponent<UI>().updateUnitFrame(currentUnit);
+                Game.ui.GetComponent<UI>().queueMessage("It is now " + currentUnit.name + "'s turn.");
             }
             advanceTurnsFlag = false;
             currentTurnPhase = TurnPhase.Move;
             getSpace(currentUnit.GetComponent<Unit>().spaceCoords).GetComponent<Space>().CurrentHighlight = Space.Highlight.Blue;
-            Game.ui.updateSkillList(currentUnit?.GetComponent<Unit>());
+            Game.ui.GetComponent<UI>().updateSkillList(currentUnit?.GetComponent<Unit>());
             return currentUnit;
         }
 
@@ -227,14 +226,13 @@ namespace GridRPG
             skill.complete -= skillDone;
             advanceTurnsWaitStartTime = Time.fixedTime;
             advanceTurnsFlag = true;
-            skillInProgress = false;
             currentTurnPhase = TurnPhase.Wait;
         }
 
         public void spaceSelected(GameObject spaceObject)
         {
             Debug.Log("Map.spaceSelected(" + spaceObject?.name + ")");
-            if (currentUnit != null && !skillInProgress && currentTurnPhase != TurnPhase.Wait)
+            if (currentUnit != null && !Game.animationInProgress && !advanceTurnsFlag)
             {
                 if (Input.GetKey(KeyCode.Alpha1))
                 {
@@ -257,7 +255,6 @@ namespace GridRPG
                             //The skill was successfully activated
                             Debug.Log("Map:SpaceSelected: Activated Skill");
                             activatedSkill.complete += skillDone;
-                            skillInProgress = true;
                         }
                     }
 
@@ -279,7 +276,6 @@ namespace GridRPG
                         {
                             //The skill was successfully activated
                             activatedSkill.complete += skillDone;
-                            skillInProgress = true;
                         }
                     }
                 }

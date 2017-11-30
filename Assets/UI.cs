@@ -5,13 +5,15 @@ using System.Collections.Generic;
 
 namespace GridRPG
 {
-    public class UI
+    [RequireComponent(typeof(Canvas))]
+    public class UI : MonoBehaviour
     {
         private const string FRAME_FILE_BLUE = "Sprites/GUI/BlueBox";
         private const string WHITE_TEX = "Sprites/GUI/White";
         private const string FONT_FILE = "Fonts/PressStart2P";
         private const float FRAME_SPRITE_SIZE = 32f;
         private const float UI_SCALE = 1; //Changing this value causes ui to overlap and not display properly.
+        private const float MESSAGE_WAIT_DURATION = 1.5f; //Time to wait before showing next message.
        
         //Main menu button parameters for wide 480p
         private const int BUTTON_SIZE_X = 200;
@@ -56,6 +58,7 @@ namespace GridRPG
             public GameObject hpText;
         }
         private UnitFrameStruct unitFrame;
+
         //Message frame
         private struct MessageFrameStruct
         {
@@ -63,6 +66,12 @@ namespace GridRPG
             public GameObject text;
         }
         private MessageFrameStruct messageFrame;
+        private Queue<Message> messageQueue;
+        private float nextMessageTime = 0f; //Time that another message will be displayed.
+        public bool messagesUpToDate { get; private set; } //Whether the message queue is empty.
+        public delegate void ReadyEvent();
+        public ReadyEvent messageFrameReady;
+
         private struct SkillListStruct
         {
             public GameObject frame;
@@ -77,13 +86,12 @@ namespace GridRPG
         }
         private SkillListStruct skillList;
 
-        public UI()
+        public void Start()
         {
             Space.selectEvent += updateUnitFrame;
 
             //Setup main canvas
-            this.canvas = new GameObject("UI Canvas");
-            this.canvas.AddComponent<Canvas>();
+            this.canvas = this.gameObject;
             Canvas coreCanvas = canvas.GetComponent<Canvas>();
             coreCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.AddComponent<GraphicRaycaster>();
@@ -96,7 +104,6 @@ namespace GridRPG
             mapList = new GameObject("Map List");
             mapList.transform.SetParent(canvas.transform);
             mapList.transform.localPosition = new Vector3(0, 0, 0);
-            
 
             //Setup map ui
             setupMessageFrame();
@@ -104,6 +111,24 @@ namespace GridRPG
             setupSkillList();
 
             this.Mode = Modes.Main;
+        }
+
+        public void Update()
+        {
+            if (!messagesUpToDate && nextMessageTime < Time.fixedTime)
+            {
+                if (messageQueue.Count > 0)
+                {
+                    //Display next message.
+                    displayMessage(messageQueue.Dequeue().text);
+                    nextMessageTime = Time.fixedTime + MESSAGE_WAIT_DURATION;
+                }
+                else
+                {
+                    messageFrameReady?.Invoke();
+                    messagesUpToDate = true;
+                }
+            }
         }
 
         public Modes Mode
@@ -231,6 +256,20 @@ namespace GridRPG
         }
 
         /// <summary>
+        /// Queues a message to be displayed.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns>Message object.</returns>
+        public Message queueMessage(string message)
+        {
+            Message ret = new Message(message); 
+            messageQueue.Enqueue(ret);
+            messagesUpToDate = false;
+            return ret;
+            //The word "message" has been used so frequently, the code looks like a mess(age).
+        }
+
+        /// <summary>
         /// !!!!Destroys the UI gameobjects!!!!
         /// </summary>
         public void destroy()
@@ -336,6 +375,11 @@ namespace GridRPG
         /// </summary>
         private void setupMessageFrame()
         {
+            //Setup Queue
+            messageQueue = new Queue<Message>();
+            messagesUpToDate = true;
+
+            //Setup Display
             float frame_width, frame_height, frame_pos_x, frame_pos_y,text_offset_x;
             int text_font_size;
 
@@ -515,7 +559,7 @@ namespace GridRPG
         /// Displays a message in the message frame.
         /// </summary>
         /// <param name="message"></param>
-        public void displayMessage(string message)
+        private void displayMessage(string message)
         {
             if (message != null)
             {
